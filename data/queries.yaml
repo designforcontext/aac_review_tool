@@ -1,0 +1,78 @@
+E22_Man-Made_Object:
+  fields:
+    Primary Title: 
+      mandatory:   true
+      multiples:   false
+      description: "This is the primary display title of the work."
+      example:     "Young Women Picking Fruit"
+      select:      "?value ?source"
+      values:      "?thing ?pref_title_type"
+      construct: |
+        ?thing a crm:E22_Man-Made_Object .
+        ?thing crm:P102_has_title _:title .
+        _:title a crm:E35_Title ;
+          rdfs:label ?value ;
+          crm:P2_has_type _:title_class ;
+          skos:exactMatch ?source .
+        _:title_class a crm:E55_Type ;
+          rdfs:label ?primary_title_type_name ;
+          skos:exactMatch ?pref_title_type ;
+          skos:broadMatch <http://vocab.americanartcollaborative.org/titles#primary_title_type> .
+      where: |
+          ?thing a crm:E22_Man-Made_Object .
+          ?thing crm:P102_has_title ?source .
+          ?source a crm:E35_Title ;
+                  rdfs:label ?value ; 
+                  crm:P2_has_type  ?pref_title_type .  
+          ?pref_title_type rdfs:label ?primary_title_type_name .
+        
+    Other Titles: 
+      mandatory:   false
+      multiples:   false
+      description: "These are alternate titles of the work. "
+      example:     "Young Women Picking Fruit"
+      select:      "?value ?label ?source"
+      values:      "?thing ?pref_title_type"
+      construct: |
+        ?thing a crm:E22_Man-Made_Object .
+        ?thing crm:P102_has_title _:title .
+        _:title a crm:E35_Title ;
+          rdfs:label ?value ;
+          skos:exactMatch ?source ;
+          crm:P2_has_type _:title_class .
+        _:title_class a crm:E55_Type ;
+          skos:exactMatch ?value_type ;
+          rdfs:label ?label .
+      where: |
+        ?thing a crm:E22_Man-Made_Object .
+        ?thing crm:P102_has_title ?source .
+        ?source a crm:E35_Title ;
+          rdfs:label ?value ;
+          crm:P2_has_type  ?value_type . 
+        ?value_type a crm:E55_Type ;
+          rdfs:label ?label .
+
+        FILTER(?value_type != ?pref_title_type)
+        FILTER (!isBlank(?value_type))
+
+    Object Number: 
+      mandatory:   false
+      multiples:   false
+      description: "This is the preferred human-readable identifier for the work"
+      example:     "1995.1.1"
+      select:      "?value ?source"
+      values:      "?thing"
+      construct: |
+        ?thing a crm:E22_Man-Made_Object ;
+          crm:P48_has_preferred_identifier _:id .
+        _:id a crm:E42_Identifier ;
+          rdfs:label ?value ;
+          skos:exactMatch ?source .
+      where: |
+        ?thing a crm:E22_Man-Made_Object .
+        ?thing crm:P48_has_preferred_identifier ?source .
+        ?source a crm:E42_Identifier ;
+          rdfs:label ?value .
+        FILTER (!isBlank(?source))
+
+
