@@ -1,4 +1,4 @@
-#!perl -w
+#!/usr/bin/perl -w
 # https://share.getty.edu/confluence/display/ITSLODV/rdfpuml
 # https://share.getty.edu/confluence/pages/editpage.action?pageId=72024672
 
