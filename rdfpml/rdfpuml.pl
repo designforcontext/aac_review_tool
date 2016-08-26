@@ -1,9 +1,10 @@
-#!/usr/bin/env perl -w
+#!/usr/bin/env  perl -w
 # https://share.getty.edu/confluence/display/ITSLODV/rdfpuml
 # https://share.getty.edu/confluence/pages/editpage.action?pageId=72024672
 
 use strict;
 use lib "./rdfpml/lib";
+use lib "./vendor/perl-deps";
 use Slurp; # https://metacpan.org/pod/Slurp
 use RDF::Trine;
 use RDF::Query;
