@@ -63,11 +63,11 @@
 	
 	var _sidebar2 = _interopRequireDefault(_sidebar);
 	
-	var _header = __webpack_require__(/*! ./header.jsx */ 175);
+	var _header = __webpack_require__(/*! ./header.jsx */ 174);
 	
 	var _header2 = _interopRequireDefault(_header);
 	
-	var _display = __webpack_require__(/*! ./item/display.jsx */ 176);
+	var _display = __webpack_require__(/*! ./item/display.jsx */ 175);
 	
 	var _display2 = _interopRequireDefault(_display);
 	
@@ -86,8 +86,12 @@
 	    var _this = this;
 	
 	    var ajax = _jquery2.default.getJSON("/data");
+	
 	    ajax.done(function (data) {
-	      return _this.setState({ loading: false, fields: data, currentItem: 0 });
+	      var sortFunction = function sortFunction(a, b) {
+	        return (a.sort_order || 0) >= (b.sort_order || 0);
+	      };
+	      _this.setState({ loading: false, fields: data.sort(sortFunction), currentItem: 0 });
 	    });
 	    ajax.fail(function (x, msg) {
 	      return console.log('Error getting json: ' + msg);
@@ -32094,7 +32098,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _classnames = __webpack_require__(/*! classnames */ 174);
+	var _classnames = __webpack_require__(/*! classnames */ 180);
 	
 	var _classnames2 = _interopRequireDefault(_classnames);
 	
@@ -32107,6 +32111,7 @@
 	  render: function render() {
 	
 	    var _this = this;
+	
 	    var items = this.props.fields.map(function (field, index) {
 	      return _react2.default.createElement(SidebarListItem, {
 	        id: index,
@@ -32121,11 +32126,6 @@
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'col-md-3 col-lg-2 sidebar' },
-	      _react2.default.createElement(
-	        'h4',
-	        null,
-	        ' Object Fields '
-	      ),
 	      _react2.default.createElement(
 	        'dl',
 	        null,
@@ -32172,63 +32172,6 @@
 
 /***/ },
 /* 174 */
-/*!*******************************!*\
-  !*** ./~/classnames/index.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	  Copyright (c) 2016 Jed Watson.
-	  Licensed under the MIT License (MIT), see
-	  http://jedwatson.github.io/classnames
-	*/
-	/* global define */
-	
-	(function () {
-		'use strict';
-	
-		var hasOwn = {}.hasOwnProperty;
-	
-		function classNames () {
-			var classes = [];
-	
-			for (var i = 0; i < arguments.length; i++) {
-				var arg = arguments[i];
-				if (!arg) continue;
-	
-				var argType = typeof arg;
-	
-				if (argType === 'string' || argType === 'number') {
-					classes.push(arg);
-				} else if (Array.isArray(arg)) {
-					classes.push(classNames.apply(null, arg));
-				} else if (argType === 'object') {
-					for (var key in arg) {
-						if (hasOwn.call(arg, key) && arg[key]) {
-							classes.push(key);
-						}
-					}
-				}
-			}
-	
-			return classes.join(' ');
-		}
-	
-		if (typeof module !== 'undefined' && module.exports) {
-			module.exports = classNames;
-		} else if (true) {
-			// register as 'classnames', consistent with npm package name
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
-				return classNames;
-			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else {
-			window.classNames = classNames;
-		}
-	}());
-
-
-/***/ },
-/* 175 */
 /*!*******************************!*\
   !*** ./site/react/header.jsx ***!
   \*******************************/
@@ -32284,7 +32227,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 176 */
+/* 175 */
 /*!*************************************!*\
   !*** ./site/react/item/display.jsx ***!
   \*************************************/
@@ -32300,19 +32243,19 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _title = __webpack_require__(/*! ./title.jsx */ 177);
+	var _title = __webpack_require__(/*! ./title.jsx */ 176);
 	
 	var _title2 = _interopRequireDefault(_title);
 	
-	var _props = __webpack_require__(/*! ./props.jsx */ 178);
+	var _props = __webpack_require__(/*! ./props.jsx */ 177);
 	
 	var _props2 = _interopRequireDefault(_props);
 	
-	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 179);
+	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 178);
 	
 	var _sparql_search2 = _interopRequireDefault(_sparql_search);
 	
-	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 180);
+	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 179);
 	
 	var _mapping2 = _interopRequireDefault(_mapping);
 	
@@ -32352,7 +32295,7 @@
 	exports.default = ItemDisplay;
 
 /***/ },
-/* 177 */
+/* 176 */
 /*!***********************************!*\
   !*** ./site/react/item/title.jsx ***!
   \***********************************/
@@ -32408,7 +32351,7 @@
 	exports.default = ItemTitle;
 
 /***/ },
-/* 178 */
+/* 177 */
 /*!***********************************!*\
   !*** ./site/react/item/props.jsx ***!
   \***********************************/
@@ -32480,7 +32423,7 @@
 	exports.default = ItemProps;
 
 /***/ },
-/* 179 */
+/* 178 */
 /*!*******************************************!*\
   !*** ./site/react/item/sparql_search.jsx ***!
   \*******************************************/
@@ -32605,7 +32548,9 @@
 	    this.setState({ value: event.target.value });
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	    this.setState({ value: nextProps.default || "" });
+	    if (nextProps.default != this.props.default) {
+	      this.setState({ value: nextProps.default || "" });
+	    }
 	  },
 	  render: function render() {
 	
@@ -32663,11 +32608,20 @@
 	    var _this = this;
 	    var table_rows = this.props.results.values.map(function (result, i) {
 	      var cells = _this.props.select.split(" ").map(function (key) {
+	        var val = result[key.replace("?", "")];
+	        if (/^https?:\/\//.test(val)) {
+	          val = _react2.default.createElement(
+	            "a",
+	            { href: val, target: "_blank" },
+	            val
+	          );
+	        }
+	
 	        return _react2.default.createElement(
 	          "td",
 	          { key: i + "_" + key },
 	          " ",
-	          result[key.replace("?", "")]
+	          val
 	        );
 	      });
 	      return _react2.default.createElement(
@@ -32747,7 +32701,7 @@
 	exports.default = SparqlSearch;
 
 /***/ },
-/* 180 */
+/* 179 */
 /*!*************************************!*\
   !*** ./site/react/item/mapping.jsx ***!
   \*************************************/
@@ -32861,6 +32815,63 @@
 	});
 	
 	exports.default = ItemMapping;
+
+/***/ },
+/* 180 */
+/*!*******************************!*\
+  !*** ./~/classnames/index.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2016 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+	/* global define */
+	
+	(function () {
+		'use strict';
+	
+		var hasOwn = {}.hasOwnProperty;
+	
+		function classNames () {
+			var classes = [];
+	
+			for (var i = 0; i < arguments.length; i++) {
+				var arg = arguments[i];
+				if (!arg) continue;
+	
+				var argType = typeof arg;
+	
+				if (argType === 'string' || argType === 'number') {
+					classes.push(arg);
+				} else if (Array.isArray(arg)) {
+					classes.push(classNames.apply(null, arg));
+				} else if (argType === 'object') {
+					for (var key in arg) {
+						if (hasOwn.call(arg, key) && arg[key]) {
+							classes.push(key);
+						}
+					}
+				}
+			}
+	
+			return classes.join(' ');
+		}
+	
+		if (typeof module !== 'undefined' && module.exports) {
+			module.exports = classNames;
+		} else if (true) {
+			// register as 'classnames', consistent with npm package name
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return classNames;
+			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else {
+			window.classNames = classNames;
+		}
+	}());
+
 
 /***/ }
 /******/ ]);

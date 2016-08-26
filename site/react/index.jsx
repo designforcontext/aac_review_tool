@@ -15,7 +15,13 @@ var App = React.createClass({
   },
   componentDidMount: function() {
     let ajax = $.getJSON("/data");
-    ajax.done(data => this.setState({loading: false, fields: data, currentItem: 0}));
+
+    ajax.done(data => {
+      var sortFunction = function(a,b) {
+        return (a.sort_order || 0) >= (b.sort_order || 0);
+      }
+      this.setState({loading: false, fields: data.sort(sortFunction), currentItem: 0})
+    });
     ajax.fail((x,msg)=> console.log(`Error getting json: ${msg}`));
   },
 

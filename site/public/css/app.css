@@ -4598,6 +4598,8 @@ button.close {
 .sidebar {
   background: #eee;
   box-shadow: -2px 2px 2px #ddd inset; }
+  .sidebar dl {
+    margin-top: 10px; }
 
 .row {
   overflow: hidden; }
@@ -4611,11 +4613,13 @@ button.close {
   font-size: 90%;
   padding: 4px 13px;
   border-radius: 5px 0 0 5px;
-  cursor: pointer; }
+  cursor: pointer;
+  color: #777; }
   .sidebar_item.selected {
     background-color: #fff;
     margin-right: -15px;
-    box-shadow: -2px 2px 2px #ddd; }
+    box-shadow: -2px 2px 2px #ddd;
+    color: #000; }
 
 .illustration img {
   margin-bottom: 10px; }

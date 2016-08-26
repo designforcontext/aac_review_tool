@@ -39,7 +39,10 @@ class MyApp < Sinatra::Base
   # Return the queries file as JSON
   #----------------------------------------------------------------------------
   get "/data" do
-    json YAML.load_file("./data/queries.yaml")["E22_Man-Made_Object"]["fields"]
+    data = Dir.glob('./data/fields/*.yaml').collect do |file|
+      YAML.load_file(file)
+    end
+    json data
   end
 
 
@@ -66,7 +69,10 @@ class MyApp < Sinatra::Base
       end
     end
 
-    json({object: ttl_string, values: values})
+    select = query.select_query(params[:values]);
+    construct = query.construct_query(params[:values])
+
+    json({object: ttl_string, values: values, select: select, construct: construct})
 
   end
 
@@ -84,9 +90,9 @@ class MyApp < Sinatra::Base
       file = Tempfile.new(["",".ttl"])
       file.write(val)
       file.close
-      results = `./rdfpml/rdfpuml.pl #{file.path}`
+      results = `perl ./rdfpuml/rdfpuml.pl #{file.path}`
       file.unlink
-      puts "results of the graph: #{results} from #{file.path}"
+      # puts "results of the graph: #{results} from #{file.path}"
       encoded_data = PlantUmlEncode64.encode(results)
       $graph_cache[val] = encoded_data
     end

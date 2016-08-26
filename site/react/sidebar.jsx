@@ -6,6 +6,7 @@ var Sidebar = React.createClass({
   render: function() {
 
     var _this = this;
+
     var items = this.props.fields.map(function(field, index) {
        return <SidebarListItem  
           id={index} 
@@ -19,7 +20,6 @@ var Sidebar = React.createClass({
 
     return (
       <div className="col-md-3 col-lg-2 sidebar">
-        <h4> Object Fields </h4>
         <dl>
           {items}
         </dl>

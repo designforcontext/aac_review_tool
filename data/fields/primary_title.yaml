@@ -1,0 +1,46 @@
+
+# Field Name
+title: Primary Title
+sort_order: 1
+
+# Metadata
+mandatory:   true
+multiples:   false
+description: "The primary display title of the work."
+long_description: "This is the primary title for the object, as selected by the providing institution.  When there are no other titles, it is often the only one."
+example:     "Young Women Picking Fruit"
+lod_type:    "http://vocab.americanartcollaborative.org/titles#primary_title_type"
+
+#Default Test Values
+test_object_uri: "http://collection.britishart.yale.edu/id/object/499"
+test_preferred_title_type_url: "http://collection.britishart.yale.edu/id/thesaurus/title/preferred"
+
+# Sparql
+select:      "?title_value ?primary_title_type_name ?primary_title_uri"
+values:      "?object_uri ?preferred_title_type_url"
+construct: |
+  ?object_uri a crm:E22_Man-Made_Object .
+  ?object_uri crm:P102_has_title _:primary_title_uri .
+  _:primary_title_uri a crm:E35_Title ;
+    rdfs:label ?title_value ;
+    crm:P2_has_type _:preferred_title_type_url ;
+    owl:sameAs ?primary_title_uri .
+  _:preferred_title_type_url a crm:E55_Type ;
+    skos:prefLabel ?primary_title_type_name ;
+    rdfs:label ?primary_title_type_name ;
+    owl:sameAs ?preferred_title_type_url ;
+    skos:broadMatch <http://vocab.americanartcollaborative.org/titles#primary_title_type> .
+
+where: |
+    ?object_uri a crm:E22_Man-Made_Object .
+    ?object_uri crm:P102_has_title ?primary_title_uri .
+    ?primary_title_uri a crm:E35_Title ;
+            rdfs:label ?title_value ; 
+            crm:P2_has_type  ?preferred_title_type_url .
+    OPTIONAL {
+      {
+        ?preferred_title_type_url skos:prefLabel ?primary_title_type_name .   
+      } UNION { 
+        ?preferred_title_type_url rdfs:label ?primary_title_type_name .   
+      }
+    }

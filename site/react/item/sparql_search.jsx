@@ -86,7 +86,9 @@ var SearchInputField = React.createClass({
     this.setState({value: event.target.value});
   },
   componentWillReceiveProps: function(nextProps){
-    this.setState({value: (nextProps.default || "")});
+    if (nextProps.default != this.props.default) {
+      this.setState({value: (nextProps.default || "")});
+    }
   },
   render: function() {
    
@@ -132,7 +134,12 @@ var SparqlResults = React.createClass({
     let _this = this;
     let table_rows = this.props.results.values.map(function(result, i) {
       let cells = _this.props.select.split(" ").map(function (key) {
-        return (<td key={`${i}_${key}`}> {result[key.replace("?","")]}</td>)
+        let val = result[key.replace("?","")];
+        if(/^https?:\/\//.test(val)) {
+          val = <a href={val} target='_blank'>{val}</a>
+        }
+
+        return (<td key={`${i}_${key}`}> {val}</td>)
       });
       return ( <tr key={i}>{cells}</tr>)
     });
