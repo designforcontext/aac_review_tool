@@ -15,12 +15,12 @@ E22_Man-Made_Object:
       
       construct: |
         ?object_uri a crm:E22_Man-Made_Object .
-        ?object_uri crm:P102_has_title _:title .
-        _:title a crm:E35_Title ;
+        ?object_uri crm:P102_has_title _:primary_title_uri .
+        _:primary_title_uri a crm:E35_Title ;
           rdfs:label ?title_value ;
-          crm:P2_has_type _:title_class ;
+          crm:P2_has_type _:preferred_title_type_url ;
           skos:exactMatch ?primary_title_uri .
-        _:title_class a crm:E55_Type ;
+        _:preferred_title_type_url a crm:E55_Type ;
           rdfs:label ?primary_title_type_name ;
           skos:exactMatch ?preferred_title_type_url ;
           skos:broadMatch <http://vocab.americanartcollaborative.org/titles#primary_title_type> .
@@ -30,7 +30,7 @@ E22_Man-Made_Object:
           ?object_uri crm:P102_has_title ?primary_title_uri .
           ?primary_title_uri a crm:E35_Title ;
                   rdfs:label ?title_value ; 
-                  crm:P2_has_type  ?preferred_title_type_url .  
+                  crm:P2_has_type  ?preferred_title_type_url .
           ?preferred_title_type_url rdfs:label ?primary_title_type_name .       
     
 
@@ -68,19 +68,28 @@ E22_Man-Made_Object:
       multiples:   false
       description: "The preferred identifier for the work."
       example:     "1995.1.1"
-      select:      "?value ?source"
+      test_object_uri: "http://collection.britishart.yale.edu/id/object/499"
+      select:      "?object_number ?object_number_label ?object_number_id"
       values:      "?object_uri"
       construct: |
         ?object_uri a crm:E22_Man-Made_Object ;
-          crm:P48_has_preferred_identifier _:id .
-        _:id a crm:E42_Identifier ;
-          rdfs:label ?value ;
-          skos:exactMatch ?source .
+          crm:P48_has_preferred_identifier _:object_number_id .
+        _:object_number_id a crm:E42_Identifier ;
+          rdfs:label ?object_number ;
+          skos:exactMatch ?object_number_id ;
+          crm:P2_has_type _:identifier_type .
+        _:identifier_type a crm:E55_Type ;
+          skos:prefLabel ?object_number_label ;
+          skos:exactMatch ?identifier_type .
       where: |
         ?object_uri a crm:E22_Man-Made_Object .
-        ?object_uri crm:P48_has_preferred_identifier ?source .
-        ?source a crm:E42_Identifier ;
-          rdfs:label ?value .
-        FILTER (!isBlank(?source))
+        ?object_uri crm:P48_has_preferred_identifier ?object_number_id .
+        ?object_number_id a crm:E42_Identifier ;
+          rdfs:label ?object_number ;
+        OPTIONAL {
+         ?object_number_id crm:P2_has_type ?identifier_type .
+         ?identifier_type skos:prefLabel ?object_number_label .
+        }
+        FILTER (!isBlank(?object_number_id))
 
 

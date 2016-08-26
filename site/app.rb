@@ -56,7 +56,6 @@ class MyApp < Sinatra::Base
   #----------------------------------------------------------------------------
   post "/search" do
 
-    puts params.inspect 
     query = AAC::QueryObject.new(params[:fields])
 
     result_graph, values = settings.sparql_runner.test(query, params[:values])

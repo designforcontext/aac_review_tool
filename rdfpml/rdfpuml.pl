@@ -117,6 +117,7 @@ for my $s ($model->subjects(undef,undef)) {
     my $o1 = puml_node($o);
     $arrow = puml_arrow ($arrow, $s1, $o1);
     my $predicates = join '\n', @predicates; # each predicate label on new line, centered
+    next if $s1 eq $o1;
     print qq{$s1 $arrow $o1 : $predicates\n}
   };
 
@@ -132,6 +133,7 @@ for my $s ($model->subjects(undef,undef)) {
     my $o1 = puml_node($o);
     $arrow = puml_arrow ($arrow, $s1, $o1);
     my $predicates = join '\n', @predicates; # each predicate label on new line, centered
+    next if $s1 eq $o1;
     print qq{$s1 $arrow $o1 : $predicates\n}
   };
 

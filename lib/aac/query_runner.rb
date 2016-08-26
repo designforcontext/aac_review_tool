@@ -16,7 +16,7 @@ module AAC
     end
     
   
-    def test(obj, params)
+    def test(obj, params, validate=false)
 
       q1 = obj.construct_query(params)
       q2 = obj.select_query(params)
@@ -27,8 +27,10 @@ module AAC
       graph =  get_graph(q1)
       values = get_values(q2)
 
-      validate_results(q1, q2, graph, values)
-
+      if validate
+        validate_results(q1, q2, graph, values)
+      end
+      
       [graph, values]
     end
 
