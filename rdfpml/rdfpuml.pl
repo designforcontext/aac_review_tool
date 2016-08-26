@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl -w
 # https://share.getty.edu/confluence/display/ITSLODV/rdfpuml
 # https://share.getty.edu/confluence/pages/editpage.action?pageId=72024672
 
