@@ -84,7 +84,7 @@ class MyApp < Sinatra::Base
       file = Tempfile.new(["",".ttl"])
       file.write(val)
       file.close
-      results = `vendor/perl/bin/perl -w ./rdfpml/rdfpuml.pl #{file.path}`
+      results = `./rdfpml/rdfpuml.pl #{file.path}`
       file.unlink
       puts "results of the graph: #{results} from #{file.path}"
       encoded_data = PlantUmlEncode64.encode(results)

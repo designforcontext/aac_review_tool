@@ -4,7 +4,6 @@
 
 use strict;
 use lib "./rdfpml/lib";
-use lib "./vendor/perl-deps";
 use Slurp; # https://metacpan.org/pod/Slurp
 use RDF::Trine;
 use RDF::Query;
