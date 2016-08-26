@@ -58,7 +58,7 @@ class MyApp < Sinatra::Base
 
     query = AAC::QueryObject.new(params[:fields])
 
-    result_graph, values = settings.sparql_runner.test(query, params[:values])
+    result_graph, values = settings.sparql_runner.test(query, params[:values], true)
 
     ttl_string = RDF::Turtle::Writer.buffer( prefixes: AAC::QueryObject::DEFAULT_PREFIXES ) do |writer|
       result_graph.each_statement do |statement|
@@ -86,6 +86,7 @@ class MyApp < Sinatra::Base
       file.close
       results = `perl ./rdfpml/rdfpuml.pl #{file.path}`
       file.unlink
+      puts "results of the graph: #{results} from #{file.path}"
       encoded_data = PlantUmlEncode64.encode(results)
       $graph_cache[val] = encoded_data
     end

@@ -32463,7 +32463,7 @@
 	    _react2.default.createElement(
 	      "dt",
 	      null,
-	      "LOD Type:"
+	      props.lod_type ? "Associated AAC ID:" : ""
 	    ),
 	    _react2.default.createElement(
 	      "dd",
@@ -32684,7 +32684,7 @@
 	        { className: "panel-body" },
 	        _react2.default.createElement(
 	          "button",
-	          { className: "btn btn-link btn-xs btn-block", onClick: function onClick(e) {
+	          { className: "btn btn-info btn-xs center-block", onClick: function onClick(e) {
 	              return _this.setState({ showConstructed: true });
 	            } },
 	          "Show Turtle"
@@ -32695,16 +32695,16 @@
 	        "div",
 	        { className: "panel-body" },
 	        _react2.default.createElement(
-	          "button",
-	          { className: "btn btn-link btn-xs btn-block", onClick: function onClick(e) {
-	              return _this.setState({ showConstructed: false });
-	            } },
-	          "Hide Turtle"
-	        ),
-	        _react2.default.createElement(
 	          "pre",
 	          { className: "pre-scrollable" },
 	          _this.props.results.object
+	        ),
+	        _react2.default.createElement(
+	          "button",
+	          { className: "btn btn-info btn-xs center-block", onClick: function onClick(e) {
+	              return _this.setState({ showConstructed: false });
+	            } },
+	          "Hide Turtle"
 	        )
 	      );
 	    }
@@ -32773,7 +32773,7 @@
 	  displayName: "ItemMapping",
 	
 	  getInitialState: function getInitialState() {
-	    return { svg: "" };
+	    return { svg: "", show_ttl: false };
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	    if (nextProps.construct != this.props.construct) {
@@ -32795,6 +32795,7 @@
 	  },
 	
 	  render: function render() {
+	    var _this = this;
 	
 	    var svgImage = this.state.svg ? _react2.default.createElement("img", { className: "img-responsive center-block", src: this.state.svg }) : _react2.default.createElement(
 	      "p",
@@ -32802,47 +32803,57 @@
 	      "Loading Diagram..."
 	    );
 	
+	    var btn;
+	    var ttl;
+	    if (!this.state.showConstructed) {
+	      btn = _react2.default.createElement(
+	        "button",
+	        { className: "btn btn-info btn-xs center-block", onClick: function onClick(e) {
+	            return _this.setState({ showConstructed: true });
+	          } },
+	        "Show Turtle"
+	      );
+	      ttl = false;
+	    } else {
+	      btn = _react2.default.createElement(
+	        "button",
+	        { className: "btn btn-info btn-xs center-block", onClick: function onClick(e) {
+	            return _this.setState({ showConstructed: false });
+	          } },
+	        "Hide Turtle"
+	      );
+	      ttl = _react2.default.createElement(
+	        "pre",
+	        null,
+	        this.props.construct
+	      );
+	    }
+	
 	    return _react2.default.createElement(
-	      "div",
-	      null,
+	      "section",
+	      { className: "illustration" },
 	      _react2.default.createElement(
-	        "section",
-	        { className: "reference" },
+	        "div",
+	        { className: "row" },
 	        _react2.default.createElement(
 	          "div",
-	          { className: "row" },
+	          { className: "col-md-12" },
 	          _react2.default.createElement(
-	            "div",
-	            { className: "col-md-12" },
-	            _react2.default.createElement(
-	              "h4",
-	              null,
-	              "Linked Open Data Reference Mapping"
-	            ),
-	            _react2.default.createElement(
-	              "pre",
-	              null,
-	              this.props.construct
-	            )
-	          )
+	            "h4",
+	            null,
+	            "Object Model"
+	          ),
+	          svgImage
 	        )
 	      ),
 	      _react2.default.createElement(
-	        "section",
-	        { className: "illustration" },
+	        "div",
+	        { className: "row" },
 	        _react2.default.createElement(
 	          "div",
-	          { className: "row" },
-	          _react2.default.createElement(
-	            "div",
-	            { className: "col-md-12" },
-	            _react2.default.createElement(
-	              "h4",
-	              null,
-	              "Object Model"
-	            ),
-	            svgImage
-	          )
+	          { className: "col-lg-10 col-lg-offset-1" },
+	          ttl,
+	          btn
 	        )
 	      )
 	    );

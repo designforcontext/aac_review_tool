@@ -4617,6 +4617,9 @@ button.close {
     margin-right: -15px;
     box-shadow: -2px 2px 2px #ddd; }
 
+.illustration img {
+  margin-bottom: 10px; }
+
 .app {
   padding-top: 30px; }
   .app h1, .app h2, .app h3, .app h4 {
@@ -4629,9 +4632,10 @@ button.close {
     background: #fff; }
   .app section {
     margin-bottom: 50px;
-    padding-bottom: 10px; }
-    .app section:nth-child(2) {
-      background: #eee; }
+    padding-bottom: 10px;
+    background: #eee; }
+    .app section:first-child {
+      background-color: inherit; }
 
 .field_name {
   margin-bottom: 20px; }

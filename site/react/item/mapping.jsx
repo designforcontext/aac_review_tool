@@ -4,7 +4,7 @@ import $ from "jquery";
 
 var ItemMapping = React.createClass({
     getInitialState: function() {
-    return {svg: ""}
+    return {svg: "", show_ttl: false}
   },
   componentWillReceiveProps: function(nextProps){
     if (nextProps.construct != this.props.construct) {
@@ -31,18 +31,20 @@ var ItemMapping = React.createClass({
 
     var svgImage = this.state.svg ? <img className="img-responsive center-block" src={this.state.svg} /> : <p className='textCenter'>Loading Diagram...</p>
 
+
+    var btn;
+    var ttl;
+    if (!this.state.showConstructed) {
+      btn = <button  className="btn btn-info btn-xs center-block" onClick={(e) => this.setState({showConstructed: true})}>Show Turtle</button>
+      ttl = false;
+    }
+    else {
+      btn = <button className="btn btn-info btn-xs center-block" onClick={(e) => this.setState({showConstructed: false})}>Hide Turtle</button>
+      ttl = <pre>{this.props.construct}</pre>
+    }
+
+
     return (
-      <div>
-      <section className="reference">
-        <div className="row">
-          <div className="col-md-12">
-            <h4>Linked Open Data Reference Mapping</h4>
-            <pre>
-             {this.props.construct}
-            </pre>
-          </div>
-        </div>
-      </section>
       <section className="illustration">
         <div className="row">
           <div className="col-md-12">
@@ -50,8 +52,13 @@ var ItemMapping = React.createClass({
             {svgImage} 
           </div> 
         </div>
+        <div className="row">
+          <div className="col-lg-10 col-lg-offset-1">
+            {ttl}
+            {btn}
+          </div>
+        </div>
       </section>
-      </div>
     );
   }
 });

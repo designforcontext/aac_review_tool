@@ -10,7 +10,7 @@ function ItemProps(props) {
       <dd>{props.mandatory ? "Yes" : "No"}</dd>
       <dt>Multiples:</dt>
       <dd>{props.multiples ? "Yes" : "No"}</dd>
-      <dt>LOD Type:</dt>
+      <dt>{props.lod_type ? "Associated AAC ID:" : ""}</dt>
       <dd><a href={props.lod_type} target="_blank">{props.lod_type}</a></dd>
     </dl>
   );

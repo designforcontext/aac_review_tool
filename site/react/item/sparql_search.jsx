@@ -141,15 +141,15 @@ var SparqlResults = React.createClass({
    if (!this.state.showConstructed) {
       constructed_results = (
         <div className="panel-body">
-          <button  className="btn btn-link btn-xs btn-block" onClick={(e) => _this.setState({showConstructed: true})}>Show Turtle</button>
+          <button  className="btn btn-info btn-xs center-block" onClick={(e) => _this.setState({showConstructed: true})}>Show Turtle</button>
         </div>
       );
     }
     else {
       constructed_results = (
         <div className="panel-body">
-          <button className="btn btn-link btn-xs btn-block" onClick={(e) => _this.setState({showConstructed: false})}>Hide Turtle</button>
           <pre className='pre-scrollable'>{_this.props.results.object}</pre>
+          <button className="btn btn-info btn-xs center-block" onClick={(e) => _this.setState({showConstructed: false})}>Hide Turtle</button>
         </div>
       );
     }

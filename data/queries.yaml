@@ -19,10 +19,10 @@ E22_Man-Made_Object:
         _:primary_title_uri a crm:E35_Title ;
           rdfs:label ?title_value ;
           crm:P2_has_type _:preferred_title_type_url ;
-          skos:exactMatch ?primary_title_uri .
+          owl:sameAs ?primary_title_uri .
         _:preferred_title_type_url a crm:E55_Type ;
           rdfs:label ?primary_title_type_name ;
-          skos:exactMatch ?preferred_title_type_url ;
+          owl:sameAs ?preferred_title_type_url ;
           skos:broadMatch <http://vocab.americanartcollaborative.org/titles#primary_title_type> .
       
       where: |
@@ -41,15 +41,18 @@ E22_Man-Made_Object:
       example:     "Young Women Picking Fruit"
       select:      "?title ?field_label ?preferred_title_uri"
       values:      "?object_uri ?preferred_title_type_url"
+      test_object_uri: "http://collection.britishart.yale.edu/id/object/499"
+      test_preferred_title_type_url: "http://collection.britishart.yale.edu/id/thesaurus/title/preferred"
+
       construct: |
         ?object_uri a crm:E22_Man-Made_Object .
         ?object_uri crm:P102_has_title _:title .
         _:title a crm:E35_Title ;
           rdfs:label ?title ;
-          skos:exactMatch ?preferred_title_uri ;
+          owl:sameAs ?preferred_title_uri ;
           crm:P2_has_type _:title_class .
         _:title_class a crm:E55_Type ;
-          skos:exactMatch ?value_type ;
+          owl:sameAs ?value_type ;
           rdfs:label ?field_label .
       where: |
         ?object_uri a crm:E22_Man-Made_Object .
@@ -76,11 +79,11 @@ E22_Man-Made_Object:
           crm:P48_has_preferred_identifier _:object_number_id .
         _:object_number_id a crm:E42_Identifier ;
           rdfs:label ?object_number ;
-          skos:exactMatch ?object_number_id ;
+          owl:sameAs ?object_number_id ;
           crm:P2_has_type _:identifier_type .
         _:identifier_type a crm:E55_Type ;
           skos:prefLabel ?object_number_label ;
-          skos:exactMatch ?identifier_type .
+          owl:sameAs ?identifier_type .
       where: |
         ?object_uri a crm:E22_Man-Made_Object .
         ?object_uri crm:P48_has_preferred_identifier ?object_number_id .
