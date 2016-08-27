@@ -6,16 +6,43 @@ import Sidebar     from './sidebar.jsx';
 import Header      from "./header.jsx";
 import ItemDisplay from "./item/display.jsx";
 
+
+const SEARCH_DATA = [
+  {
+    name:           "YCBA", 
+    endpoint:       "http://collection.britishart.yale.edu/openrdf-sesame/repositories/ycba",
+    predicate:      "http://erlangen-crm.org/current/",
+    default_object: "http://collection.britishart.yale.edu/id/object/1000"
+  },
+  {
+    name:           "SAAM", 
+    endpoint:       "http://edan.si.edu/saam/sparql",
+    predicate:      "http://www.cidoc-crm.org/cidoc-crm/",
+    default_object: "http://edan.si.edu/saam/id/object/1974.44.30"
+  },
+  {
+    name:           "British Museum", 
+    endpoint:       "http://collection.britishmuseum.org/sparql",
+    predicate:      "http://erlangen-crm.org/current/",
+    default_object: "http://collection.britishmuseum.org/id/object/YCA62958"
+  }
+]
+
 //-----------------------------------------------------------------------------
+// This is the "brains" of the application.  It controls the global state of
+// the system, which includes navigation and loading the data in.
 var App = React.createClass({
   
   // Lifecycle Events
   getInitialState: function() {
     return {loading: true, search: "YCBA"}
   },
+
   componentDidMount: function() {
-    let ajax = $.getJSON("/data");
     window.addEventListener('hashchange', this.handleNewHash, false);
+
+    let ajax = $.getJSON("/data");
+
     ajax.done(data => {
       var sortFunction = function(a,b) {
         return (a.sort_order || 0) >= (b.sort_order || 0) ? 1 : -1;
@@ -48,9 +75,10 @@ var App = React.createClass({
   render: function() {
     if (this.state.loading) {return false;}
 
+    let data = SEARCH_DATA.find((val)=>(this.state.search == val.name))
     return (
       <main>
-        <Header search={this.state.search} setSearch={(val) => this.setState({search: val})}/>
+        <Header searchAgainst={this.state.search} data={SEARCH_DATA} setSearch={(val) => this.setState({search: val})}/>
         <div className='container-fluid'>
           <div className="row">
             <Sidebar 
@@ -58,7 +86,7 @@ var App = React.createClass({
               gotoField={this.gotoField}
               currentItem={this.state.currentItem}
              />
-            <ItemDisplay {...this.state.fields[this.state.currentItem]}/>
+            <ItemDisplay {...this.state.fields[this.state.currentItem]} search={data}/>
           </div>
         </div>
       </main>

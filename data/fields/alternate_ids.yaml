@@ -39,6 +39,8 @@ where: |
   MINUS {?object_uri crm:P48_has_preferred_identifier ?identifier_url}
   OPTIONAL {
    ?identifier_url crm:P2_has_type ?identifier_type .
-   ?identifier_type skos:prefLabel ?identifier_type_label .
+   OPTIONAL {
+     ?identifier_type skos:prefLabel ?identifier_type_label .
+   } 
+   FILTER (!isBlank(?identifier_type))
   }
-  FILTER (!isBlank(?identifier_type))

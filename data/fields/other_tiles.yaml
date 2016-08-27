@@ -39,6 +39,6 @@ where: |
    ?alternate_title_uri crm:P2_has_type ?title_class . 
    ?title_class a crm:E55_Type ;
      skos:prefLabel ?field_label .
+   FILTER (!isBlank(?title_class))
   }
   MINUS{?alternate_title_uri crm:P2_has_type ?preferred_title_type_url .}
-  FILTER (!isBlank(?title_class))

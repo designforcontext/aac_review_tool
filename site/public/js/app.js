@@ -49,6 +49,8 @@
 
 	'use strict';
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _jquery = __webpack_require__(/*! jquery */ 1);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
@@ -73,7 +75,26 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	var SEARCH_DATA = [{
+	  name: "YCBA",
+	  endpoint: "http://collection.britishart.yale.edu/openrdf-sesame/repositories/ycba",
+	  predicate: "http://erlangen-crm.org/current/",
+	  default_object: "http://collection.britishart.yale.edu/id/object/1000"
+	}, {
+	  name: "SAAM",
+	  endpoint: "http://edan.si.edu/saam/sparql",
+	  predicate: "http://www.cidoc-crm.org/cidoc-crm/",
+	  default_object: "http://edan.si.edu/saam/id/object/1974.44.30"
+	}, {
+	  name: "British Museum",
+	  endpoint: "http://collection.britishmuseum.org/sparql",
+	  predicate: "http://erlangen-crm.org/current/",
+	  default_object: "http://collection.britishmuseum.org/id/object/YCA62958"
+	}];
+	
 	//-----------------------------------------------------------------------------
+	// This is the "brains" of the application.  It controls the global state of
+	// the system, which includes navigation and loading the data in.
 	var App = _react2.default.createClass({
 	  displayName: 'App',
 	
@@ -82,11 +103,14 @@
 	  getInitialState: function getInitialState() {
 	    return { loading: true, search: "YCBA" };
 	  },
+	
 	  componentDidMount: function componentDidMount() {
 	    var _this = this;
 	
-	    var ajax = _jquery2.default.getJSON("/data");
 	    window.addEventListener('hashchange', this.handleNewHash, false);
+	
+	    var ajax = _jquery2.default.getJSON("/data");
+	
 	    ajax.done(function (data) {
 	      var sortFunction = function sortFunction(a, b) {
 	        return (a.sort_order || 0) >= (b.sort_order || 0) ? 1 : -1;
@@ -124,10 +148,13 @@
 	      return false;
 	    }
 	
+	    var data = SEARCH_DATA.find(function (val) {
+	      return _this2.state.search == val.name;
+	    });
 	    return _react2.default.createElement(
 	      'main',
 	      null,
-	      _react2.default.createElement(_header2.default, { search: this.state.search, setSearch: function setSearch(val) {
+	      _react2.default.createElement(_header2.default, { searchAgainst: this.state.search, data: SEARCH_DATA, setSearch: function setSearch(val) {
 	          return _this2.setState({ search: val });
 	        } }),
 	      _react2.default.createElement(
@@ -141,7 +168,7 @@
 	            gotoField: this.gotoField,
 	            currentItem: this.state.currentItem
 	          }),
-	          _react2.default.createElement(_display2.default, this.state.fields[this.state.currentItem])
+	          _react2.default.createElement(_display2.default, _extends({}, this.state.fields[this.state.currentItem], { search: data }))
 	        )
 	      )
 	    );
@@ -32277,6 +32304,21 @@
 	});
 	
 	exports.default = function (props) {
+	  var buttons = props.data.map(function (source, index) {
+	    return _react2.default.createElement(
+	      _reactBootstrap.Button,
+	      {
+	        bsClass: 'btn navbar-btn btn-default',
+	        active: props.searchAgainst == source.name,
+	        onClick: function onClick() {
+	          return props.setSearch(source.name);
+	        }
+	      },
+	      'Search ',
+	      source.name
+	    );
+	  });
+	
 	  return _react2.default.createElement(
 	    'nav',
 	    { className: 'navbar navbar-default navbar-static-top main_nav' },
@@ -32313,28 +32355,7 @@
 	          _react2.default.createElement(
 	            _reactBootstrap.ButtonGroup,
 	            { bsSize: 'small', role: 'group', className: 'search_buttons' },
-	            _react2.default.createElement(
-	              _reactBootstrap.Button,
-	              {
-	                bsClass: 'btn navbar-btn btn-default',
-	                active: props.search == "SAAM",
-	                onClick: function onClick() {
-	                  return props.setSearch("SAAM");
-	                }
-	              },
-	              'Search SAAM'
-	            ),
-	            _react2.default.createElement(
-	              _reactBootstrap.Button,
-	              {
-	                bsClass: 'btn navbar-btn btn-default',
-	                active: props.search == "YCBA",
-	                onClick: function onClick() {
-	                  return props.setSearch("YCBA");
-	                }
-	              },
-	              'Search YCBA'
-	            )
+	            buttons
 	          )
 	        )
 	      )
@@ -52079,7 +52100,7 @@
   \*******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -52089,6 +52110,8 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
+	
 	var _jquery = __webpack_require__(/*! jquery */ 1);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
@@ -52096,11 +52119,14 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var SparqlSearch = _react2.default.createClass({
-	  displayName: "SparqlSearch",
+	  displayName: 'SparqlSearch',
 	
 	
 	  getInitialState: function getInitialState() {
-	    return { results: false };
+	    return { results: false, isSearching: false };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.autoSearch();
 	  },
 	
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -52108,11 +52134,24 @@
 	      this.setState({ results: false });
 	    }
 	  },
+	  componentDidUpdate: function componentDidUpdate(prevProps) {
+	    if (prevProps.title != this.props.title || prevProps.search.endpoint != this.props.search.endpoint) {
+	      this.autoSearch();
+	    }
+	  },
 	
-	  doSearch: function doSearch(e) {
-	    e.preventDefault();
+	  autoSearch: function autoSearch() {
+	    var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
 	
-	    var obj = (0, _jquery2.default)(e.target).serializeArray();
+	    if (e) {
+	      e.preventDefault();
+	    }
+	    var obj = (0, _jquery2.default)("#search_form").serializeArray();
+	    this.doSearch(obj);
+	  },
+	
+	  doSearch: function doSearch(obj) {
+	
 	    var val = {};
 	    obj.forEach(function (v) {
 	      return val[v.name] = v.value;
@@ -52126,13 +52165,17 @@
 	        where: this.props.where,
 	        values: this.props.values
 	      },
+	      endpoint: this.props.search.endpoint,
+	      crm: this.props.search.predicate,
 	      values: val
 	    };
 	    _jquery2.default.post("/search", submission, this.handleResults);
+	    this.setState({ isSearching: true });
 	  },
 	
 	  handleResults: function handleResults(data) {
-	    this.setState({ results: data });
+	    this.setState({ results: data, isSearching: false });
+	    console.log(data.select);
 	  },
 	
 	  render: function render() {
@@ -52141,41 +52184,49 @@
 	    var input_boxes = this.props.values.split(" ").map(function (value) {
 	
 	      var field_name = value.replace("?", "");
+	      var default_value = _this.props['test_' + field_name];
+	      if (field_name == "object_uri") {
+	        default_value = _this.props.search.default_object;
+	      }
 	      return _react2.default.createElement(SearchInputField, {
 	        key: field_name,
 	        value: field_name,
-	        "default": _this.props["test_" + field_name]
+	        'default': default_value
 	      });
 	    });
 	
 	    return _react2.default.createElement(
-	      "section",
-	      { className: "search" },
+	      'section',
+	      { className: 'search' },
 	      _react2.default.createElement(
-	        "div",
-	        { className: "row" },
+	        'div',
+	        { className: 'row' },
 	        _react2.default.createElement(
-	          "div",
-	          { className: "col-md-12" },
+	          'div',
+	          { className: 'col-md-12' },
 	          _react2.default.createElement(
-	            "h4",
+	            'h4',
 	            null,
-	            "Test An Example"
+	            'Test An Example'
 	          ),
 	          _react2.default.createElement(
-	            "form",
-	            { className: "form-horizontal", onSubmit: this.doSearch },
+	            'form',
+	            { id: 'search_form', className: 'form-horizontal', onSubmit: this.state.isSearching ? null : this.autoSearch },
 	            input_boxes,
 	            _react2.default.createElement(
-	              "div",
-	              { className: "form-group" },
+	              'div',
+	              { className: 'form-group' },
 	              _react2.default.createElement(
-	                "div",
-	                { className: "col-sm-offset-3 col-sm-6" },
+	                'div',
+	                { className: 'col-sm-offset-3 col-sm-6' },
 	                _react2.default.createElement(
-	                  "button",
-	                  { type: "submit", className: "btn btn-primary" },
-	                  "Search"
+	                  _reactBootstrap.Button,
+	                  {
+	                    bsStyle: 'primary',
+	                    disabled: this.state.isSearching,
+	                    onClick: this.state.isSearching ? null : this.autoSearch
+	                  },
+	                  this.state.isSearching ? 'Searching...' : 'Search'
 	                )
 	              )
 	            )
@@ -52189,7 +52240,7 @@
 	
 	//-----------------------------------------------------------------------------
 	var SearchInputField = _react2.default.createClass({
-	  displayName: "SearchInputField",
+	  displayName: 'SearchInputField',
 	
 	  getInitialState: function getInitialState() {
 	    return { value: this.props.default || "" };
@@ -52204,25 +52255,25 @@
 	  },
 	  render: function render() {
 	
-	    var id_val = "sparql_" + this.props.value;
+	    var id_val = 'sparql_' + this.props.value;
 	    var title = this.props.value.replace(/_/g, " ");
-	    var placeholder = "Enter a " + title;
+	    var placeholder = 'Enter a ' + title;
 	    var default_value = this.props.default;
 	
 	    return _react2.default.createElement(
-	      "div",
-	      { className: "form-group" },
+	      'div',
+	      { className: 'form-group' },
 	      _react2.default.createElement(
-	        "label",
-	        { className: "col-sm-3 text-right", htmlFor: id_val, style: { "textTransform": "capitalize" } },
+	        'label',
+	        { className: 'col-sm-3 text-right', htmlFor: id_val, style: { "textTransform": "capitalize" } },
 	        title
 	      ),
 	      _react2.default.createElement(
-	        "div",
-	        { className: "col-sm-6" },
-	        _react2.default.createElement("input", {
-	          type: "text",
-	          className: "form-control",
+	        'div',
+	        { className: 'col-sm-6' },
+	        _react2.default.createElement('input', {
+	          type: 'text',
+	          className: 'form-control',
 	          name: this.props.value,
 	          id: id_val,
 	          placeholder: placeholder,
@@ -52236,7 +52287,7 @@
 	
 	//-----------------------------------------------------------------------------
 	var SparqlResults = _react2.default.createClass({
-	  displayName: "SparqlResults",
+	  displayName: 'SparqlResults',
 	
 	  getInitialState: function getInitialState() {
 	    return { showConstructed: false };
@@ -52249,7 +52300,7 @@
 	
 	    var table_headers = this.props.select.split(" ").map(function (select_item) {
 	      return _react2.default.createElement(
-	        "th",
+	        'th',
 	        { key: select_item },
 	        select_item.replace("?", "")
 	      );
@@ -52261,21 +52312,21 @@
 	        var val = result[key.replace("?", "")];
 	        if (/^https?:\/\//.test(val)) {
 	          val = _react2.default.createElement(
-	            "a",
-	            { href: val, target: "_blank" },
+	            'a',
+	            { href: val, target: '_blank' },
 	            val
 	          );
 	        }
 	
 	        return _react2.default.createElement(
-	          "td",
-	          { key: i + "_" + key },
-	          " ",
+	          'td',
+	          { key: i + '_' + key },
+	          ' ',
 	          val
 	        );
 	      });
 	      return _react2.default.createElement(
-	        "tr",
+	        'tr',
 	        { key: i },
 	        cells
 	      );
@@ -52284,58 +52335,58 @@
 	    var constructed_results;
 	    if (!this.state.showConstructed) {
 	      constructed_results = _react2.default.createElement(
-	        "div",
-	        { className: "panel-body" },
+	        'div',
+	        { className: 'panel-body' },
 	        _react2.default.createElement(
-	          "button",
-	          { className: "btn btn-info btn-xs center-block", onClick: function onClick(e) {
+	          'button',
+	          { className: 'btn btn-info btn-xs center-block', onClick: function onClick(e) {
 	              return _this.setState({ showConstructed: true });
 	            } },
-	          "Show Turtle"
+	          'Show Turtle'
 	        )
 	      );
 	    } else {
 	      constructed_results = _react2.default.createElement(
-	        "div",
-	        { className: "panel-body" },
+	        'div',
+	        { className: 'panel-body' },
 	        _react2.default.createElement(
-	          "pre",
-	          { className: "pre-scrollable" },
+	          'pre',
+	          { className: 'pre-scrollable' },
 	          _this.props.results.object
 	        ),
 	        _react2.default.createElement(
-	          "button",
-	          { className: "btn btn-info btn-xs center-block", onClick: function onClick(e) {
+	          'button',
+	          { className: 'btn btn-info btn-xs center-block', onClick: function onClick(e) {
 	              return _this.setState({ showConstructed: false });
 	            } },
-	          "Hide Turtle"
+	          'Hide Turtle'
 	        )
 	      );
 	    }
 	
 	    return _react2.default.createElement(
-	      "div",
-	      { className: "row results" },
+	      'div',
+	      { className: 'row results' },
 	      _react2.default.createElement(
-	        "div",
-	        { className: "col-md-10 col-md-offset-1" },
+	        'div',
+	        { className: 'col-md-10 col-md-offset-1' },
 	        _react2.default.createElement(
-	          "div",
-	          { className: "panel panel-default" },
+	          'div',
+	          { className: 'panel panel-default' },
 	          _react2.default.createElement(
-	            "table",
-	            { className: "table table-hover" },
+	            'table',
+	            { className: 'table table-hover' },
 	            _react2.default.createElement(
-	              "thead",
+	              'thead',
 	              null,
 	              _react2.default.createElement(
-	                "tr",
+	                'tr',
 	                null,
 	                table_headers
 	              )
 	            ),
 	            _react2.default.createElement(
-	              "tbody",
+	              'tbody',
 	              null,
 	              table_rows
 	            )

@@ -2,6 +2,16 @@ import React from 'react';
 import { Button, ButtonGroup } from 'react-bootstrap';
 
 export default function(props) {
+  let buttons = props.data.map((source, index) => {
+    return (<Button 
+      bsClass="btn navbar-btn btn-default" 
+      active={props.searchAgainst == source.name} 
+      onClick={() =>props.setSearch(source.name)}
+    >
+      Search {source.name}
+    </Button>)
+  })
+
   return (
     <nav className="navbar navbar-default navbar-static-top main_nav">
       <div className="container-fluid">
@@ -17,20 +27,7 @@ export default function(props) {
         <div id="navbar" className="navbar-collapse collapse">
           <div className="nav navbar-nav navbar-right">
             <ButtonGroup bsSize="small" role="group" className='search_buttons'>
-              <Button 
-                bsClass="btn navbar-btn btn-default" 
-                active={props.search == "SAAM"} 
-                onClick={() =>props.setSearch("SAAM")}
-              >
-                Search SAAM
-              </Button>
-              <Button 
-                bsClass="btn navbar-btn btn-default" 
-                active={props.search == "YCBA"} 
-                onClick={() =>props.setSearch("YCBA")}
-              >
-                Search YCBA
-              </Button>
+              {buttons}
             </ButtonGroup>
           </div>
         </div>

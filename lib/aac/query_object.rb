@@ -9,8 +9,11 @@ module AAC
         xsd: "http://www.w3.org/2001/XMLSchema#",
         foaf: "http://xmlns.com/foaf/0.1/"
     }
-    def self.prefix_list 
-      DEFAULT_PREFIXES.collect {|key,value| "PREFIX #{key}: <#{value}>"}.join("\n")
+
+    def self.prefix_list(prefixes = {})
+      prefixes = {} if prefixes.nil?
+      puts "prefiex: #{prefixes.inspect}"
+      DEFAULT_PREFIXES.merge(prefixes).collect {|key,value| "PREFIX #{key}: <#{value}>"}.join("\n")
     end
 
     attr_accessor :select, :construct, :where, :prefixes
@@ -65,8 +68,7 @@ module AAC
     end
     def construct_query(args)
       query = <<~eos
-        #{QueryObject.prefix_list}
-        #{@prefixes}
+        #{QueryObject.prefix_list(@prefixes)}
 
         CONSTRUCT {
           #{@construct}
@@ -77,9 +79,8 @@ module AAC
     end
     def select_query(args)
       query = <<~eos
-        #{QueryObject::prefix_list}
-        #{@prefixes}
-
+        #{QueryObject.prefix_list(@prefixes)}
+ 
         SELECT #{@select}
         #{where_clause}
 
