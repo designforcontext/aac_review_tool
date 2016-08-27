@@ -16,73 +16,9 @@
 
     N/A
 
-----
-
-##### Title
-
-* **Mandatory?** True
-* **Multiples?:** False
-* **Description:**  This is the primary display title of the work.  
-* **Example:** Young Women Picking Fruit
-
-**CIDOC-CRM Shortcut Mapping:**  
-
-    _:thing P102_has_title _:title.
-    _:title a E35_Title;
-      rdfs:label [TITLE];
-      p2_has_type _:title_type.
-    _:title_type a E55_Type;
-      skos:exactMatch institution:primary_title_type.
-      skos:broadMatch aac:primary_title_type
+a local-to-global thesaurus mapping here?
 
 
-*Questions:*
-
-* How do we handle english/non-english?
-* What are we going to use for aac:primary_title?
-
-----
-
-##### Other Titles
-
-* **Mandatory?** False
-* **Multiples?:** True
-* **Description:**  These are alternate titles of the work.  
-* **Example:** Young Woman Picking Fruit
-* **Subfields:**
-    - Title Text
-    - Title Types
-    - Title Type Name
-
-**CIDOC-CRM Mapping:**  
-
-    _:thing P102_has_title _:title.
-    _:title a E35_Title;
-      rdfs:label [TITLE].
-      p2_has_type _:title_type.
-    _:title_type a E55_Type;
-      skos:exactMatch institution:title_type (anything but institution:primary_title_type).
-      rdfs:label [TITLE TYPE NAME]
-
-*Questions:*
-
-* Do we have any interest in the long-form version of this, where we can keep track of attribution?
-* Are we actually going to use a local-to-global thesaurus mapping here?
-
-----
-
-##### Accession Number/Object Number
-
-* **Mandatory?** False
-* **Multiples?:** False
-* **Description:**  This is the preferred human-readable identifier for the work  
-* **Example:** 1995.1.1
-
-**CIDOC-CRM Mapping:**  
-
-    _:thing P48_has_preferred_identifier _:identifier.
-    _:identifier a E42_Identifier;
-      rdfs:label [ID_NUMBER].
   
 ----
 
