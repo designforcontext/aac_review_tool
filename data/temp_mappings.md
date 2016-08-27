@@ -583,26 +583,6 @@ How to handle the documentation citation?  Should we add a part (the page), and 
 
 ## Relationships
 
-##### Created By
-
-* **Mandatory?** True
-* **Multiples?:** True
-* **Description:** These are Actors that had a role in the production of the work.  
-* **Example:** Mary Cassatt
-* **Subfields:**
-    - Role
-    - Entity ID
-
-**CIDOC-CRM Mapping:**
-  
-    _:thing P108i_was_produced_by _:production.
-    _:production a E12_Production;
-        p14_carried_out_by :entity.
-
-**Questions**
-
-* How best to assign the type of creation to the production?  We dont' have any good way to do a `p14.1 -> E55{Maker}` in turtle.
-
 
 ##### Owned By
 

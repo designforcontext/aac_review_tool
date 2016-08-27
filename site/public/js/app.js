@@ -86,12 +86,20 @@
 	    var _this = this;
 	
 	    var ajax = _jquery2.default.getJSON("/data");
-	
+	    window.addEventListener('hashchange', this.handleNewHash, false);
 	    ajax.done(function (data) {
 	      var sortFunction = function sortFunction(a, b) {
 	        return (a.sort_order || 0) >= (b.sort_order || 0) ? 1 : -1;
 	      };
-	      _this.setState({ loading: false, fields: data.sort(sortFunction), currentItem: 0 });
+	
+	      var id = 0;
+	      if (window.location.hash) {
+	        id = window.location.hash.replace("#section_", "");
+	      } else {
+	        window.location.hash = 'section_' + id;
+	      }
+	
+	      _this.setState({ loading: false, fields: data.sort(sortFunction), currentItem: id });
 	    });
 	    ajax.fail(function (x, msg) {
 	      return console.log('Error getting json: ' + msg);
@@ -99,8 +107,13 @@
 	  },
 	
 	  // Custom Functions
+	  handleNewHash: function handleNewHash() {
+	    var id = window.location.hash.replace("#section_", "");
+	    this.gotoField(id);
+	  },
 	  gotoField: function gotoField(id) {
 	    this.setState({ currentItem: id });
+	    window.location.hash = 'section_' + id;
 	  },
 	
 	  // Render

@@ -15,19 +15,33 @@ var App = React.createClass({
   },
   componentDidMount: function() {
     let ajax = $.getJSON("/data");
-
+    window.addEventListener('hashchange', this.handleNewHash, false);
     ajax.done(data => {
       var sortFunction = function(a,b) {
         return (a.sort_order || 0) >= (b.sort_order || 0) ? 1 : -1;
       }
-      this.setState({loading: false, fields: data.sort(sortFunction), currentItem: 0})
+
+      let id = 0;
+      if (window.location.hash) {
+        id = window.location.hash.replace("#section_","")
+      }
+      else {
+        window.location.hash = `section_${id}`
+      }
+
+      this.setState({loading: false, fields: data.sort(sortFunction), currentItem: id})
     });
     ajax.fail((x,msg)=> console.log(`Error getting json: ${msg}`));
   },
 
   // Custom Functions
+  handleNewHash: function() {
+    let id = window.location.hash.replace("#section_","")
+    this.gotoField(id); 
+  },
   gotoField: function(id) {
     this.setState({currentItem: id});
+    window.location.hash = `section_${id}`
   },
   
   // Render
