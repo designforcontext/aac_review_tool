@@ -10,7 +10,7 @@ example:     "Young Women Picking Fruit"
 
 # Sort Data
 applies_to:  "Object"
-category:    "Tombstone"
+category:    "Tombstone Info"
 sort_order:  2
 
 #Default Test Values

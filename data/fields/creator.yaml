@@ -10,7 +10,7 @@ example:          "Mary Cassatt"
 
 # Sort Data
 applies_to:  "Object"
-category:    "Tombstone"
+category:    "Tombstone Info"
 sort_order:  3
 
 #Default Test Values

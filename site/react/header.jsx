@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, ButtonGroup } from 'react-bootstrap';
 
 export default function(props) {
   return (
@@ -14,8 +15,24 @@ export default function(props) {
           <div className="navbar-brand">AAC Object Mappings</div>
         </div>
         <div id="navbar" className="navbar-collapse collapse">
-          <ul className="nav navbar-nav">
-          </ul>
+          <div className="nav navbar-nav navbar-right">
+            <ButtonGroup bsSize="small" role="group" className='search_buttons'>
+              <Button 
+                bsClass="btn navbar-btn btn-default" 
+                active={props.search == "SAAM"} 
+                onClick={() =>props.setSearch("SAAM")}
+              >
+                Search SAAM
+              </Button>
+              <Button 
+                bsClass="btn navbar-btn btn-default" 
+                active={props.search == "YCBA"} 
+                onClick={() =>props.setSearch("YCBA")}
+              >
+                Search YCBA
+              </Button>
+            </ButtonGroup>
+          </div>
         </div>
       </div>
     </nav>

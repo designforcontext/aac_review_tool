@@ -4594,6 +4594,17 @@ button.close {
     color: #fff; }
     .main_nav .navbar-brand:hover {
       color: #fff; }
+  .main_nav .navbar-nav > li > a {
+    color: #fff; }
+    .main_nav .navbar-nav > li > a.active {
+      background-color: #be3636; }
+  .main_nav .search_buttons {
+    margin-right: 20px; }
+    .main_nav .search_buttons button {
+      color: #999; }
+      .main_nav .search_buttons button.active {
+        color: inherit;
+        font-weight: bold; }
 
 .sidebar {
   background: #eee;

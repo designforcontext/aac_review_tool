@@ -1,5 +1,6 @@
 @import bootstrap
 
+
 .main_nav
   margin-bottom: 0
   background-color: #962b2b
@@ -7,7 +8,17 @@
     color: #fff
     &:hover
       color: #fff
-
+  .navbar-nav > li > a 
+    color: #fff
+    &.active
+      background-color: lighten(#962b2b, 10)
+  .search_buttons
+    margin-right: 20px
+    button
+      color: #999
+      &.active
+        color: inherit
+        font-weight: bold
 .sidebar
   background: #eee
   box-shadow: -2px 2px 2px #ddd inset

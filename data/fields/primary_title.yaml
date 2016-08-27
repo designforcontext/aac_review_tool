@@ -13,7 +13,7 @@ lod_type:    "http://vocab.americanartcollaborative.org/types#primary_title_type
 
 # Sort Data
 applies_to:  "Object"
-category:    "Tombstone"
+category:    "Tombstone Info"
 sort_order:  1
 
 #Default Test Values

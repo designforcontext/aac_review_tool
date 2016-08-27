@@ -11,7 +11,7 @@ lod_type:          http://vocab.getty.edu/aat/300026687
 
 # Sort Data
 applies_to:  "Object"
-category:    "Tombstone"
+category:    "Tombstone Info"
 sort_order:  5
 
 #Default Test Values

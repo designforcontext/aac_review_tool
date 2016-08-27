@@ -11,7 +11,7 @@ var App = React.createClass({
   
   // Lifecycle Events
   getInitialState: function() {
-    return {loading: true}
+    return {loading: true, search: "YCBA"}
   },
   componentDidMount: function() {
     let ajax = $.getJSON("/data");
@@ -50,7 +50,7 @@ var App = React.createClass({
 
     return (
       <main>
-        <Header />
+        <Header search={this.state.search} setSearch={(val) => this.setState({search: val})}/>
         <div className='container-fluid'>
           <div className="row">
             <Sidebar 
