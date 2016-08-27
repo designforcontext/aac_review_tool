@@ -20,7 +20,7 @@
 @prefix cmoa_party: <http://records.cmoa.org/parties/>.
 @prefix mprov_acq: <http://lod.museumprovenance.org/acquisition_methods#>.
 @prefix mprov: <http://lod.museumprovenance.org/terms#>.
-
+@prefix aac_types: <http://vocab.americanartcollaborative.org/types#>.
 
 # http://vocab.getty.edu/doc/#GVP_URLs_and_Prefixes
 @prefix aat:              <http://vocab.getty.edu/aat/>.

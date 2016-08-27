@@ -175,65 +175,7 @@
     TBD
 
 
-----
 
-##### Link to Website
-
-* **Mandatory?** False
-* **Multiples?:** False
-* **Description:**  This is the preferred URL for a informational website about the object.  
-* **Example:** http://art.thewalters.org/detail/9524/a-gentleman-3/
-* **Subfields:**
-    - URL
-    - Link Name
-
-**Direct Mapping:**  
-
-    _:thing foaf:homepage [URL].
-    [URL] rdfs:label [LINK NAME].
-
-**CIDOC-CRM Mapping:**  
-
-    _:thing P70i_is_documented_in _:homepage;
-    _:homepage a E31_Document;
-        owl:sameAs [URL];
-        rdfs:label [LINK NAME];
-        p2_has_type aac:homepage_url_document_type.
-
-----
-
-##### Other Links
-
-* **Mandatory?** False
-* **Multiples?:** True
-* **Description:**  These are relevant URLs for secondary informational websites about the object.  
-* **Example:** https://en.wikipedia.org/wiki/The_Rape_of_Europa_(Titian)
-* **Subfields:**
-    - URL
-    - Link Name
-    - Source Name
-
-**Direct Mapping:**  
-
-    _:thing foaf:page [URL].
-    [URL] rdfs:label [LINK NAME];
-        foaf:maker _:source.
-    _:source
-        foaf:name [SOURCE NAME].
-
-**CIDOC-CRM Mapping:**  
-
-    _:thing P70i_is_documented_in _:page;
-    _:homepage a E31_Document;
-        owl:sameAs [URL];
-        rdfs:label [LINK NAME];
-        p2_has_type aac:page_url_document_type.
-
-**Questions**
-
-* Is using the maker's name/label the right thing to do to type URLS?  
-  For instance, does this work?
-  > British Museum: **[Dames With Canes](#)** 
 
 ----
 
@@ -259,29 +201,6 @@
         rdfs:label [TYPE];
         skos:broadMatch aac:location_type.
 
-----
-
-##### Primary Description
-
-* **Mandatory?** False
-* **Multiples?:** False
-* **Description:**  This is the preferred human-readable description of the work in English.  
-* **Example:** "This work, famous for its representation of the human body in suffering, ..."
-* **Subfields:**
-    - Text
-    - Author
-
-**CIDOC-CRM Mapping:**  
-
-    _:thing P129i_is_subject_of _:description.
-    _:description a E33_Linguistic_Object;
-        p3_has_note [TEXT];
-        P94i_was_created_by _:authorship_event;
-        P2_has_type aac:primary_description.
-    _:authorship_event a E65_Creation;
-        P14_carried_out_by _:author.
-    _:author a E39_Actor;
-        rdfs:label [AUTHOR]. 
 
 ----
 

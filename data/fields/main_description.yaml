@@ -1,0 +1,50 @@
+# Field Name
+title: Main Description
+
+# Metadata
+mandatory:        false
+multiples:        false
+description:      "Description of the work."
+long_description: "This is the preferred human-readable description of the work in English."
+example:          "This work, famous for its representation of the human body in suffering, ..."
+lod_type:         "http://vocab.americanartcollaborative.org/types#primary_description"
+
+# Sort Data
+applies_to:  "Object"
+category:    "Aboutness"
+sort_order:  10
+
+
+#Default Test Values
+test_object_uri: "http://collection.britishart.yale.edu/id/object/1000"
+
+# Sparql
+select:      "?description ?author ?description_class ?author_lod_id"
+values:      "?object_uri"
+construct: |
+  ?object_uri a crm:E22_Man-Made_Object ;
+    crm:P129i_is_subject_of _:description_class .
+  _:description_class a crm:E33_Linguistic_Object ;
+    crm:p3_has_note ?description ;
+    crm:P94i_was_created_by _:authorship_event ;
+    crm:P2_has_type <http://vocab.americanartcollaborative.org/types#primary_description> .
+  _:authorship_event a crm:E65_Creation ;
+      crm:P14_carried_out_by _:author_class .
+  _:author_class a crm:E39_Actor ;
+      rdfs:label ?author ;
+      skos:exactMatch ?author_lod_id.
+where: |
+  ?object_uri a crm:E22_Man-Made_Object ;
+    crm:P129i_is_subject_of ?description_class .
+  ?description_class a crm:E33_Linguistic_Object ;
+    crm:p3_has_note ?description .
+  OPTIONAL {
+    ?description_class crm:P94i_was_created_by ?authorship_event .
+    ?authorship_event a crm:E65_Creation ;
+      crm:P14_carried_out_by ?author_class .
+    ?author_class a crm:E39_Actor;
+      rdfs:label ?author .
+    OPTIONAL {
+      ?author_class  skos:exactMatch ?author_lod_id.
+    }
+  }

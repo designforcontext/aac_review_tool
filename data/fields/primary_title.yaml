@@ -1,15 +1,20 @@
 
 # Field Name
 title: Primary Title
-sort_order: 1
+
 
 # Metadata
 mandatory:   true
 multiples:   false
-description: "The primary display title of the work."
+description: "The primary title of the work."
 long_description: "This is the primary title for the object, as selected by the providing institution.  When there are no other titles, it is often the only one."
 example:     "Young Women Picking Fruit"
-lod_type:    "http://vocab.americanartcollaborative.org/titles#primary_title_type"
+lod_type:    "http://vocab.americanartcollaborative.org/types#primary_title_type"
+
+# Sort Data
+applies_to:  "Object"
+category:    "Tombstone"
+sort_order:  1
 
 #Default Test Values
 test_object_uri: "http://collection.britishart.yale.edu/id/object/499"

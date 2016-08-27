@@ -89,10 +89,11 @@ class MyApp < Sinatra::Base
     unless encoded_data
       file = Tempfile.new(["",".ttl"])
       file.write(val)
+      file.write(params[:extras]) if (params[:extras])
       file.close
       results = `perl ./rdfpuml/rdfpuml.pl #{file.path}`
       file.unlink
-      # puts "results of the graph: #{results} from #{file.path}"
+      puts "results of the graph: #{results} from #{file.path}"
       encoded_data = PlantUmlEncode64.encode(results)
       $graph_cache[val] = encoded_data
     end

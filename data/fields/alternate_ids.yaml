@@ -1,14 +1,18 @@
 
 # Field Name
 title: Alternate IDs
-sort_order: 101
 
 # Metadata
 mandatory:   false
-multiples:   false
+multiples:   true
 description: "Secondary identifiers for the work."
 long_description: "These are identifiers for the work that are not either the LOD URI or the Accession Number"
 example:     "1230123i123, 39049ddc-288d-4516-aca3-bfca8608bfc5"
+
+# Sort Data
+applies_to:  "Object"
+category:    "IDs"
+sort_order:  101
 
 #Default Test Values
 test_object_uri: "http://collection.britishart.yale.edu/id/object/499"
@@ -38,6 +42,3 @@ where: |
    ?identifier_type skos:prefLabel ?identifier_type_label .
   }
   FILTER (!isBlank(?identifier_type))
-
-
-

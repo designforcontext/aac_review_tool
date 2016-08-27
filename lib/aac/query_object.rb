@@ -6,7 +6,8 @@ module AAC
         rdfs: "http://www.w3.org/2000/01/rdf-schema#",
         crm: "http://erlangen-crm.org/current/",
         skos: "http://www.w3.org/2004/02/skos/core#",
-        xsd: "http://www.w3.org/2001/XMLSchema#"
+        xsd: "http://www.w3.org/2001/XMLSchema#",
+        foaf: "http://xmlns.com/foaf/0.1/"
     }
     def self.prefix_list 
       DEFAULT_PREFIXES.collect {|key,value| "PREFIX #{key}: <#{value}>"}.join("\n")
@@ -41,6 +42,27 @@ module AAC
       query
     end
 
+    def where_clause
+      if @where
+        <<~eos
+          WHERE {
+            {
+            #{@where}
+            }
+            UNION
+            {
+              #{@construct.gsub("_:","_:construct_")}
+            }          
+          }
+        eos
+      else
+        <<~eos
+          WHERE {
+            #{@construct}        
+          }
+        eos
+      end
+    end
     def construct_query(args)
       query = <<~eos
         #{QueryObject.prefix_list}
@@ -49,15 +71,7 @@ module AAC
         CONSTRUCT {
           #{@construct}
         }
-        WHERE {
-          {
-          #{@where}
-          }
-          UNION
-          {
-            #{@construct.gsub("_:","_:construct_")}
-          }          
-        }
+        #{where_clause}
       eos
       replace_values(query, args)
     end
@@ -67,15 +81,8 @@ module AAC
         #{@prefixes}
 
         SELECT #{@select}
-        WHERE {
-          {
-          #{@where}
-          }
-          UNION
-          {
-            #{@construct.gsub("_:","_:construct_")}
-          }      
-        }
+        #{where_clause}
+
       eos
       replace_values(query, args)
     end

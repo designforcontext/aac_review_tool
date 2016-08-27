@@ -8,17 +8,17 @@ var ItemMapping = React.createClass({
   },
   componentWillReceiveProps: function(nextProps){
     if (nextProps.construct != this.props.construct) {
-      this.getSvg(nextProps.construct);
+      this.getSvg(nextProps);
     }
   },
   componentDidMount: function() {
-    this.getSvg(this.props.construct)
+    this.getSvg(this.props)
   },
 
-  getSvg: function(construct) {
-    if (!construct) return false;
+  getSvg: function(data) {
+    if (!data.construct) return false;
 
-    $.post("/graph", {ttl: construct}, this.handleSVG);
+    $.post("/graph", {ttl: data.construct, extras: data.extras}, this.handleSVG);
     this.setState({svg: ""})      
 
   },

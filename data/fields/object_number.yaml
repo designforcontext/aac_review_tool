@@ -1,14 +1,17 @@
 
 # Field Name
 title: Object Number
-sort_order: 100
 
 # Metadata
 mandatory:   false
 multiples:   false
-description: "The preferred identifier for the work."
-
+description: "Preferred id for the work."
 example:     "1995.1.1"
+
+# Sort Data
+applies_to:  "Object"
+category:    "IDs"
+sort_order:  100
 
 #Default Test Values
 test_object_uri: "http://collection.britishart.yale.edu/id/object/499"

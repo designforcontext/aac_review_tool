@@ -31,7 +31,7 @@ var ItemDisplay = React.createClass({
 
         <SparqlSearch {...this.props}/>
 
-        <ItemMapping construct={this.props.construct} />
+        <ItemMapping construct={this.props.construct} extras={this.props.graph_extras} />
 
       </div>
     )

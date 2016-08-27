@@ -63,11 +63,11 @@
 	
 	var _sidebar2 = _interopRequireDefault(_sidebar);
 	
-	var _header = __webpack_require__(/*! ./header.jsx */ 174);
+	var _header = __webpack_require__(/*! ./header.jsx */ 175);
 	
 	var _header2 = _interopRequireDefault(_header);
 	
-	var _display = __webpack_require__(/*! ./item/display.jsx */ 175);
+	var _display = __webpack_require__(/*! ./item/display.jsx */ 176);
 	
 	var _display2 = _interopRequireDefault(_display);
 	
@@ -89,7 +89,7 @@
 	
 	    ajax.done(function (data) {
 	      var sortFunction = function sortFunction(a, b) {
-	        return (a.sort_order || 0) >= (b.sort_order || 0);
+	        return (a.sort_order || 0) >= (b.sort_order || 0) ? 1 : -1;
 	      };
 	      _this.setState({ loading: false, fields: data.sort(sortFunction), currentItem: 0 });
 	    });
@@ -32098,7 +32098,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _classnames = __webpack_require__(/*! classnames */ 180);
+	var _classnames = __webpack_require__(/*! classnames */ 174);
 	
 	var _classnames2 = _interopRequireDefault(_classnames);
 	
@@ -32117,8 +32117,11 @@
 	        id: index,
 	        name: field.title,
 	        desc: field.description,
-	        key: field.title,
+	        key: field.category + '_' + field.title,
 	        func: _this.props.gotoField,
+	        applies_to: field.applies_to,
+	        category: field.category,
+	        prev_category: index == 0 ? "" : _this.props.fields[index - 1].category,
 	        selected: index == _this.props.currentItem
 	      });
 	    });
@@ -32146,22 +32149,38 @@
 	
 	    var classes = (0, _classnames2.default)("sidebar_item", { selected: this.props.selected });
 	
+	    var header = false;
+	    if (this.props.category != this.props.prev_category) {
+	      header = _react2.default.createElement(
+	        'h5',
+	        null,
+	        ' ',
+	        this.props.category,
+	        ' '
+	      );
+	    }
+	
 	    return _react2.default.createElement(
 	      'div',
-	      { className: classes, onClick: this.handleClick },
+	      null,
+	      header,
 	      _react2.default.createElement(
-	        'dt',
-	        null,
-	        ' ',
-	        this.props.name,
-	        ' '
-	      ),
-	      _react2.default.createElement(
-	        'dd',
-	        null,
-	        ' ',
-	        this.props.desc,
-	        ' '
+	        'div',
+	        { className: classes, onClick: this.handleClick },
+	        _react2.default.createElement(
+	          'dt',
+	          null,
+	          ' ',
+	          this.props.name,
+	          ' '
+	        ),
+	        _react2.default.createElement(
+	          'dd',
+	          null,
+	          ' ',
+	          this.props.desc,
+	          ' '
+	        )
 	      )
 	    );
 	  }
@@ -32172,6 +32191,63 @@
 
 /***/ },
 /* 174 */
+/*!*******************************!*\
+  !*** ./~/classnames/index.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2016 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+	/* global define */
+	
+	(function () {
+		'use strict';
+	
+		var hasOwn = {}.hasOwnProperty;
+	
+		function classNames () {
+			var classes = [];
+	
+			for (var i = 0; i < arguments.length; i++) {
+				var arg = arguments[i];
+				if (!arg) continue;
+	
+				var argType = typeof arg;
+	
+				if (argType === 'string' || argType === 'number') {
+					classes.push(arg);
+				} else if (Array.isArray(arg)) {
+					classes.push(classNames.apply(null, arg));
+				} else if (argType === 'object') {
+					for (var key in arg) {
+						if (hasOwn.call(arg, key) && arg[key]) {
+							classes.push(key);
+						}
+					}
+				}
+			}
+	
+			return classes.join(' ');
+		}
+	
+		if (typeof module !== 'undefined' && module.exports) {
+			module.exports = classNames;
+		} else if (true) {
+			// register as 'classnames', consistent with npm package name
+			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return classNames;
+			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else {
+			window.classNames = classNames;
+		}
+	}());
+
+
+/***/ },
+/* 175 */
 /*!*******************************!*\
   !*** ./site/react/header.jsx ***!
   \*******************************/
@@ -32227,7 +32303,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
-/* 175 */
+/* 176 */
 /*!*************************************!*\
   !*** ./site/react/item/display.jsx ***!
   \*************************************/
@@ -32243,19 +32319,19 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _title = __webpack_require__(/*! ./title.jsx */ 176);
+	var _title = __webpack_require__(/*! ./title.jsx */ 177);
 	
 	var _title2 = _interopRequireDefault(_title);
 	
-	var _props = __webpack_require__(/*! ./props.jsx */ 177);
+	var _props = __webpack_require__(/*! ./props.jsx */ 178);
 	
 	var _props2 = _interopRequireDefault(_props);
 	
-	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 178);
+	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 179);
 	
 	var _sparql_search2 = _interopRequireDefault(_sparql_search);
 	
-	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 179);
+	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 180);
 	
 	var _mapping2 = _interopRequireDefault(_mapping);
 	
@@ -32287,7 +32363,7 @@
 	        })
 	      ),
 	      _react2.default.createElement(_sparql_search2.default, this.props),
-	      _react2.default.createElement(_mapping2.default, { construct: this.props.construct })
+	      _react2.default.createElement(_mapping2.default, { construct: this.props.construct, extras: this.props.graph_extras })
 	    );
 	  }
 	});
@@ -32295,7 +32371,7 @@
 	exports.default = ItemDisplay;
 
 /***/ },
-/* 176 */
+/* 177 */
 /*!***********************************!*\
   !*** ./site/react/item/title.jsx ***!
   \***********************************/
@@ -32330,12 +32406,12 @@
 	          _react2.default.createElement(
 	            "span",
 	            { className: "badge" },
-	            this.props.mandatory ? "Mandatory" : null
+	            this.props.mandatory ? "Mandatory" : ""
 	          ),
 	          _react2.default.createElement(
 	            "span",
 	            { className: "badge" },
-	            this.props.multiples ? null : "Only One Allowed"
+	            this.props.multiples ? "" : "Only One Allowed"
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -32351,7 +32427,7 @@
 	exports.default = ItemTitle;
 
 /***/ },
-/* 177 */
+/* 178 */
 /*!***********************************!*\
   !*** ./site/react/item/props.jsx ***!
   \***********************************/
@@ -32423,7 +32499,7 @@
 	exports.default = ItemProps;
 
 /***/ },
-/* 178 */
+/* 179 */
 /*!*******************************************!*\
   !*** ./site/react/item/sparql_search.jsx ***!
   \*******************************************/
@@ -32701,7 +32777,7 @@
 	exports.default = SparqlSearch;
 
 /***/ },
-/* 179 */
+/* 180 */
 /*!*************************************!*\
   !*** ./site/react/item/mapping.jsx ***!
   \*************************************/
@@ -32731,17 +32807,17 @@
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	    if (nextProps.construct != this.props.construct) {
-	      this.getSvg(nextProps.construct);
+	      this.getSvg(nextProps);
 	    }
 	  },
 	  componentDidMount: function componentDidMount() {
-	    this.getSvg(this.props.construct);
+	    this.getSvg(this.props);
 	  },
 	
-	  getSvg: function getSvg(construct) {
-	    if (!construct) return false;
+	  getSvg: function getSvg(data) {
+	    if (!data.construct) return false;
 	
-	    _jquery2.default.post("/graph", { ttl: construct }, this.handleSVG);
+	    _jquery2.default.post("/graph", { ttl: data.construct, extras: data.extras }, this.handleSVG);
 	    this.setState({ svg: "" });
 	  },
 	  handleSVG: function handleSVG(svg_url) {
@@ -32815,63 +32891,6 @@
 	});
 	
 	exports.default = ItemMapping;
-
-/***/ },
-/* 180 */
-/*!*******************************!*\
-  !*** ./~/classnames/index.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	  Copyright (c) 2016 Jed Watson.
-	  Licensed under the MIT License (MIT), see
-	  http://jedwatson.github.io/classnames
-	*/
-	/* global define */
-	
-	(function () {
-		'use strict';
-	
-		var hasOwn = {}.hasOwnProperty;
-	
-		function classNames () {
-			var classes = [];
-	
-			for (var i = 0; i < arguments.length; i++) {
-				var arg = arguments[i];
-				if (!arg) continue;
-	
-				var argType = typeof arg;
-	
-				if (argType === 'string' || argType === 'number') {
-					classes.push(arg);
-				} else if (Array.isArray(arg)) {
-					classes.push(classNames.apply(null, arg));
-				} else if (argType === 'object') {
-					for (var key in arg) {
-						if (hasOwn.call(arg, key) && arg[key]) {
-							classes.push(key);
-						}
-					}
-				}
-			}
-	
-			return classes.join(' ');
-		}
-	
-		if (typeof module !== 'undefined' && module.exports) {
-			module.exports = classNames;
-		} else if (true) {
-			// register as 'classnames', consistent with npm package name
-			!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
-				return classNames;
-			}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-		} else {
-			window.classNames = classNames;
-		}
-	}());
-
 
 /***/ }
 /******/ ]);

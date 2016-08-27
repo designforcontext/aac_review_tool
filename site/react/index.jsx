@@ -18,7 +18,7 @@ var App = React.createClass({
 
     ajax.done(data => {
       var sortFunction = function(a,b) {
-        return (a.sort_order || 0) >= (b.sort_order || 0);
+        return (a.sort_order || 0) >= (b.sort_order || 0) ? 1 : -1;
       }
       this.setState({loading: false, fields: data.sort(sortFunction), currentItem: 0})
     });

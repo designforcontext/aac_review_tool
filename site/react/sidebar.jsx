@@ -12,8 +12,11 @@ var Sidebar = React.createClass({
           id={index} 
           name={field.title} 
           desc={field.description}
-          key={field.title} 
-          func={_this.props.gotoField} 
+          key={`${field.category}_${field.title}`} 
+          func={_this.props.gotoField}
+          applies_to={field.applies_to}
+          category={field.category}
+          prev_category={index == 0 ? "" : _this.props.fields[index-1].category}
           selected={index == _this.props.currentItem}
         />
     });
@@ -40,10 +43,18 @@ var SidebarListItem = React.createClass({
       {selected: this.props.selected}
     );
 
+    let header = false
+    if (this.props.category != this.props.prev_category) {
+      header = (<h5> {this.props.category} </h5>)
+    }
+
     return ( 
-        <div className={classes} onClick={this.handleClick}>
-          <dt> {this.props.name} </dt>
-          <dd> {this.props.desc} </dd> 
+        <div>
+          {header}
+          <div className={classes} onClick={this.handleClick}>
+            <dt> {this.props.name} </dt>
+            <dd> {this.props.desc} </dd> 
+          </div>
         </div>
     );
   }

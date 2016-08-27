@@ -1,13 +1,17 @@
 
 # Field Name
 title: Other Titles
-sort_order: 2
 
 # Metadata
 mandatory:   false
 multiples:   true
 description: "Alternate titles for the work."
 example:     "Young Women Picking Fruit"
+
+# Sort Data
+applies_to:  "Object"
+category:    "Tombstone"
+sort_order:  2
 
 #Default Test Values
 test_object_uri: "http://collection.britishart.yale.edu/id/object/1000"

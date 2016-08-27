@@ -4598,6 +4598,11 @@ button.close {
 .sidebar {
   background: #eee;
   box-shadow: -2px 2px 2px #ddd inset; }
+  .sidebar h5 {
+    border-bottom: 1px solid rgba(150, 43, 43, 0.3);
+    margin-right: -15px;
+    padding-bottom: 2px;
+    color: #444; }
   .sidebar dl {
     margin-top: 10px; }
 
