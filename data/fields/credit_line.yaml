@@ -14,10 +14,6 @@ applies_to:  "Object"
 category:    "Tombstone Info"
 sort_order:  5
 
-#Default Test Values
-test_object_uri: "http://collection.britishart.yale.edu/id/object/1000"
-test_preferred_title_type_url: "http://collection.britishart.yale.edu/id/thesaurus/title/preferred"
-
 # Sparql
 select:      "?credit_line ?credit_line_class"
 values:      "?object_uri"

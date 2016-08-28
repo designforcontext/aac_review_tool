@@ -14,10 +14,6 @@ applies_to:  "Object"
 category:    "Aboutness"
 sort_order:  10
 
-
-#Default Test Values
-test_object_uri: "http://collection.britishart.yale.edu/id/object/1000"
-
 # Sparql
 select:      "?description ?author ?description_class ?author_lod_id"
 values:      "?object_uri"

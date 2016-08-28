@@ -17,7 +17,6 @@ category:    "Tombstone Info"
 sort_order:  1
 
 #Default Test Values
-test_object_uri: "http://collection.britishart.yale.edu/id/object/499"
 test_preferred_title_type_url: "http://collection.britishart.yale.edu/id/thesaurus/title/preferred"
 
 # Sparql

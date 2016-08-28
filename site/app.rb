@@ -59,7 +59,6 @@ class MyApp < Sinatra::Base
   #----------------------------------------------------------------------------
   post "/search" do
 
-    puts "Params: #{params[:crm]}, #{params["crm"]}"
     client = AAC::QueryRunner.new(params[:endpoint])
     query = AAC::QueryObject.new(params[:fields])
     query.prefixes = {crm: params[:crm]}

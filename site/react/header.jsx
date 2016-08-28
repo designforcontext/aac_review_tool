@@ -4,6 +4,7 @@ import { Button, ButtonGroup } from 'react-bootstrap';
 export default function(props) {
   let buttons = props.data.map((source, index) => {
     return (<Button 
+      key={index}
       bsClass="btn navbar-btn btn-default" 
       active={props.searchAgainst == source.name} 
       onClick={() =>props.setSearch(source.name)}

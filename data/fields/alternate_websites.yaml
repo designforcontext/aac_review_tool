@@ -13,9 +13,6 @@ applies_to:  "Object"
 category:    "Aboutness"
 sort_order:  52
 
-#Default Test Values
-test_object_uri: "http://collection.britishart.yale.edu/id/object/1000"
-
 # Sparql
 select:      "?alt_website_url ?alt_website_label ?alt_website_author"
 values:      "?object_uri"

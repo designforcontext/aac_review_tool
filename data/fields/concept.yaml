@@ -12,9 +12,6 @@ applies_to:  "Object"
 category:    "Aboutness"
 sort_order:  20
 
-#Default Test Values
-test_object_uri: "http://collection.britishart.yale.edu/id/object/1000"
-
 # Sparql
 select:      "?concept_name ?aat_term ?concept_class"
 values:      "?object_uri"

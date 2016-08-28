@@ -13,9 +13,6 @@ applies_to:  "Object"
 category:    "IDs"
 sort_order:  100
 
-#Default Test Values
-test_object_uri: "http://collection.britishart.yale.edu/id/object/499"
-
 # Sparql
 select:      "?object_number ?object_number_label ?object_number_id"
 values:      "?object_uri"

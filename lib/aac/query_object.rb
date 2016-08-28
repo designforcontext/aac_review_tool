@@ -12,7 +12,6 @@ module AAC
 
     def self.prefix_list(prefixes = {})
       prefixes = {} if prefixes.nil?
-      puts "prefiex: #{prefixes.inspect}"
       DEFAULT_PREFIXES.merge(prefixes).collect {|key,value| "PREFIX #{key}: <#{value}>"}.join("\n")
     end
 

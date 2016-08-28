@@ -13,9 +13,6 @@ applies_to:  "Object"
 category:    "Tombstone Info"
 sort_order:  3
 
-#Default Test Values
-test_object_uri: "http://collection.britishart.yale.edu/id/object/1000"
-
 # Sparql
 select:      "?actor_name ?actor_type ?actor_class"
 values:      "?object_uri"

@@ -6,7 +6,9 @@ import Sidebar     from './sidebar.jsx';
 import Header      from "./header.jsx";
 import ItemDisplay from "./item/display.jsx";
 
-
+//-----------------------------------------------------------------------------
+// This is the known set of RDF endpoints that we can search against.   
+//  
 const SEARCH_DATA = [
   {
     name:           "YCBA", 

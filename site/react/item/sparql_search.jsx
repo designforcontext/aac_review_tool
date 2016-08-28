@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import ZeroClipboard from "zeroclipboard";
 
 import $ from "jquery";
 
@@ -52,7 +53,6 @@ var SparqlSearch = React.createClass({
 
   handleResults: function (data) {
     this.setState({results: data, isSearching: false});
-    console.log(data.select);
   },
 
   render: function() {
@@ -111,7 +111,7 @@ var SearchInputField = React.createClass({
     return {value: (this.props.default || "")}
   },
   handleChange: function(e) {
-    this.setState({value: event.target.value});
+    this.setState({value: e.target.value});
   },
   componentWillReceiveProps: function(nextProps){
     if (nextProps.default != this.props.default) {
@@ -139,6 +139,11 @@ var SearchInputField = React.createClass({
               onChange={this.handleChange}
             />
           </div>
+          <div className="col-sm-2">
+            <a className="search_link" href={this.state.value} target="_blank">
+              (link)
+            </a>
+          </div>
       </div>
 
     )
@@ -150,6 +155,28 @@ var SparqlResults = React.createClass({
   getInitialState: function() {
     return {showConstructed: false}
   },
+  componentDidMount: function() {
+    let client = new ZeroClipboard();
+    
+  
+    client.on( 'error', function(event) {
+      console.log( 'ZeroClipboard error of type "' + event.name + '": ' + event.message );
+      ZeroClipboard.destroy();
+    } );
+
+    this.setState({clipboard: client});
+  },
+  
+  componentDidUpdate: function() {
+    let btn = document.getElementById("copy-sparql");
+    if (btn){
+      this.state.clipboard.clip(btn);
+    }
+    else {
+      console.log("no btn");
+    }
+  },
+
   render: function() {
 
     if (!this.props.results) {return false;}
@@ -159,35 +186,16 @@ var SparqlResults = React.createClass({
       return ( <th key={select_item} >{select_item.replace("?","")}</th>)
     });
 
-    let _this = this;
-    let table_rows = this.props.results.values.map(function(result, i) {
-      let cells = _this.props.select.split(" ").map(function (key) {
+    let table_rows = this.props.results.values.map((result, i) => {
+      let cells = this.props.select.split(" ").map((key) => {
         let val = result[key.replace("?","")];
         if(/^https?:\/\//.test(val)) {
           val = <a href={val} target='_blank'>{val}</a>
         }
-
         return (<td key={`${i}_${key}`}> {val}</td>)
       });
       return ( <tr key={i}>{cells}</tr>)
-    });
-
-   var constructed_results;
-   if (!this.state.showConstructed) {
-      constructed_results = (
-        <div className="panel-body">
-          <button  className="btn btn-info btn-xs center-block" onClick={(e) => _this.setState({showConstructed: true})}>Show Turtle</button>
-        </div>
-      );
-    }
-    else {
-      constructed_results = (
-        <div className="panel-body">
-          <pre className='pre-scrollable'>{_this.props.results.object}</pre>
-          <button className="btn btn-info btn-xs center-block" onClick={(e) => _this.setState({showConstructed: false})}>Hide Turtle</button>
-        </div>
-      );
-    }
+    })
 
     return (
       <div className="row results">
@@ -197,7 +205,22 @@ var SparqlResults = React.createClass({
                <thead><tr>{table_headers}</tr></thead>
                <tbody>{table_rows}</tbody>
              </table>
-             {constructed_results}
+             <div className="panel-body text-center">
+                 {this.state.showConstructed ? <pre className='pre-scrollable text-left'>{this.props.results.object}</pre> : ""}
+                  <div className="btn-group btn-group-xs ">
+                 <button 
+                       id="copy-sparql"
+                       className="btn btn-info"
+                       data-clipboard-text={ this.props.results.select}>
+                      Copy SPARQL Query
+                  </button>
+                  <button  
+                       className="btn btn-info" 
+                       onClick={(e) => this.setState({showConstructed: !this.state.showConstructed})}>
+                       { this.state.showConstructed ? "Hide Turtle" : "Show Turtle"}
+                  </button>
+                 </div>
+             </div>
           </div>  
         </div>
       </div>
