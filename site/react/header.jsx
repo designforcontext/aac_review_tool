@@ -42,12 +42,12 @@ export default function(props) {
                 <Button
                    bsClass="btn navbar-btn btn-default" 
                    onClick={() => $.post("/full_graph",testData, props.showSparql)}>
-                  Test Full Object
+                  Show Turtle
                 </Button>
                 <Button
                    bsClass="btn navbar-btn btn-default" 
                    onClick={() => $.post("/full_graph",nested_testData, props.showSparql)}>
-                  Test Full Object (Nested)
+                  Show Turtle (Nested)
                 </Button>
               </ButtonGroup>
               <ButtonGroup bsSize="small" role="group" className='search_buttons'>

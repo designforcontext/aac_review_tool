@@ -1,6 +1,6 @@
 import React from 'react';
 
-
+// Renders the metadata key/value listing.
 function ItemProps(props) {
   return (
     <dl className="dl-horizontal">

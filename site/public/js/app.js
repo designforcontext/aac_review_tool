@@ -49,7 +49,11 @@
 
 	'use strict';
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; // Import Libraries
+	
+	
+	// Import Components
+	
 	
 	var _jquery = __webpack_require__(/*! jquery */ 1);
 	
@@ -108,60 +112,82 @@
 	
 	  // Lifecycle Events
 	  getInitialState: function getInitialState() {
-	    return { loading: true, search: "YCBA", showTurtleModal: false };
+	    return {
+	      loading: true, // Has the application gotten the main data?
+	      search: "YCBA", // Which endpoint to we default to searching against?
+	      showTurtleModal: false, // Is the modal visible?
+	      fields: null // This will be filled in with the field list
+	    };
 	  },
 	
 	  componentDidMount: function componentDidMount() {
-	    var _this = this;
-	
-	    window.addEventListener('hashchange', this.handleNewHash, false);
-	
 	    var ajax = _jquery2.default.getJSON("/data");
-	
-	    ajax.done(function (data) {
-	      var sortFunction = function sortFunction(a, b) {
-	        return (a.sort_order || 0) >= (b.sort_order || 0) ? 1 : -1;
-	      };
-	
-	      var id = 0;
-	      if (window.location.hash) {
-	        id = window.location.hash.replace("#section_", "");
-	      } else {
-	        window.location.hash = 'section_' + id;
-	      }
-	
-	      _this.setState({ loading: false, fields: data.sort(sortFunction), currentItem: id });
-	    });
+	    ajax.done(this.initializeData);
 	    ajax.fail(function (x, msg) {
 	      return console.log('Error getting json: ' + msg);
 	    });
 	  },
 	
-	  // Custom Functions
+	  //-------------------------------
+	  // Handle initial field data load, 
+	  // set up the hash navigation
+	  initializeData: function initializeData(data) {
+	
+	    // Setup Hash Navigation
+	    var defaultSectionId = 0;
+	    if (window.location.hash) {
+	      defaultSectionId = window.location.hash.replace("#section_", "");
+	    } else {
+	      window.location.hash = 'section_' + defaultSectionId;
+	    }
+	    window.addEventListener('hashchange', this.handleNewHash, false);
+	
+	    // Update state with the field data
+	    var fieldSortFunction = function fieldSortFunction(a, b) {
+	      return (a.sort_order || 0) >= (b.sort_order || 0) ? 1 : -1;
+	    };
+	    this.setState({
+	      loading: false,
+	      fields: data.sort(fieldSortFunction),
+	      currentItem: defaultSectionId
+	    });
+	  },
+	
+	  //-------------------------------
+	  // Handle hash changes (for back button)
 	  handleNewHash: function handleNewHash() {
 	    var id = window.location.hash.replace("#section_", "");
 	    this.gotoField(id);
 	  },
+	
+	  //-------------------------------
+	  // Handle going to a new field,
+	  // updating the navigation and the state
 	  gotoField: function gotoField(id) {
 	    this.setState({ currentItem: id });
 	    window.location.hash = 'section_' + id;
 	  },
+	
+	  //-------------------------------
+	  // Handle showing the global modal.  
+	  // TODO:  This is probably the wrong layer to keep this in.
 	  showModal: function showModal(turtle) {
-	    // console.log(sparql);
 	    this.setState({ turtle: turtle, showTurtleModal: true });
 	  },
 	
-	  // Render
+	  // Render function
 	  render: function render() {
-	    var _this2 = this;
+	    var _this = this;
 	
 	    if (this.state.loading) {
 	      return false;
 	    }
 	
-	    var data = SEARCH_DATA.find(function (val) {
-	      return _this2.state.search == val.name;
+	    var currentSearchEndpoint = SEARCH_DATA.find(function (endpoint) {
+	      return _this.state.search == endpoint.name;
 	    });
+	    var currentFields = this.state.fields[this.state.currentItem];
+	
 	    return _react2.default.createElement(
 	      'main',
 	      null,
@@ -169,7 +195,7 @@
 	        searchAgainst: this.state.search,
 	        data: SEARCH_DATA,
 	        setSearch: function setSearch(val) {
-	          return _this2.setState({ search: val });
+	          return _this.setState({ search: val });
 	        },
 	        showSparql: this.showModal
 	      }),
@@ -184,12 +210,9 @@
 	            gotoField: this.gotoField,
 	            currentItem: this.state.currentItem
 	          }),
-	          _react2.default.createElement(_display2.default, _extends({}, this.state.fields[this.state.currentItem], { search: data }))
+	          _react2.default.createElement(_display2.default, _extends({}, currentFields, { search: currentSearchEndpoint }))
 	        )
-	      ),
-	      _react2.default.createElement(_turtle_modal2.default, { turtle: this.state.turtle, show: this.state.showTurtleModal, onHide: function onHide() {
-	          return _this2.setState({ showTurtleModal: false });
-	        } })
+	      )
 	    );
 	  }
 	});
@@ -32394,7 +32417,7 @@
 	                  onClick: function onClick() {
 	                    return _jquery2.default.post("/full_graph", testData, props.showSparql);
 	                  } },
-	                'Test Full Object'
+	                'Show Turtle'
 	              ),
 	              _react2.default.createElement(
 	                _reactBootstrap.Button,
@@ -32403,7 +32426,7 @@
 	                  onClick: function onClick() {
 	                    return _jquery2.default.post("/full_graph", nested_testData, props.showSparql);
 	                  } },
-	                'Test Full Object (Nested)'
+	                'Show Turtle (Nested)'
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -52099,6 +52122,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	// Renders the metadata key/value listing.
 	function ItemProps(props) {
 	  return _react2.default.createElement(
 	    "dl",

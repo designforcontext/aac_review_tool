@@ -1,7 +1,9 @@
+// Import Libraries
 import $           from "jquery";
 import React       from 'react';
 import {render}    from 'react-dom';
 
+// Import Components
 import Sidebar     from './sidebar.jsx';
 import Header      from "./header.jsx";
 import ItemDisplay from "./item/display.jsx";
@@ -39,71 +41,97 @@ var App = React.createClass({
   
   // Lifecycle Events
   getInitialState: function() {
-    return {loading: true, search: "YCBA", showTurtleModal: false}
+    return {
+      loading: true,          // Has the application gotten the main data?
+      search: "YCBA",         // Which endpoint to we default to searching against?
+      showTurtleModal: false, // Is the modal visible?
+      fields: null            // This will be filled in with the field list
+    }
   },
 
   componentDidMount: function() {
-    window.addEventListener('hashchange', this.handleNewHash, false);
-
     let ajax = $.getJSON("/data");
-
-    ajax.done(data => {
-      var sortFunction = function(a,b) {
-        return (a.sort_order || 0) >= (b.sort_order || 0) ? 1 : -1;
-      }
-
-      let id = 0;
-      if (window.location.hash) {
-        id = window.location.hash.replace("#section_","")
-      }
-      else {
-        window.location.hash = `section_${id}`
-      }
-
-      this.setState({loading: false, fields: data.sort(sortFunction), currentItem: id})
-    });
+    ajax.done(this.initializeData);
     ajax.fail((x,msg)=> console.log(`Error getting json: ${msg}`));
   },
 
-  // Custom Functions
+  //-------------------------------
+  // Handle initial field data load, 
+  // set up the hash navigation
+  initializeData: function(data) { 
+ 
+     // Setup Hash Navigation
+    let defaultSectionId = 0;
+    if (window.location.hash) {
+      defaultSectionId = window.location.hash.replace("#section_","")
+    }
+    else {
+      window.location.hash = `section_${defaultSectionId}`
+    }
+    window.addEventListener('hashchange', this.handleNewHash, false);
+
+    // Update state with the field data
+    let fieldSortFunction = function(a,b) {
+      return (a.sort_order || 0) >= (b.sort_order || 0) ? 1 : -1;
+    }
+    this.setState({
+      loading: false, 
+      fields: data.sort(fieldSortFunction), 
+      currentItem: defaultSectionId
+    });
+  },
+
+  //-------------------------------
+  // Handle hash changes (for back button)
   handleNewHash: function() {
     let id = window.location.hash.replace("#section_","")
     this.gotoField(id); 
   },
+
+  //-------------------------------
+  // Handle going to a new field,
+  // updating the navigation and the state
   gotoField: function(id) {
     this.setState({currentItem: id});
     window.location.hash = `section_${id}`
   },
-  showModal: function (turtle) {
-    // console.log(sparql);
-    this.setState({turtle: turtle, showTurtleModal: true});
 
+  //-------------------------------
+  // Handle showing the global modal.  
+  // TODO:  This is probably the wrong layer to keep this in.
+  showModal: function (turtle) {
+    this.setState({turtle: turtle, showTurtleModal: true});
   },
   
-  // Render
+  // Render function
   render: function() {
     if (this.state.loading) {return false;}
 
-    let data = SEARCH_DATA.find((val)=>(this.state.search == val.name))
+    let currentSearchEndpoint = SEARCH_DATA.find((endpoint)=>(this.state.search == endpoint.name))
+    let currentFields = this.state.fields[this.state.currentItem]
+    
     return (
       <main>
         <Header 
-          searchAgainst={this.state.search}
-          data={SEARCH_DATA} 
-          setSearch={(val) => this.setState({search: val})}
-          showSparql={this.showModal}
+            searchAgainst=   {this.state.search}
+            data=            {SEARCH_DATA} 
+            setSearch=       {(val) => this.setState({search: val})}
+            showSparql=      {this.showModal}
         />
         <div className='container-fluid'>
           <div className="row">
             <Sidebar 
-              fields={this.state.fields} 
-              gotoField={this.gotoField}
-              currentItem={this.state.currentItem}
+                fields=      {this.state.fields} 
+                gotoField=   {this.gotoField}
+                currentItem= {this.state.currentItem}
              />
-            <ItemDisplay {...this.state.fields[this.state.currentItem]} search={data}/>
+            <ItemDisplay   {...currentFields} search={currentSearchEndpoint} />
           </div>
         </div>
-        <TurtleModal turtle={this.state.turtle} show={this.state.showTurtleModal} onHide={() => this.setState({ showTurtleModal: false })} />
+        <TurtleModal 
+            turtle=          {this.state.turtle} 
+            show=            {this.state.showTurtleModal} 
+            onHide=          {() => this.setState({ showTurtleModal: false })} />
       </main>
     )
   }

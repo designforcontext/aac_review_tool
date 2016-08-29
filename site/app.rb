@@ -80,6 +80,9 @@ class MyApp < Sinatra::Base
 
   end
 
+  # Generate the complete graph for an object.
+  # (Still under development, tho' it works)
+  #----------------------------------------------------------------------------
   post "/full_graph" do
     client = AAC::QueryRunner.new(params[:endpoint])
 
