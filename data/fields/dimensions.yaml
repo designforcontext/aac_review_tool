@@ -5,6 +5,7 @@ title: Dimensions
 mandatory:        false
 multiples:        true
 description:      "Physical size of the work."
+example:          "1.2cm high; 200 lbs; 16 pages"
 
 # Sort Data
 applies_to:  "Object"

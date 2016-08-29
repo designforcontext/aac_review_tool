@@ -21,7 +21,7 @@ construct: |
   _:production_class a crm:E12_Production ;
     crm:P32_used_general_technique _:technique_class.
   _:technique_class a crm:E55_Type;
-    owl:same_as ?technique_class ;
+    owl:sameAs ?technique_class ;
     skos:broadMatch ?lod_technique_term ;
     skos:prefLabel ?technique_name .
 

@@ -18,11 +18,11 @@ construct: |
   ?object_uri a crm:E22_Man-Made_Object ;
     crm:P138i_has_representation _:image .
   _:image a crm:E38_Image ;
-    owl:same_as ?image ;
+    owl:sameAs ?image ;
     crm:P3_has_note ?description ;
     crm:P104_is_subject_to _:right .
   _:right a crm:E30_Right ;
-    owl:same_as ?right .
+    owl:sameAs ?right .
 
 
 where: |

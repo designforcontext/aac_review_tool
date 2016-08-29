@@ -32318,10 +32318,15 @@
 	          return props.setSearch(source.name);
 	        }
 	      },
-	      'Search ',
 	      source.name
 	    );
 	  });
+	
+	  var testData = {
+	    endpoint: props.data[0].endpoint,
+	    crm: props.data[0].predicate,
+	    values: { object_uri: "http://collection.britishart.yale.edu/id/object/1000" }
+	  };
 	
 	  return _react2.default.createElement(
 	    'nav',
@@ -32357,9 +32362,28 @@
 	          'div',
 	          { className: 'nav navbar-nav navbar-right' },
 	          _react2.default.createElement(
-	            _reactBootstrap.ButtonGroup,
-	            { bsSize: 'small', role: 'group', className: 'search_buttons' },
-	            buttons
+	            'div',
+	            { className: 'btn-toolbar', role: 'toolbar', 'aria-label': '...' },
+	            _react2.default.createElement(
+	              _reactBootstrap.ButtonGroup,
+	              { bsSize: 'small', role: 'group', className: 'download_buttons' },
+	              _react2.default.createElement(
+	                _reactBootstrap.Button,
+	                {
+	                  bsClass: 'btn navbar-btn btn-default',
+	                  onClick: function onClick() {
+	                    return _jquery2.default.post("/full_graph", testData, function (results) {
+	                      return console.log(results);
+	                    });
+	                  } },
+	                'Test Full Object'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              _reactBootstrap.ButtonGroup,
+	              { bsSize: 'small', role: 'group', className: 'search_buttons' },
+	              buttons
+	            )
 	          )
 	        )
 	      )
@@ -32373,6 +32397,10 @@
 	
 	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
 	
+	var _jquery = __webpack_require__(/*! jquery */ 1);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
@@ -52355,7 +52383,11 @@
 	        var val = result[key.replace("?", "")];
 	        if (/^https?:\/\//.test(val)) {
 	          if (/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
-	            val = _react2.default.createElement('img', { className: 'img-responsive', src: val });
+	            val = _react2.default.createElement(
+	              'a',
+	              { href: val, target: '_blank' },
+	              _react2.default.createElement('img', { className: 'img-responsive', src: val })
+	            );
 	          } else {
 	            val = _react2.default.createElement(
 	              'a',

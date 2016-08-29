@@ -80,6 +80,59 @@ class MyApp < Sinatra::Base
 
   end
 
+  post "/full_graph" do
+    client = AAC::QueryRunner.new(params[:endpoint])
+
+    graph = RDF::Graph.new
+
+    data = Dir.glob('./data/fields/*.yaml').collect do |file|
+      test_obj = YAML.load_file(file)
+
+
+      default_values = {}
+      test_obj.select{|k,v| k.to_s =~ /^test_/}.each{|k,v| default_values[k.gsub("test_","")] = v}
+      passed_values = params[:values].merge(default_values)
+
+
+      query = AAC::QueryObject.new(test_obj)
+      query.prefixes = {crm: params[:crm]}
+
+      result_graph, values = client.test(query, passed_values, false)    
+      result_graph.each_statement {|s| graph.insert s}
+    end
+
+    un_sameAs = false
+    if un_sameAs
+      sameAs_list = {}
+      new_graph = RDF::Graph.new
+      owl =  RDF::URI.new("http://www.w3.org/2002/07/owl#sameAs");
+      graph.each_statement do |statement|
+        if statement.predicate == owl
+          sameAs_list[statement.subject] = statement.object
+        end
+      end    
+      graph.each_statement do |statement|
+        if statement.predicate == owl 
+          next
+        elsif sameAs_list[statement.subject]
+          new_graph.insert RDF::Statement.new(sameAs_list[statement.subject], statement.predicate, statement.object)
+        elsif sameAs_list[statement.object]
+          new_graph.insert RDF::Statement.new(statement.subject, statement.predicate, sameAs_list[statement.object])
+        else
+          new_graph.insert statement
+        end
+      end
+      graph = new_graph
+    end
+
+    val = RDF::Turtle::Writer.buffer( prefixes: AAC::QueryObject::DEFAULT_PREFIXES ) do |writer|
+      graph.each_statement do |statement|
+        writer << statement
+      end
+    end
+
+    return val
+  end
 
   # Generate a SVG path from the graph.
   # Given a TTL file, run it through the rdfpuml code

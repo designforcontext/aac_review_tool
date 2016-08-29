@@ -196,7 +196,7 @@ var SparqlResults = React.createClass({
         let val = result[key.replace("?","")];
         if(/^https?:\/\//.test(val)) {
           if(/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
-            val = <img className='img-responsive' src={val} />
+            val = <a href={val} target='_blank'><img className='img-responsive' src={val} /></a>
           }else {
             val = <a href={val} target='_blank'>{this.truncate(val,40)}</a>
           }
