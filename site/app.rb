@@ -22,6 +22,8 @@ class MyApp < Sinatra::Base
 
   configure :development do
     register Sinatra::Reloader
+    Dir.glob('./lib/**/*') { |file| also_reload file}
+
     set :show_exceptions, :after_handler
   end
 
@@ -63,7 +65,7 @@ class MyApp < Sinatra::Base
     query = AAC::QueryObject.new(params[:fields])
     query.prefixes = {crm: params[:crm]}
 
-    result_graph, values = client.test(query, params[:values], true)
+    result_graph, values = client.test(query, params[:values], false)
 
     ttl_string = RDF::Turtle::Writer.buffer( prefixes: AAC::QueryObject::DEFAULT_PREFIXES ) do |writer|
       result_graph.each_statement do |statement|

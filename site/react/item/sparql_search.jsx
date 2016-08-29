@@ -167,6 +167,11 @@ var SparqlResults = React.createClass({
     this.setState({clipboard: client});
   },
   
+  truncate: function(str,len) {
+    if (str.length <=len) { return str;}
+    return `${str.substring(0,len-3)}...`
+  },
+
   componentDidUpdate: function() {
     let btn = document.getElementById("copy-sparql");
     if (btn){
@@ -190,7 +195,11 @@ var SparqlResults = React.createClass({
       let cells = this.props.select.split(" ").map((key) => {
         let val = result[key.replace("?","")];
         if(/^https?:\/\//.test(val)) {
-          val = <a href={val} target='_blank'>{val}</a>
+          if(/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
+            val = <img className='img-responsive' src={val} />
+          }else {
+            val = <a href={val} target='_blank'>{this.truncate(val,40)}</a>
+          }
         }
         return (<td key={`${i}_${key}`}> {val}</td>)
       });

@@ -20,7 +20,7 @@ const SEARCH_DATA = [
     name:           "SAAM", 
     endpoint:       "http://edan.si.edu/saam/sparql",
     predicate:      "http://www.cidoc-crm.org/cidoc-crm/",
-    default_object: "http://edan.si.edu/saam/id/object/1974.44.30"
+    default_object: "http://edan.si.edu/saam/id/object/1991.189"
   },
   {
     name:           "British Museum", 

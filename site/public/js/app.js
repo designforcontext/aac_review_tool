@@ -87,7 +87,7 @@
 	  name: "SAAM",
 	  endpoint: "http://edan.si.edu/saam/sparql",
 	  predicate: "http://www.cidoc-crm.org/cidoc-crm/",
-	  default_object: "http://edan.si.edu/saam/id/object/1974.44.30"
+	  default_object: "http://edan.si.edu/saam/id/object/1991.189"
 	}, {
 	  name: "British Museum",
 	  endpoint: "http://collection.britishmuseum.org/sparql",
@@ -51930,7 +51930,7 @@
 	
 	var _sparql_search2 = _interopRequireDefault(_sparql_search);
 	
-	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 432);
+	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 433);
 	
 	var _mapping2 = _interopRequireDefault(_mapping);
 	
@@ -52116,7 +52116,7 @@
 	
 	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
 	
-	var _zeroclipboard = __webpack_require__(/*! zeroclipboard */ 433);
+	var _zeroclipboard = __webpack_require__(/*! zeroclipboard */ 432);
 	
 	var _zeroclipboard2 = _interopRequireDefault(_zeroclipboard);
 	
@@ -52319,6 +52319,13 @@
 	    this.setState({ clipboard: client });
 	  },
 	
+	  truncate: function truncate(str, len) {
+	    if (str.length <= len) {
+	      return str;
+	    }
+	    return str.substring(0, len - 3) + '...';
+	  },
+	
 	  componentDidUpdate: function componentDidUpdate() {
 	    var btn = document.getElementById("copy-sparql");
 	    if (btn) {
@@ -52347,11 +52354,15 @@
 	      var cells = _this2.props.select.split(" ").map(function (key) {
 	        var val = result[key.replace("?", "")];
 	        if (/^https?:\/\//.test(val)) {
-	          val = _react2.default.createElement(
-	            'a',
-	            { href: val, target: '_blank' },
-	            val
-	          );
+	          if (/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
+	            val = _react2.default.createElement('img', { className: 'img-responsive', src: val });
+	          } else {
+	            val = _react2.default.createElement(
+	              'a',
+	              { href: val, target: '_blank' },
+	              _this2.truncate(val, 40)
+	            );
+	          }
 	        }
 	        return _react2.default.createElement(
 	          'td',
@@ -52435,122 +52446,6 @@
 
 /***/ },
 /* 432 */
-/*!*************************************!*\
-  !*** ./site/react/item/mapping.jsx ***!
-  \*************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _jquery = __webpack_require__(/*! jquery */ 1);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var ItemMapping = _react2.default.createClass({
-	  displayName: "ItemMapping",
-	
-	  getInitialState: function getInitialState() {
-	    return { svg: "", show_ttl: false };
-	  },
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	    if (nextProps.construct != this.props.construct) {
-	      this.getSvg(nextProps);
-	    }
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.getSvg(this.props);
-	  },
-	
-	  getSvg: function getSvg(data) {
-	    if (!data.construct) return false;
-	
-	    _jquery2.default.post("/graph", { ttl: data.construct, extras: data.extras }, this.handleSVG);
-	    this.setState({ svg: "" });
-	  },
-	  handleSVG: function handleSVG(svg_url) {
-	    this.setState({ svg: svg_url });
-	  },
-	
-	  render: function render() {
-	    var _this = this;
-	
-	    var svgImage = this.state.svg ? _react2.default.createElement("img", { className: "img-responsive center-block", src: this.state.svg }) : _react2.default.createElement(
-	      "p",
-	      { className: "textCenter" },
-	      "Loading Diagram..."
-	    );
-	
-	    var btn;
-	    var ttl;
-	    if (!this.state.showConstructed) {
-	      btn = _react2.default.createElement(
-	        "button",
-	        { className: "btn btn-info btn-xs center-block", onClick: function onClick(e) {
-	            return _this.setState({ showConstructed: true });
-	          } },
-	        "Show Turtle"
-	      );
-	      ttl = false;
-	    } else {
-	      btn = _react2.default.createElement(
-	        "button",
-	        { className: "btn btn-info btn-xs center-block", onClick: function onClick(e) {
-	            return _this.setState({ showConstructed: false });
-	          } },
-	        "Hide Turtle"
-	      );
-	      ttl = _react2.default.createElement(
-	        "pre",
-	        null,
-	        this.props.construct
-	      );
-	    }
-	
-	    return _react2.default.createElement(
-	      "section",
-	      { className: "illustration" },
-	      _react2.default.createElement(
-	        "div",
-	        { className: "row" },
-	        _react2.default.createElement(
-	          "div",
-	          { className: "col-md-12" },
-	          _react2.default.createElement(
-	            "h4",
-	            null,
-	            "Object Model"
-	          ),
-	          svgImage
-	        )
-	      ),
-	      _react2.default.createElement(
-	        "div",
-	        { className: "row" },
-	        _react2.default.createElement(
-	          "div",
-	          { className: "col-lg-10 col-lg-offset-1" },
-	          ttl,
-	          btn
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	exports.default = ItemMapping;
-
-/***/ },
-/* 433 */
 /*!***********************************************!*\
   !*** ./~/zeroclipboard/dist/ZeroClipboard.js ***!
   \***********************************************/
@@ -55137,6 +55032,122 @@
 	})(function() {
 	  return this || window;
 	}());
+
+/***/ },
+/* 433 */
+/*!*************************************!*\
+  !*** ./site/react/item/mapping.jsx ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 1);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ItemMapping = _react2.default.createClass({
+	  displayName: "ItemMapping",
+	
+	  getInitialState: function getInitialState() {
+	    return { svg: "", show_ttl: false };
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    if (nextProps.construct != this.props.construct) {
+	      this.getSvg(nextProps);
+	    }
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.getSvg(this.props);
+	  },
+	
+	  getSvg: function getSvg(data) {
+	    if (!data.construct) return false;
+	
+	    _jquery2.default.post("/graph", { ttl: data.construct, extras: data.extras }, this.handleSVG);
+	    this.setState({ svg: "" });
+	  },
+	  handleSVG: function handleSVG(svg_url) {
+	    this.setState({ svg: svg_url });
+	  },
+	
+	  render: function render() {
+	    var _this = this;
+	
+	    var svgImage = this.state.svg ? _react2.default.createElement("img", { className: "img-responsive center-block", src: this.state.svg }) : _react2.default.createElement(
+	      "p",
+	      { className: "textCenter" },
+	      "Loading Diagram..."
+	    );
+	
+	    var btn;
+	    var ttl;
+	    if (!this.state.showConstructed) {
+	      btn = _react2.default.createElement(
+	        "button",
+	        { className: "btn btn-info btn-xs center-block", onClick: function onClick(e) {
+	            return _this.setState({ showConstructed: true });
+	          } },
+	        "Show Turtle"
+	      );
+	      ttl = false;
+	    } else {
+	      btn = _react2.default.createElement(
+	        "button",
+	        { className: "btn btn-info btn-xs center-block", onClick: function onClick(e) {
+	            return _this.setState({ showConstructed: false });
+	          } },
+	        "Hide Turtle"
+	      );
+	      ttl = _react2.default.createElement(
+	        "pre",
+	        null,
+	        this.props.construct
+	      );
+	    }
+	
+	    return _react2.default.createElement(
+	      "section",
+	      { className: "illustration" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "row" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "col-md-12" },
+	          _react2.default.createElement(
+	            "h4",
+	            null,
+	            "Object Model"
+	          ),
+	          svgImage
+	        )
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        { className: "row" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "col-lg-10 col-lg-offset-1" },
+	          ttl,
+	          btn
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	exports.default = ItemMapping;
 
 /***/ }
 /******/ ]);

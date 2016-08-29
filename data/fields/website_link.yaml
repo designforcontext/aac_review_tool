@@ -10,8 +10,8 @@ example:     "http://art.thewalters.org/detail/9524/a-gentleman-3/"
 
 # Sort Data
 applies_to:  "Object"
-category:    "Aboutness"
-sort_order:  50
+category:    "External Resources"
+sort_order:  350
 
 # Sparql
 select:      "?website_url ?website_label"

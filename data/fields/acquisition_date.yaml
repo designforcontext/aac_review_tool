@@ -1,0 +1,44 @@
+# Field Name
+title: Acquisition Date
+
+# Metadata
+mandatory:        false
+multiples:        false
+description:      "When the work was acquired."
+long_description: "This is the preferred date of acquisition for the object."
+example:          "12/12/1920; April 16th, 1921"
+
+# Sort Data
+applies_to:  "Object"
+category:    "Tombstone Info"
+sort_order:  8
+
+# Sparql
+select:      "?owner ?display_date ?earliest_date ?latest_date ?acquisition_event"
+values:      "?object_uri"
+construct: |
+  ?object_uri a crm:E22_Man-Made_Object ;
+    crm:P52_has_current_owner _:owner ;
+    crm:P24i_changed_ownership_through _:acquisition_event .
+  _:owner owl:sameAs ?owner.
+  _:acquisition_event a crm:E8_Acquisition ;
+    owl:sameAs ?acquisition_event ;
+    crm:P22_transferred_title_to ?owner ;
+    crm:P4_has_time-span _:acquisition_timespan . 
+  _:acquisition_timespan a crm:E52_Time-Span ; 
+    owl:sameAs ?acquisition_timespan;
+    crm:P82a_begin_of_the_begin ?earliest_date ;
+    crm:P82b_end_of_the_end ?latest_date ; 
+    crm:P3_has_note ?display_date . 
+where: |
+  ?object_uri a crm:E22_Man-Made_Object ;
+    crm:P52_has_current_owner ?owner ;
+    crm:P24i_changed_ownership_through ?acquisition_event .
+  ?acquisition_event a crm:E8_Acquisition ;
+    crm:P22_transferred_title_to ?owner ;
+    crm:P4_has_time-span ?acquisition_timespan . 
+  ?acquisition_timespan a crm:E52_Time-Span.
+  OPTIONAL {?acquisition_timespan crm:P82a_begin_of_the_begin ?earliest_date.}
+  OPTIONAL {?acquisition_timespan crm:P82b_end_of_the_end ?latest_date. }
+  OPTIONAL {?acquisition_timespan crm:P3_has_note ?display_date. }
+

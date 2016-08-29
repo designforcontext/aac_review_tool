@@ -44,19 +44,13 @@ module AAC
       query
     end
 
-    def where_clause
+    def where_clause(include_construct = false)
       if @where
-        <<~eos
-          WHERE {
-            {
-            #{@where}
-            }
-            UNION
-            {
-              #{@construct.gsub("_:","_:construct_")}
-            }          
-          }
-        eos
+        str = "WHERE {\n"
+        str += "{" if include_construct
+        str += @where
+        str += "\n} UNION {\n#{construct_as_where}\n}" if include_construct
+        str += "\n}"
       else
         <<~eos
           WHERE {
@@ -65,6 +59,10 @@ module AAC
         eos
       end
     end
+    def construct_as_where
+       val = @construct.gsub("_:","_:construct_")
+    end
+
     def construct_query(args)
       query = <<~eos
         #{QueryObject.prefix_list(@prefixes)}

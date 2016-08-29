@@ -10,8 +10,8 @@ example:          "https://en.wikipedia.org/wiki/The_Rape_of_Europa_(Titian)"
 
 # Sort Data
 applies_to:  "Object"
-category:    "Aboutness"
-sort_order:  52
+category:    "External Resources"
+sort_order:  352
 
 # Sparql
 select:      "?alt_website_url ?alt_website_label ?alt_website_author"
