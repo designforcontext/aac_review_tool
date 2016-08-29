@@ -101,19 +101,25 @@ class MyApp < Sinatra::Base
       result_graph.each_statement {|s| graph.insert s}
     end
 
-    un_sameAs = false
-    if un_sameAs
+    unless params[:nested]
       sameAs_list = {}
       new_graph = RDF::Graph.new
       owl =  RDF::URI.new("http://www.w3.org/2002/07/owl#sameAs");
       graph.each_statement do |statement|
         if statement.predicate == owl
-          sameAs_list[statement.subject] = statement.object
+          if statement.subject.node?
+            sameAs_list[statement.subject] = statement.object
+          end
+          if statement.object.node?
+            sameAs_list[statement.object] = statement.statement
+          end
         end
       end    
       graph.each_statement do |statement|
         if statement.predicate == owl 
           next
+        elsif sameAs_list[statement.subject] && sameAs_list[statement.object]
+          new_graph.insert RDF::Statement.new(sameAs_list[statement.subject], statement.predicate, sameAs_list[statement.object])          
         elsif sameAs_list[statement.subject]
           new_graph.insert RDF::Statement.new(sameAs_list[statement.subject], statement.predicate, statement.object)
         elsif sameAs_list[statement.object]
@@ -124,6 +130,7 @@ class MyApp < Sinatra::Base
       end
       graph = new_graph
     end
+
 
     val = RDF::Turtle::Writer.buffer( prefixes: AAC::QueryObject::DEFAULT_PREFIXES ) do |writer|
       graph.each_statement do |statement|

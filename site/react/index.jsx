@@ -5,6 +5,8 @@ import {render}    from 'react-dom';
 import Sidebar     from './sidebar.jsx';
 import Header      from "./header.jsx";
 import ItemDisplay from "./item/display.jsx";
+import TurtleModal from "./turtle_modal.jsx";
+
 
 //-----------------------------------------------------------------------------
 // This is the known set of RDF endpoints that we can search against.   
@@ -37,7 +39,7 @@ var App = React.createClass({
   
   // Lifecycle Events
   getInitialState: function() {
-    return {loading: true, search: "YCBA"}
+    return {loading: true, search: "YCBA", showTurtleModal: false}
   },
 
   componentDidMount: function() {
@@ -72,6 +74,11 @@ var App = React.createClass({
     this.setState({currentItem: id});
     window.location.hash = `section_${id}`
   },
+  showModal: function (turtle) {
+    // console.log(sparql);
+    this.setState({turtle: turtle, showTurtleModal: true});
+
+  },
   
   // Render
   render: function() {
@@ -80,7 +87,12 @@ var App = React.createClass({
     let data = SEARCH_DATA.find((val)=>(this.state.search == val.name))
     return (
       <main>
-        <Header searchAgainst={this.state.search} data={SEARCH_DATA} setSearch={(val) => this.setState({search: val})}/>
+        <Header 
+          searchAgainst={this.state.search}
+          data={SEARCH_DATA} 
+          setSearch={(val) => this.setState({search: val})}
+          showSparql={this.showModal}
+        />
         <div className='container-fluid'>
           <div className="row">
             <Sidebar 
@@ -91,6 +103,7 @@ var App = React.createClass({
             <ItemDisplay {...this.state.fields[this.state.currentItem]} search={data}/>
           </div>
         </div>
+        <TurtleModal turtle={this.state.turtle} show={this.state.showTurtleModal} onHide={() => this.setState({ showTurtleModal: false })} />
       </main>
     )
   }

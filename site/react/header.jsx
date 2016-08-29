@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ButtonGroup } from 'react-bootstrap';
+import { Button, ButtonGroup} from 'react-bootstrap';
 import $ from "jquery";
 
 
@@ -15,12 +15,14 @@ export default function(props) {
     </Button>)
   })
 
+  var testObjectIndex = props.data.findIndex( (el)=> el.name == props.searchAgainst)
   var testData = {
-    endpoint: props.data[0].endpoint,
-    crm: props.data[0].predicate,
-    values: {object_uri: "http://collection.britishart.yale.edu/id/object/1000"}
+    endpoint: props.data[testObjectIndex].endpoint,
+    crm: props.data[testObjectIndex].predicate,
+    values: {object_uri: props.data[testObjectIndex].default_object}
   }
-
+  let nested_testData = Object.create(testData)
+  nested_testData.nested = true
   return (
     <nav className="navbar navbar-default navbar-static-top main_nav">
       <div className="container-fluid">
@@ -39,8 +41,13 @@ export default function(props) {
               <ButtonGroup bsSize="small" role="group" className='download_buttons'>
                 <Button
                    bsClass="btn navbar-btn btn-default" 
-                   onClick={() => $.post("/full_graph",testData,(results) => console.log(results))}>
+                   onClick={() => $.post("/full_graph",testData, props.showSparql)}>
                   Test Full Object
+                </Button>
+                <Button
+                   bsClass="btn navbar-btn btn-default" 
+                   onClick={() => $.post("/full_graph",nested_testData, props.showSparql)}>
+                  Test Full Object (Nested)
                 </Button>
               </ButtonGroup>
               <ButtonGroup bsSize="small" role="group" className='search_buttons'>

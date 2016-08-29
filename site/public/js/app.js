@@ -73,6 +73,10 @@
 	
 	var _display2 = _interopRequireDefault(_display);
 	
+	var _turtle_modal = __webpack_require__(/*! ./turtle_modal.jsx */ 434);
+	
+	var _turtle_modal2 = _interopRequireDefault(_turtle_modal);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	//-----------------------------------------------------------------------------
@@ -104,7 +108,7 @@
 	
 	  // Lifecycle Events
 	  getInitialState: function getInitialState() {
-	    return { loading: true, search: "YCBA" };
+	    return { loading: true, search: "YCBA", showTurtleModal: false };
 	  },
 	
 	  componentDidMount: function componentDidMount() {
@@ -142,6 +146,10 @@
 	    this.setState({ currentItem: id });
 	    window.location.hash = 'section_' + id;
 	  },
+	  showModal: function showModal(turtle) {
+	    // console.log(sparql);
+	    this.setState({ turtle: turtle, showTurtleModal: true });
+	  },
 	
 	  // Render
 	  render: function render() {
@@ -157,9 +165,14 @@
 	    return _react2.default.createElement(
 	      'main',
 	      null,
-	      _react2.default.createElement(_header2.default, { searchAgainst: this.state.search, data: SEARCH_DATA, setSearch: function setSearch(val) {
+	      _react2.default.createElement(_header2.default, {
+	        searchAgainst: this.state.search,
+	        data: SEARCH_DATA,
+	        setSearch: function setSearch(val) {
 	          return _this2.setState({ search: val });
-	        } }),
+	        },
+	        showSparql: this.showModal
+	      }),
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'container-fluid' },
@@ -173,7 +186,10 @@
 	          }),
 	          _react2.default.createElement(_display2.default, _extends({}, this.state.fields[this.state.currentItem], { search: data }))
 	        )
-	      )
+	      ),
+	      _react2.default.createElement(_turtle_modal2.default, { turtle: this.state.turtle, show: this.state.showTurtleModal, onHide: function onHide() {
+	          return _this2.setState({ showTurtleModal: false });
+	        } })
 	    );
 	  }
 	});
@@ -32322,12 +32338,16 @@
 	    );
 	  });
 	
+	  var testObjectIndex = props.data.findIndex(function (el) {
+	    return el.name == props.searchAgainst;
+	  });
 	  var testData = {
-	    endpoint: props.data[0].endpoint,
-	    crm: props.data[0].predicate,
-	    values: { object_uri: "http://collection.britishart.yale.edu/id/object/1000" }
+	    endpoint: props.data[testObjectIndex].endpoint,
+	    crm: props.data[testObjectIndex].predicate,
+	    values: { object_uri: props.data[testObjectIndex].default_object }
 	  };
-	
+	  var nested_testData = Object.create(testData);
+	  nested_testData.nested = true;
 	  return _react2.default.createElement(
 	    'nav',
 	    { className: 'navbar navbar-default navbar-static-top main_nav' },
@@ -32372,11 +32392,18 @@
 	                {
 	                  bsClass: 'btn navbar-btn btn-default',
 	                  onClick: function onClick() {
-	                    return _jquery2.default.post("/full_graph", testData, function (results) {
-	                      return console.log(results);
-	                    });
+	                    return _jquery2.default.post("/full_graph", testData, props.showSparql);
 	                  } },
 	                'Test Full Object'
+	              ),
+	              _react2.default.createElement(
+	                _reactBootstrap.Button,
+	                {
+	                  bsClass: 'btn navbar-btn btn-default',
+	                  onClick: function onClick() {
+	                    return _jquery2.default.post("/full_graph", nested_testData, props.showSparql);
+	                  } },
+	                'Test Full Object (Nested)'
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -55180,6 +55207,72 @@
 	});
 	
 	exports.default = ItemMapping;
+
+/***/ },
+/* 434 */
+/*!*************************************!*\
+  !*** ./site/react/turtle_modal.jsx ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _jquery = __webpack_require__(/*! jquery */ 1);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var TurtleModal = _react2.default.createClass({
+	  displayName: 'TurtleModal',
+	  render: function render() {
+	    return _react2.default.createElement(
+	      _reactBootstrap.Modal,
+	      _extends({}, this.props, { bsSize: 'large', 'aria-labelledby': 'contained-modal-title-lg' }),
+	      _react2.default.createElement(
+	        _reactBootstrap.Modal.Header,
+	        { closeButton: true },
+	        _react2.default.createElement(
+	          _reactBootstrap.Modal.Title,
+	          { id: 'contained-modal-title-lg' },
+	          'Turtle'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        _reactBootstrap.Modal.Body,
+	        null,
+	        _react2.default.createElement(
+	          'pre',
+	          null,
+	          this.props.turtle
+	        )
+	      ),
+	      _react2.default.createElement(
+	        _reactBootstrap.Modal.Footer,
+	        null,
+	        _react2.default.createElement(
+	          _reactBootstrap.Button,
+	          { onClick: this.props.onHide },
+	          'Close'
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	exports.default = TurtleModal;
 
 /***/ }
 /******/ ]);
