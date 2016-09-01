@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-// import ZeroClipboard from "zeroclipboard";
 
 import $ from "jquery";
 
@@ -41,7 +40,6 @@ var SparqlSearch = React.createClass({
 
     if(blank_found){ return false;}
 
-    console.log("obj",obj,val)
 
     let submission = {
       fields: {
@@ -162,31 +160,10 @@ var SparqlResults = React.createClass({
   getInitialState: function() {
     return {showConstructed: false}
   },
-  componentDidMount: function() {
-    // let client = new ZeroClipboard();
-    
-  
-    // client.on( 'error', function(event) {
-    //   console.log( 'ZeroClipboard error of type "' + event.name + '": ' + event.message );
-    //   ZeroClipboard.destroy();
-    // } );
-
-    // this.setState({clipboard: client});
-  },
   
   truncate: function(str,len) {
     if (str.length <=len) { return str;}
     return `${str.substring(0,len-3)}...`
-  },
-
-  componentDidUpdate: function() {
-    let btn = document.getElementById("copy-sparql");
-    if (btn){
-      // this.state.clipboard.clip(btn);
-    }
-    else {
-      console.log("no btn");
-    }
   },
 
   render: function() {

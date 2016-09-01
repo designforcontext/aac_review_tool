@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, ButtonGroup} from 'react-bootstrap';
 import $ from "jquery";
+import HeaderWrapper from "./header_wrapper.jsx"
 
 const Header = React.createClass({
   generateTestData: function(type="ttl") {
@@ -16,6 +17,8 @@ const Header = React.createClass({
   },
 
   render: function() {
+    let title = `AAC Mappings: ${ENTITY_TYPE}`
+
     let buttons = this.props.data.map((source, index) => {
       return (<Button 
         key={index}
@@ -25,43 +28,30 @@ const Header = React.createClass({
       >
         {source.name}
       </Button>)
-    })
+    });``
+
+    let all_buttons = (
+      <div className="btn-toolbar">
+        <ButtonGroup bsSize="small" role="group" className='download_buttons'>
+          <Button
+             bsClass="btn navbar-btn btn-default" 
+             onClick={() => $.post("/full_graph",this.generateTestData("ttl"), this.props.showObjectGraph)}>
+            Show Turtle
+          </Button>
+          <Button
+             bsClass="btn navbar-btn btn-default" 
+             onClick={() => $.post("/full_graph",this.generateTestData("nested_ttl"), this.props.showObjectGraph)}>
+            Show Turtle (Nested)
+          </Button>
+        </ButtonGroup>
+        <ButtonGroup bsSize="small" role="group" className='search_buttons'>
+          {buttons}
+        </ButtonGroup>
+      </div>
+    )
 
     return (
-      <nav className="navbar navbar-default navbar-static-top main_nav">
-        <div className="container-fluid">
-          <div className="navbar-header">
-            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span className="sr-only">Toggle navigation</span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-            </button>
-            <div className="navbar-brand">AAC Mappings: {ENTITY_TYPE}</div>
-          </div>
-          <div id="navbar" className="navbar-collapse collapse">
-            <div className="nav navbar-nav navbar-right">
-              <div className="btn-toolbar" role="toolbar" aria-label="...">
-                <ButtonGroup bsSize="small" role="group" className='download_buttons'>
-                  <Button
-                     bsClass="btn navbar-btn btn-default" 
-                     onClick={() => $.post("/full_graph",this.generateTestData("ttl"), this.props.showObjectGraph)}>
-                    Show Turtle
-                  </Button>
-                  <Button
-                     bsClass="btn navbar-btn btn-default" 
-                     onClick={() => $.post("/full_graph",this.generateTestData("nested_ttl"), this.props.showObjectGraph)}>
-                    Show Turtle (Nested)
-                  </Button>
-                </ButtonGroup>
-                <ButtonGroup bsSize="small" role="group" className='search_buttons'>
-                  {buttons}
-                </ButtonGroup>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <HeaderWrapper title={title} buttons={all_buttons} />
     )
   }
 });

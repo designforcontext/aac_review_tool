@@ -73,11 +73,11 @@
 	
 	var _header2 = _interopRequireDefault(_header);
 	
-	var _display = __webpack_require__(/*! ./item/display.jsx */ 428);
+	var _display = __webpack_require__(/*! ./item/display.jsx */ 429);
 	
 	var _display2 = _interopRequireDefault(_display);
 	
-	var _content_modal = __webpack_require__(/*! ./content_modal.jsx */ 433);
+	var _content_modal = __webpack_require__(/*! ./content_modal.jsx */ 434);
 	
 	var _content_modal2 = _interopRequireDefault(_content_modal);
 	
@@ -32390,6 +32390,10 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
+	var _header_wrapper = __webpack_require__(/*! ./header_wrapper.jsx */ 428);
+	
+	var _header_wrapper2 = _interopRequireDefault(_header_wrapper);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Header = _react2.default.createClass({
@@ -32416,6 +32420,8 @@
 	  render: function render() {
 	    var _this2 = this;
 	
+	    var title = 'AAC Mappings: ' + ENTITY_TYPE;
+	
 	    var buttons = this.props.data.map(function (source, index) {
 	      return _react2.default.createElement(
 	        _reactBootstrap.Button,
@@ -32429,77 +32435,41 @@
 	        },
 	        source.name
 	      );
-	    });
+	    });'';
 	
-	    return _react2.default.createElement(
-	      'nav',
-	      { className: 'navbar navbar-default navbar-static-top main_nav' },
+	    var all_buttons = _react2.default.createElement(
+	      'div',
+	      { className: 'btn-toolbar' },
 	      _react2.default.createElement(
-	        'div',
-	        { className: 'container-fluid' },
+	        _reactBootstrap.ButtonGroup,
+	        { bsSize: 'small', role: 'group', className: 'download_buttons' },
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'navbar-header' },
-	          _react2.default.createElement(
-	            'button',
-	            { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#navbar', 'aria-expanded': 'false', 'aria-controls': 'navbar' },
-	            _react2.default.createElement(
-	              'span',
-	              { className: 'sr-only' },
-	              'Toggle navigation'
-	            ),
-	            _react2.default.createElement('span', { className: 'icon-bar' }),
-	            _react2.default.createElement('span', { className: 'icon-bar' }),
-	            _react2.default.createElement('span', { className: 'icon-bar' })
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'navbar-brand' },
-	            'AAC Mappings: ',
-	            ENTITY_TYPE
-	          )
+	          _reactBootstrap.Button,
+	          {
+	            bsClass: 'btn navbar-btn btn-default',
+	            onClick: function onClick() {
+	              return _jquery2.default.post("/full_graph", _this2.generateTestData("ttl"), _this2.props.showObjectGraph);
+	            } },
+	          'Show Turtle'
 	        ),
 	        _react2.default.createElement(
-	          'div',
-	          { id: 'navbar', className: 'navbar-collapse collapse' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'nav navbar-nav navbar-right' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'btn-toolbar', role: 'toolbar', 'aria-label': '...' },
-	              _react2.default.createElement(
-	                _reactBootstrap.ButtonGroup,
-	                { bsSize: 'small', role: 'group', className: 'download_buttons' },
-	                _react2.default.createElement(
-	                  _reactBootstrap.Button,
-	                  {
-	                    bsClass: 'btn navbar-btn btn-default',
-	                    onClick: function onClick() {
-	                      return _jquery2.default.post("/full_graph", _this2.generateTestData("ttl"), _this2.props.showObjectGraph);
-	                    } },
-	                  'Show Turtle'
-	                ),
-	                _react2.default.createElement(
-	                  _reactBootstrap.Button,
-	                  {
-	                    bsClass: 'btn navbar-btn btn-default',
-	                    onClick: function onClick() {
-	                      return _jquery2.default.post("/full_graph", _this2.generateTestData("nested_ttl"), _this2.props.showObjectGraph);
-	                    } },
-	                  'Show Turtle (Nested)'
-	                )
-	              ),
-	              _react2.default.createElement(
-	                _reactBootstrap.ButtonGroup,
-	                { bsSize: 'small', role: 'group', className: 'search_buttons' },
-	                buttons
-	              )
-	            )
-	          )
+	          _reactBootstrap.Button,
+	          {
+	            bsClass: 'btn navbar-btn btn-default',
+	            onClick: function onClick() {
+	              return _jquery2.default.post("/full_graph", _this2.generateTestData("nested_ttl"), _this2.props.showObjectGraph);
+	            } },
+	          'Show Turtle (Nested)'
 	        )
+	      ),
+	      _react2.default.createElement(
+	        _reactBootstrap.ButtonGroup,
+	        { bsSize: 'small', role: 'group', className: 'search_buttons' },
+	        buttons
 	      )
 	    );
+	
+	    return _react2.default.createElement(_header_wrapper2.default, { title: title, buttons: all_buttons });
 	  }
 	});
 	
@@ -52033,6 +52003,81 @@
 
 /***/ },
 /* 428 */
+/*!***************************************!*\
+  !*** ./site/react/header_wrapper.jsx ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (props) {
+	  var buttons = false;
+	  if (props.buttons) {
+	    buttons = _react2.default.createElement(
+	      "div",
+	      { className: "nav navbar-nav navbar-right" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "btn-toolbar", role: "toolbar", "aria-label": "..." },
+	        props.buttons
+	      )
+	    );
+	  }
+	
+	  return _react2.default.createElement(
+	    "nav",
+	    { className: "navbar navbar-default navbar-static-top main_nav" },
+	    _react2.default.createElement(
+	      "div",
+	      { className: "container-fluid" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "col-md-4 col-sm-6" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "navbar-header" },
+	          _react2.default.createElement(
+	            "button",
+	            { type: "button", className: "navbar-toggle collapsed", "data-toggle": "collapse", "data-target": "#navbar", "aria-expanded": "false", "aria-controls": "navbar" },
+	            _react2.default.createElement(
+	              "span",
+	              { className: "sr-only" },
+	              "Toggle navigation"
+	            ),
+	            _react2.default.createElement("span", { className: "icon-bar" }),
+	            _react2.default.createElement("span", { className: "icon-bar" }),
+	            _react2.default.createElement("span", { className: "icon-bar" })
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "navbar-brand" },
+	            props.title
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        { id: "navbar", className: "navbar-collapse collapse" },
+	        buttons
+	      )
+	    )
+	  );
+	};
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	;
+
+/***/ },
+/* 429 */
 /*!*************************************!*\
   !*** ./site/react/item/display.jsx ***!
   \*************************************/
@@ -52048,19 +52093,19 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _title = __webpack_require__(/*! ./title.jsx */ 429);
+	var _title = __webpack_require__(/*! ./title.jsx */ 430);
 	
 	var _title2 = _interopRequireDefault(_title);
 	
-	var _props = __webpack_require__(/*! ./props.jsx */ 430);
+	var _props = __webpack_require__(/*! ./props.jsx */ 431);
 	
 	var _props2 = _interopRequireDefault(_props);
 	
-	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 431);
+	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 432);
 	
 	var _sparql_search2 = _interopRequireDefault(_sparql_search);
 	
-	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 432);
+	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 433);
 	
 	var _mapping2 = _interopRequireDefault(_mapping);
 	
@@ -52100,7 +52145,7 @@
 	exports.default = ItemDisplay;
 
 /***/ },
-/* 429 */
+/* 430 */
 /*!***********************************!*\
   !*** ./site/react/item/title.jsx ***!
   \***********************************/
@@ -52156,7 +52201,7 @@
 	exports.default = ItemTitle;
 
 /***/ },
-/* 430 */
+/* 431 */
 /*!***********************************!*\
   !*** ./site/react/item/props.jsx ***!
   \***********************************/
@@ -52229,7 +52274,7 @@
 	exports.default = ItemProps;
 
 /***/ },
-/* 431 */
+/* 432 */
 /*!*******************************************!*\
   !*** ./site/react/item/sparql_search.jsx ***!
   \*******************************************/
@@ -52299,8 +52344,6 @@
 	    if (blank_found) {
 	      return false;
 	    }
-	
-	    console.log("obj", obj, val);
 	
 	    var submission = {
 	      fields: {
@@ -52382,9 +52425,6 @@
 	});
 	
 	//-----------------------------------------------------------------------------
-	
-	// import ZeroClipboard from "zeroclipboard";
-	
 	var SearchInputField = _react2.default.createClass({
 	  displayName: 'SearchInputField',
 	
@@ -52447,32 +52487,12 @@
 	  getInitialState: function getInitialState() {
 	    return { showConstructed: false };
 	  },
-	  componentDidMount: function componentDidMount() {
-	    // let client = new ZeroClipboard();
-	
-	
-	    // client.on( 'error', function(event) {
-	    //   console.log( 'ZeroClipboard error of type "' + event.name + '": ' + event.message );
-	    //   ZeroClipboard.destroy();
-	    // } );
-	
-	    // this.setState({clipboard: client});
-	  },
 	
 	  truncate: function truncate(str, len) {
 	    if (str.length <= len) {
 	      return str;
 	    }
 	    return str.substring(0, len - 3) + '...';
-	  },
-	
-	  componentDidUpdate: function componentDidUpdate() {
-	    var btn = document.getElementById("copy-sparql");
-	    if (btn) {
-	      // this.state.clipboard.clip(btn);
-	    } else {
-	      console.log("no btn");
-	    }
 	  },
 	
 	  render: function render() {
@@ -52591,7 +52611,7 @@
 	exports.default = SparqlSearch;
 
 /***/ },
-/* 432 */
+/* 433 */
 /*!*************************************!*\
   !*** ./site/react/item/mapping.jsx ***!
   \*************************************/
@@ -52707,7 +52727,7 @@
 	exports.default = ItemMapping;
 
 /***/ },
-/* 433 */
+/* 434 */
 /*!**************************************!*\
   !*** ./site/react/content_modal.jsx ***!
   \**************************************/

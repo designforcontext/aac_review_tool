@@ -161,6 +161,8 @@ GEM
       rdf (~> 2.0)
     rdf-xsd (2.0.0)
       rdf (~> 2.0)
+    redcarpet (3.3.4)
+    rouge (2.0.5)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -230,6 +232,8 @@ DEPENDENCIES
   puma
   rack
   rack_csrf
+  redcarpet
+  rouge
   sass
   sinatra
   sinatra-contrib

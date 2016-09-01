@@ -16,7 +16,14 @@ require "tilt/sass"
 require "./lib/plant_uml_encode64.rb"
 require "./lib/aac.rb"
 
+# Markdown Libraries
+require 'redcarpet'
+require 'rouge'
+require 'rouge/plugins/redcarpet'
 
+class HTML < Redcarpet::Render::HTML
+  include Rouge::Plugins::Redcarpet # yep, that's it.
+end
 
 class MyApp < Sinatra::Base
 
@@ -24,15 +31,38 @@ class MyApp < Sinatra::Base
     register Sinatra::Reloader
     Dir.glob('./lib/**/*') { |file| also_reload file}
 
+
     set :show_exceptions, :after_handler
   end
 
   configure do 
 
-    found_types = Dir.glob('./data/fields/**/*.yaml').collect do |file|
+    recipies = {}
+    Dir.glob('./data/cookbook/**/*.md').each do |file|
+      contents = File.read(file)
+      metadata = {}
+      if (md = contents.match(/\A(?<metadata>---\s*\n.*?\n?)^(---\s*$\n?)/m))
+        contents = md.post_match
+        metadata = YAML.load(md[:metadata])
+      end
+      metadata["title"] ||= File.basename(file, ".md").gsub("-"," ")
+
+      obj= {
+        content: contents,
+        metadata: metadata,
+        path: File.basename(file, ".md")
+      }
+      recipies[obj[:path]] = obj
+    end
+    set :recipies, recipies
+
+    found_types = {}
+    Dir.glob('./data/fields/**/*.yaml').each do |file|
       obj = YAML.load_file(file)
-      obj["applies_to"]
-    end.flatten.compact.uniq
+      name = obj["applies_to"]
+      found_types[name] ||= []
+      found_types[name].push obj["title"]
+    end
     set :available_types, found_types
 
   end
@@ -42,6 +72,7 @@ class MyApp < Sinatra::Base
   #----------------------------------------------------------------------------
   get "/" do
     @available_types = settings.available_types
+    @recipies = settings.recipies
     haml :index
   end
 
@@ -52,11 +83,42 @@ class MyApp < Sinatra::Base
     haml :app
   end
 
+  # Cookbook Route
+  #----------------------------------------------------------------------------
+  get "/cookbook/images/:image" do
+
+    File.read("./data/cookbook/images/#{File.basename(params[:image])}")
+  end
+
+  get "/cookbook/:page" do
+    current_recipie = settings.recipies[params[:page]]
+ 
+    halt 404 unless current_recipie
+
+    @contents = current_recipie[:content]
+    @metadata = current_recipie[:metadata]
+
+    render_options = {
+        with_toc_data: true
+    }
+    extensions = {
+        tables: true,
+        no_intra_emphasis: true,
+        autolink: true,
+        lax_spacing: true,
+        footnotes: true,
+    }
+    renderer = Redcarpet::Render::HTML.new(render_options)
+    @markdown = Redcarpet::Markdown.new(renderer, extensions)
+    haml :cookbook
+
+  end
+
 
   # Return the queries file as JSON
   #----------------------------------------------------------------------------
   get "/data" do
-    halt 404 unless params[:entity_type] && settings.available_types.include?(params[:entity_type])
+    halt 404 unless params[:entity_type] && settings.available_types.keys.include?(params[:entity_type])
     data = Dir.glob('./data/fields/**/*.yaml').collect do |file|
       obj = YAML.load_file(file)
       next unless obj["applies_to"].include? params[:entity_type]
