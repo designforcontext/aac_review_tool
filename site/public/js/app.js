@@ -182,11 +182,11 @@
 	    var search_index = SEARCH_DATA.findIndex(function (v) {
 	      return v.name == obj.search;
 	    });
-	    window.location.hash = 'section_' + obj.id + '-search_' + search_index;
+	    window.location.hash = 'field_' + obj.id + '-search_' + search_index;
 	  },
 	  getHashValues: function getHashValues() {
 	    var bits = window.location.hash.replace("#", "").split("-");
-	    var id = Number(bits[0].replace("section_", ""));
+	    var id = Number(bits[0].replace("field_", ""));
 	    var search = SEARCH_DATA[Number(bits[1].replace("search_", ""))].name;
 	    return { id: id, search: search };
 	  },

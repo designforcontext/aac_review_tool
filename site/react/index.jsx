@@ -109,11 +109,11 @@ var App = React.createClass({
       this.setState({search: obj.search});
     }
     let search_index = SEARCH_DATA.findIndex((v) => v.name == obj.search);
-    window.location.hash = `section_${obj.id}-search_${search_index}`;
+    window.location.hash = `field_${obj.id}-search_${search_index}`;
   },
   getHashValues: function() {
     let bits = window.location.hash.replace("#","").split("-")
-    let id   = Number(bits[0].replace("section_",""))
+    let id   = Number(bits[0].replace("field_",""))
     let search  = SEARCH_DATA[Number(bits[1].replace("search_",""))].name;
     return {id: id, search: search}
   },

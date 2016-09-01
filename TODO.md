@@ -1,14 +1,9 @@
 # Bugs
-* [ ] "Warning: Unknown prop `turtle` on <div> tag." on modal display
 
 # Improvements
 
 * [ ] Move the object ID into the header
-* [ ] Move the Modal into the header
-* [ ] Improve the hashing, to handle search endpoint
-* [ ] Abstract away the Objectness (to handle other things)
-* [ ] Stick this behind a route
-* [ ] Make a homepage
+* [ ] Make a better homepage
 * [ ] Solve the RDFPUML problem
 * [ ] Add a Readme
 * [ ] Document the SPARQL
@@ -17,7 +12,7 @@
 * [ ] JSON export
 * [ ] Github Issue Link
 
-### Data Things
+### Data Needed for Objects
 
 * [ ] Add bibliography
 * [ ] Add exhibition history
@@ -31,11 +26,21 @@
 * [ ] Keywords?
 * [ ] Conservation?
 
+### Data Needed for People
+
+* [ ] Fill this out
 
 ### Questions
 
 * [ ] Ask about better graph optimization techniques?
 
+---
+
+* [X] "Warning: Unknown prop `turtle` on <div> tag." on modal display
+* [X] Move the Modal into the header
+* [X] Improve the hashing, to handle search endpoint
+* [X] Abstract away the Objectness (to handle other things)
+* [X] Stick this behind a route
 
 ---
 
