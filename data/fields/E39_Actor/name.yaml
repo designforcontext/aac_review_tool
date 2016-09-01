@@ -1,0 +1,49 @@
+# Field Name
+title: Primary Name
+
+# Metadata
+mandatory:        true
+multiples:        true
+description:      "Primary name of the actor"
+long_description: "This is the primary name associated with an actor."
+example:          "Betsy Ross"
+lod_type:         "http://vocab.americanartcollaborative.org/types#primary_name_type"
+
+
+# Sort Data
+applies_to:  "E39_Actor"
+category:    "Tombstone Info"
+sort_order:  1
+
+#Default Test Values
+test_preferred_name_type_url: "http://vocab.americanartcollaborative.org/types#primary_name_type"
+
+
+# Sparql
+select:      "?actor_name ?type_label ?actor_class"
+values:      "?entity_uri ?preferred_name_type_url"
+construct: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P131_is_identified_by _:actor_class .
+  _:actor_class a crm:E82_Actor_Appellation ;
+    owl:sameAs ?actor_class ;
+    crm:P2_has_type _:preferred_name_type_url;
+    rdfs:label ?actor_name  .
+  _:preferred_name_type_url a crm:E55_Type ;
+    owl:sameAs ?preferred_name_type_url ;
+    skos:broadMatch <http://vocab.americanartcollaborative.org/types#primary_name_type> ;
+    skos:prefLabel ?type_label.
+
+where: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P131_is_identified_by ?actor_class .
+  ?actor_class a crm:E82_Actor_Appellation ;
+    rdfs:label ?actor_name ;
+    crm:P2_has_type ?preferred_name_type_url .
+  ?preferred_name_type_url a crm:E55_Type .
+
+  OPTIONAL {
+    OPTIONAL {?preferred_name_type_url skos:broadMatch <http://vocab.americanartcollaborative.org/types#primary_name_type> .}
+    OPTIONAL {?preferred_name_type_url skos:prefLabel ?type_label. }
+  }
+

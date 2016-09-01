@@ -1,3 +1,5 @@
+
+
 # Field Name
 title: Image
 
@@ -7,15 +9,15 @@ multiples:        true
 description:      "Digital image of the work."
 
 # Sort Data
-applies_to:  "Object"
+applies_to:  "E22_Man-Made_Object"
 category:    "External Resources"
 sort_order:  360
 
 # Sparql
 select:      "?image ?right ?description"
-values:      "?object_uri"
+values:      "?entity_uri"
 construct: |
-  ?object_uri a crm:E22_Man-Made_Object ;
+  ?entity_uri a crm:E22_Man-Made_Object ;
     crm:P138i_has_representation _:image .
   _:image a crm:E38_Image ;
     owl:sameAs ?image ;
@@ -26,7 +28,7 @@ construct: |
 
 
 where: |
-  ?object_uri a crm:E22_Man-Made_Object ;
+  ?entity_uri a crm:E22_Man-Made_Object ;
     crm:P138i_has_representation ?image .
   ?image a crm:E38_Image .
   OPTIONAL {

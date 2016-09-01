@@ -9,15 +9,15 @@ long_description: "This is name of a physical location within a building or inst
 example:          "Not on View, Gallery 6, Mezzanine"
 
 # Sort Data
-applies_to:  "Object"
+applies_to:  "E22_Man-Made_Object"
 category:    "Physical Object"
 sort_order:  50
 
 # Sparql
 select:      "?location_name ?lod_location_term ?location_webpage ?location_class"
-values:      "?object_uri"
+values:      "?entity_uri"
 construct: |
-  ?object_uri a crm:E22_Man-Made_Object ;
+  ?entity_uri a crm:E22_Man-Made_Object ;
     crm:P55_has_current_location _:location_class .
   _:location_class a crm:E53_Place ;
     owl:sameAs ?location_class ;
@@ -26,7 +26,7 @@ construct: |
     foaf:page ?location_webpage .
 
 where: |
-  ?object_uri a crm:E22_Man-Made_Object ;
+  ?entity_uri a crm:E22_Man-Made_Object ;
     crm:P55_has_current_location ?location_class .
   ?location_class a crm:E53_Place ;
     rdfs:label ?location_name .

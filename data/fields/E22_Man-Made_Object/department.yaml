@@ -8,15 +8,15 @@ description:      "Institution-specific classifications of work."
 example:          "Works on Paper, Sculpture Department, Contemporary Art, European Art"
 
 # Sort Data
-applies_to:  "Object"
+applies_to:  "E22_Man-Made_Object"
 category:    "Physical Object"
 sort_order:  51
 
 # Sparql
 select:      "?collection_name ?lod_concept_term ?collection_class"
-values:      "?object_uri"
+values:      "?entity_uri"
 construct: |
-  ?object_uri a crm:E22_Man-Made_Object ;
+  ?entity_uri a crm:E22_Man-Made_Object ;
     crm:P46i_forms_part_of _:collection_class .
   _:collection_class a crm:E78_Collection ;
     owl:sameAs ?collection_class ;
@@ -25,7 +25,7 @@ construct: |
 
 
 where: |
-  ?object_uri a crm:E22_Man-Made_Object ;
+  ?entity_uri a crm:E22_Man-Made_Object ;
     crm:P46i_forms_part_of ?collection_class .
   ?collection_class a crm:E78_Collection ;
     skos:prefLabel ?collection_name .

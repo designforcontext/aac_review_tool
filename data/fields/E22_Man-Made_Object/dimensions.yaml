@@ -8,15 +8,15 @@ description:      "Physical size of the work."
 example:          "1.2cm high; 200 lbs; 16 pages"
 
 # Sort Data
-applies_to:  "Object"
+applies_to:  "E22_Man-Made_Object"
 category:    "Physical Object"
 sort_order:  52
 
 # Sparql
 select:      "?value ?unit ?dimension_name ?dimension_class"
-values:      "?object_uri"
+values:      "?entity_uri"
 construct: |
-  ?object_uri a crm:E22_Man-Made_Object ;
+  ?entity_uri a crm:E22_Man-Made_Object ;
     crm:P43_has_dimension _:dimension_class .
   _:dimension_class a crm:E54_Dimension ;
     owl:sameAs ?dimension_class ;
@@ -28,7 +28,7 @@ construct: |
 
 
 where: |
-  ?object_uri a crm:E22_Man-Made_Object ;
+  ?entity_uri a crm:E22_Man-Made_Object ;
     crm:P43_has_dimension ?dimension_class .
   ?dimension_class a crm:E54_Dimension ;
     crm:P90_has_value ?value ;

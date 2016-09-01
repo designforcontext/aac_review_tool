@@ -28,23 +28,41 @@ class MyApp < Sinatra::Base
   end
 
   configure do 
-    set :sparql_runner, AAC::QueryRunner.new(AAC::QueryRunner::YCBA_SPARQL)
+
+    found_types = Dir.glob('./data/fields/**/*.yaml').collect do |file|
+      obj = YAML.load_file(file)
+      obj["applies_to"]
+    end.flatten.compact.uniq
+    set :available_types, found_types
+
   end
 
 
   # Index Route
   #----------------------------------------------------------------------------
   get "/" do
+    @available_types = settings.available_types
     haml :index
   end
+
+  # App Route
+  #----------------------------------------------------------------------------
+  get "/entity/:entity_type" do
+    @entity_type = params[:entity_type]
+    haml :app
+  end
+
 
   # Return the queries file as JSON
   #----------------------------------------------------------------------------
   get "/data" do
-    data = Dir.glob('./data/fields/*.yaml').collect do |file|
-      YAML.load_file(file)
+    halt 404 unless params[:entity_type] && settings.available_types.include?(params[:entity_type])
+    data = Dir.glob('./data/fields/**/*.yaml').collect do |file|
+      obj = YAML.load_file(file)
+      next unless obj["applies_to"].include? params[:entity_type]
+      obj
     end
-    json data
+    json data.compact
   end
 
 
@@ -80,16 +98,30 @@ class MyApp < Sinatra::Base
 
   end
 
+  
+
   # Generate the complete graph for an object.
   # (Still under development, tho' it works)
+  # 
+  # Takes the following params:
+  #   :endpoint -> the sparql endpoint to use
+  #   :crm      -> what ontology to use for the CRM
+  #   :values   -> the list of values to pass into the queries
+  #   :type     -> What format do you want? 
+  #             options:
+  #                 ttl:        Standard Turtle
+  #                 nested_ttl: A single graph per-object, with blank nodes and sameAs
+  #                 json:       A json object containing only the values from the selects 
+  #             
   #----------------------------------------------------------------------------
   post "/full_graph" do
     client = AAC::QueryRunner.new(params[:endpoint])
 
     graph = RDF::Graph.new
 
-    data = Dir.glob('./data/fields/*.yaml').collect do |file|
+    Dir.glob('./data/fields/**/*.yaml').each do |file|
       test_obj = YAML.load_file(file)
+      next unless test_obj["applies_to"] && test_obj["applies_to"].include?(params[:entity_type])
 
 
       default_values = {}
@@ -104,7 +136,7 @@ class MyApp < Sinatra::Base
       result_graph.each_statement {|s| graph.insert s}
     end
 
-    unless params[:nested]
+    if params[:return_type] == "ttl"
       sameAs_list = {}
       new_graph = RDF::Graph.new
       owl =  RDF::URI.new("http://www.w3.org/2002/07/owl#sameAs");

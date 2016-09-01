@@ -10,15 +10,15 @@ long_description: "These are identifiers for the work that are not either the LO
 example:     "1230123i123, 39049ddc-288d-4516-aca3-bfca8608bfc5"
 
 # Sort Data
-applies_to:  "Object"
+applies_to:  "E22_Man-Made_Object"
 category:    "IDs"
 sort_order:  101
 
 # Sparql
 select:      "?identifier ?identifier_type_label ?identifier_url"
-values:      "?object_uri"
+values:      "?entity_uri"
 construct: |
-  ?object_uri a crm:E22_Man-Made_Object ;
+  ?entity_uri a crm:E22_Man-Made_Object ;
     crm:P1_is_identified_by _:identifier_url .
   _:identifier_url a crm:E42_Identifier ;
     rdfs:label ?identifier ;
@@ -29,11 +29,11 @@ construct: |
     owl:sameAs ?identifier_type .
 
 where: |
-  ?object_uri a crm:E22_Man-Made_Object .
-  ?object_uri crm:P1_is_identified_by ?identifier_url .
+  ?entity_uri a crm:E22_Man-Made_Object .
+  ?entity_uri crm:P1_is_identified_by ?identifier_url .
   ?identifier_url a crm:E42_Identifier ;
     rdfs:label ?identifier ;
-  MINUS {?object_uri crm:P48_has_preferred_identifier ?identifier_url}
+  MINUS {?entity_uri crm:P48_has_preferred_identifier ?identifier_url}
   OPTIONAL {
    ?identifier_url crm:P2_has_type ?identifier_type .
    OPTIONAL {

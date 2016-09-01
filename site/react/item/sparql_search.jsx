@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import ZeroClipboard from "zeroclipboard";
+// import ZeroClipboard from "zeroclipboard";
 
 import $ from "jquery";
 
@@ -33,8 +33,15 @@ var SparqlSearch = React.createClass({
   doSearch: function(obj) {
 
     let val = {};
-    obj.forEach(v => val[v.name] = v.value);
-    // console.log("obj",obj,val)
+    let blank_found = false;
+    obj.forEach(v => {
+      if (v.name == "entity_uri" && v.value == "") {blank_found = true};
+      val[v.name] = v.value;
+    });
+
+    if(blank_found){ return false;}
+
+    console.log("obj",obj,val)
 
     let submission = {
       fields: {
@@ -62,8 +69,8 @@ var SparqlSearch = React.createClass({
 
       let field_name = value.replace("?","");
       let default_value = _this.props[`test_${field_name}`];
-      if (field_name == "object_uri") {
-        default_value = _this.props.search.default_object
+      if (field_name == "entity_uri") {
+        default_value = _this.props.search[ENTITY_TYPE].default
       }
       return (
         <SearchInputField 
@@ -99,7 +106,7 @@ var SparqlSearch = React.createClass({
           </div>
         </div>
 
-        <SparqlResults select={this.props.select} results={this.state.results} />
+        <SparqlResults select={this.props.select} results={this.state.results} showModal={this.props.showModal} />
       </section>
     );
   }
@@ -156,15 +163,15 @@ var SparqlResults = React.createClass({
     return {showConstructed: false}
   },
   componentDidMount: function() {
-    let client = new ZeroClipboard();
+    // let client = new ZeroClipboard();
     
   
-    client.on( 'error', function(event) {
-      console.log( 'ZeroClipboard error of type "' + event.name + '": ' + event.message );
-      ZeroClipboard.destroy();
-    } );
+    // client.on( 'error', function(event) {
+    //   console.log( 'ZeroClipboard error of type "' + event.name + '": ' + event.message );
+    //   ZeroClipboard.destroy();
+    // } );
 
-    this.setState({clipboard: client});
+    // this.setState({clipboard: client});
   },
   
   truncate: function(str,len) {
@@ -175,7 +182,7 @@ var SparqlResults = React.createClass({
   componentDidUpdate: function() {
     let btn = document.getElementById("copy-sparql");
     if (btn){
-      this.state.clipboard.clip(btn);
+      // this.state.clipboard.clip(btn);
     }
     else {
       console.log("no btn");
@@ -220,8 +227,8 @@ var SparqlResults = React.createClass({
                  <button 
                        id="copy-sparql"
                        className="btn btn-info"
-                       data-clipboard-text={ this.props.results.select}>
-                      Copy SPARQL Query
+                       onClick={(e) => this.props.showModal(this.props.results.select)}>
+                       Show Query
                   </button>
                   <button  
                        className="btn btn-info" 

@@ -9,15 +9,15 @@ long_description: "This is the preferred date of creation for the object."
 example:          "c. 1750; 12/12/1920; April 15th, 1921; Mung Dinasty"
 
 # Sort Data
-applies_to:  "Object"
+applies_to:  "E22_Man-Made_Object"
 category:    "Tombstone Info"
 sort_order:  7
 
 # Sparql
 select:      "?display_date ?earliest_date ?latest_date ?production_event"
-values:      "?object_uri"
+values:      "?entity_uri"
 construct: |
-  ?object_uri a crm:E22_Man-Made_Object ;
+  ?entity_uri a crm:E22_Man-Made_Object ;
     crm:P108i_was_produced_by _:production_event .
   _:production_event a crm:E12_Production ;
     owl:sameAs ?production_event ;
@@ -29,13 +29,13 @@ construct: |
     crm:p3_has_note ?display_date.    
 
 where: |
-  ?object_uri a crm:E22_Man-Made_Object.
+  ?entity_uri a crm:E22_Man-Made_Object.
   {
-    ?object_uri crm:P108i_was_produced_by ?production_event .
+    ?entity_uri crm:P108i_was_produced_by ?production_event .
   } UNION {
-    ?production_event crm:P108_has_produced ?object_uri .
+    ?production_event crm:P108_has_produced ?entity_uri .
   } UNION {
-    ?object_uri crm:P108i_was_produced_by ?intermediate_event .
+    ?entity_uri crm:P108i_was_produced_by ?intermediate_event .
     ?intermediate_event crm:P9_consists_of ?production_event .
   }
   ?production_event a crm:E12_Production ;

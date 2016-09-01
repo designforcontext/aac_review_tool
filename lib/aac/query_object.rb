@@ -26,8 +26,9 @@ module AAC
       self.values    = obj.fetch("values"    , nil)
     end
 
+    #--------------------------------------------------------------------------
+    # Depriciated—Doing this the hard way.  See #replace_values
     def values(args)
-
       parameters = @values.split(" ").collect do |parameter|
         key_value = parameter.gsub("?","")
         args.has_key?(key_value) ? "<#{args[key_value]}>" : nil
@@ -35,6 +36,9 @@ module AAC
 
       "VALUES (#{@values}) {(#{parameters})}" 
     end
+
+
+    #--------------------------------------------------------------------------
     def replace_values(query, args) 
 
       @values.split(" ").each do |parameter|
@@ -44,6 +48,7 @@ module AAC
       query
     end
 
+    #--------------------------------------------------------------------------
     def where_clause(include_construct = false)
       if @where
         str = "WHERE {\n"
@@ -63,6 +68,7 @@ module AAC
        val = @construct.gsub("_:","_:construct_")
     end
 
+    #--------------------------------------------------------------------------
     def construct_query(args)
       query = <<~eos
         #{QueryObject.prefix_list(@prefixes)}
@@ -74,6 +80,8 @@ module AAC
       eos
       replace_values(query, args)
     end
+
+    #--------------------------------------------------------------------------
     def select_query(args)
       query = <<~eos
         #{QueryObject.prefix_list(@prefixes)}

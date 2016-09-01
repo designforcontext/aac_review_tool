@@ -9,15 +9,15 @@ description: "Preferred id for the work."
 example:     "1995.1.1"
 
 # Sort Data
-applies_to:  "Object"
+applies_to:  "E22_Man-Made_Object"
 category:    "IDs"
 sort_order:  100
 
 # Sparql
 select:      "?object_number ?object_number_label ?object_number_id"
-values:      "?object_uri"
+values:      "?entity_uri"
 construct: |
-  ?object_uri a crm:E22_Man-Made_Object ;
+  ?entity_uri a crm:E22_Man-Made_Object ;
     crm:P48_has_preferred_identifier _:object_number_id .
   _:object_number_id a crm:E42_Identifier ;
     rdfs:label ?object_number ;
@@ -27,8 +27,8 @@ construct: |
     skos:prefLabel ?object_number_label ;
     owl:sameAs ?identifier_type .
 where: |
-  ?object_uri a crm:E22_Man-Made_Object .
-  ?object_uri crm:P48_has_preferred_identifier ?object_number_id .
+  ?entity_uri a crm:E22_Man-Made_Object .
+  ?entity_uri crm:P48_has_preferred_identifier ?object_number_id .
   ?object_number_id a crm:E42_Identifier ;
     rdfs:label ?object_number ;
   OPTIONAL {

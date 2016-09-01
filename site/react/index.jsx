@@ -7,7 +7,7 @@ import {render}    from 'react-dom';
 import Sidebar     from './sidebar.jsx';
 import Header      from "./header.jsx";
 import ItemDisplay from "./item/display.jsx";
-import TurtleModal from "./turtle_modal.jsx";
+import ContentModal from "./content_modal.jsx";
 
 
 //-----------------------------------------------------------------------------
@@ -18,19 +18,34 @@ const SEARCH_DATA = [
     name:           "YCBA", 
     endpoint:       "http://collection.britishart.yale.edu/openrdf-sesame/repositories/ycba",
     predicate:      "http://erlangen-crm.org/current/",
-    default_object: "http://collection.britishart.yale.edu/id/object/1000"
+    E39_Actor: {
+      default:  null
+    },
+    "E22_Man-Made_Object": {
+      default: "http://collection.britishart.yale.edu/id/object/1000"  
+    }
   },
   {
     name:           "SAAM", 
     endpoint:       "http://edan.si.edu/saam/sparql",
     predicate:      "http://www.cidoc-crm.org/cidoc-crm/",
-    default_object: "http://edan.si.edu/saam/id/object/1991.189"
+    E39_Actor: {
+      default:  null
+    },
+    "E22_Man-Made_Object": {
+      default: "http://edan.si.edu/saam/id/object/1991.189"  
+    }
   },
   {
     name:           "British Museum", 
     endpoint:       "http://collection.britishmuseum.org/sparql",
     predicate:      "http://erlangen-crm.org/current/",
-    default_object: "http://collection.britishmuseum.org/id/object/YCA62958"
+    E39_Actor: {
+      default: "http://collection.britishmuseum.org/id/person-institution/70240"
+    },
+    "E22_Man-Made_Object": {
+      default: "http://collection.britishmuseum.org/id/object/YCA62958"
+    }
   }
 ]
 
@@ -42,15 +57,16 @@ var App = React.createClass({
   // Lifecycle Events
   getInitialState: function() {
     return {
-      loading: true,          // Has the application gotten the main data?
-      search: "YCBA",         // Which endpoint to we default to searching against?
-      showTurtleModal: false, // Is the modal visible?
-      fields: null            // This will be filled in with the field list
+      loading: true,           // Has the application gotten the main data?
+      modal: {
+        show:false,            // Is the modal visible?
+      },
+      fields: null             // This will be filled in with the field list
     }
   },
 
   componentDidMount: function() {
-    let ajax = $.getJSON("/data");
+    let ajax = $.getJSON("/data?entity_type="+ENTITY_TYPE);
     ajax.done(this.initializeData);
     ajax.fail((x,msg)=> console.log(`Error getting json: ${msg}`));
   },
@@ -63,10 +79,10 @@ var App = React.createClass({
      // Setup Hash Navigation
     let defaultSectionId = 0;
     if (window.location.hash) {
-      defaultSectionId = window.location.hash.replace("#section_","")
+      this.setHashValues(this.getHashValues());
     }
     else {
-      window.location.hash = `section_${defaultSectionId}`
+      this.setHashValues({id: 0, search: SEARCH_DATA[0].name});
     }
     window.addEventListener('hashchange', this.handleNewHash, false);
 
@@ -76,31 +92,42 @@ var App = React.createClass({
     }
     this.setState({
       loading: false, 
-      fields: data.sort(fieldSortFunction), 
-      currentItem: defaultSectionId
+      fields: data.sort(fieldSortFunction)
     });
   },
 
+  setHashValues: function(obj) {
+    if (obj.id == undefined) {
+      obj.id = this.state.currentItem;
+    } else {
+      this.setState({currentItem: obj.id});
+    }
+
+    if (obj.search == undefined) {
+      obj.search = this.state.search;
+    } else {
+      this.setState({search: obj.search});
+    }
+    let search_index = SEARCH_DATA.findIndex((v) => v.name == obj.search);
+    window.location.hash = `section_${obj.id}-search_${search_index}`;
+  },
+  getHashValues: function() {
+    let bits = window.location.hash.replace("#","").split("-")
+    let id   = Number(bits[0].replace("section_",""))
+    let search  = SEARCH_DATA[Number(bits[1].replace("search_",""))].name;
+    return {id: id, search: search}
+  },
   //-------------------------------
   // Handle hash changes (for back button)
   handleNewHash: function() {
-    let id = window.location.hash.replace("#section_","")
-    this.gotoField(id); 
-  },
-
-  //-------------------------------
-  // Handle going to a new field,
-  // updating the navigation and the state
-  gotoField: function(id) {
-    this.setState({currentItem: id});
-    window.location.hash = `section_${id}`
+    this.setHashValues(this.getHashValues());
   },
 
   //-------------------------------
   // Handle showing the global modal.  
   // TODO:  This is probably the wrong layer to keep this in.
-  showModal: function (turtle) {
-    this.setState({turtle: turtle, showTurtleModal: true});
+  showModal: function (content) {
+    this.setState({modal: {content: content, title: "", show: true}});
   },
   
   // Render function
@@ -115,23 +142,23 @@ var App = React.createClass({
         <Header 
             searchAgainst=   {this.state.search}
             data=            {SEARCH_DATA} 
-            setSearch=       {(val) => this.setState({search: val})}
-            showSparql=      {this.showModal}
+            setSearch=       {(val) => this.setHashValues({search: val})}
+            showObjectGraph= {this.showModal}
         />
         <div className='container-fluid'>
           <div className="row">
             <Sidebar 
                 fields=      {this.state.fields} 
-                gotoField=   {this.gotoField}
+                gotoField=   {(id) => this.setHashValues({id: id})}
                 currentItem= {this.state.currentItem}
              />
-            <ItemDisplay   {...currentFields} search={currentSearchEndpoint} />
+            <ItemDisplay   {...currentFields} search={currentSearchEndpoint} showModal={this.showModal}
+ />
           </div>
         </div>
-        <TurtleModal 
-            turtle=          {this.state.turtle} 
-            show=            {this.state.showTurtleModal} 
-            onHide=          {() => this.setState({ showTurtleModal: false })} />
+        <ContentModal 
+            {...this.state.modal}
+            onHide= {() => this.setState({ modal: {show: false }})} />
       </main>
     )
   }

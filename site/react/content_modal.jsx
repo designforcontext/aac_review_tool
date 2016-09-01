@@ -2,15 +2,17 @@ import $           from "jquery";
 import React       from 'react';
 import {Modal, Button}     from 'react-bootstrap';
 
-const TurtleModal = React.createClass({
+const ContentModal = React.createClass({
   render() {
+
+    const modalProps = Object.assign({}, this.props);
+    delete modalProps.content;
+    delete modalProps.title;
+
     return (
-      <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-lg">Turtle</Modal.Title>
-        </Modal.Header>
+      <Modal {...modalProps} bsSize="large" aria-labelledby="contained-modal-title-lg">
         <Modal.Body>
-        <pre>{this.props.turtle}</pre>
+        <pre>{this.props.content}</pre>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={this.props.onHide}>Close</Button>
@@ -20,4 +22,4 @@ const TurtleModal = React.createClass({
   }
 });
 
-export default TurtleModal;
+export default ContentModal;

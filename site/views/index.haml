@@ -1,1 +1,6 @@
-#app
+%h1 AAC Data Mappings
+
+%ul
+  - @available_types.each do |type|
+    %li
+      %a{href: "/entity/#{type}"}= type
