@@ -33,13 +33,14 @@ class MyApp < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
     Dir.glob('./lib/**/*') { |file| also_reload file}
-
-
     set :show_exceptions, :after_handler
   end
 
   configure do 
 
+    # Load the cookbook (FAQ) data files into memory
+    # and store them at `settings.recipies`
+    #------------------------------------------------
     recipies = {}
     Dir.glob('./data/cookbook/**/*.md').each do |file|
       contents = File.read(file)
@@ -60,6 +61,10 @@ class MyApp < Sinatra::Base
     end
     set :recipies, recipies
 
+    # Search the field YAML files and add the names
+    # of the entities that they apply to into
+    # `settings.available_types`
+    #------------------------------------------------
     found_types = {}
     Dir.glob('./data/fields/**/*.yaml').each do |file|
       obj = YAML.load_file(file)
@@ -70,6 +75,9 @@ class MyApp < Sinatra::Base
     set :available_types, found_types
 
 
+    # Setup the markdown renderer, and store it at
+    # `settings.markdown
+    #-------------------------------------------------
     render_options = {
         with_toc_data: true
     }
@@ -83,7 +91,19 @@ class MyApp < Sinatra::Base
     renderer = Redcarpet::Render::HTML.new(render_options)
     set :markdown, Redcarpet::Markdown.new(renderer, extensions)
   end
+ 
 
+   #                  ROUTES BELOW                   #
+   #-------------------------------------------------#
+   #-----------------               -----------------#
+   #-----------                           -----------#
+   #-------                                   -------#
+   #-----                                       -----#
+   #---                                           ---#                
+   #--                                             --#
+   #-                                               -#
+   #                                                 #
+   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
   # Index Route
   #----------------------------------------------------------------------------
@@ -100,31 +120,33 @@ class MyApp < Sinatra::Base
     haml :app
   end
 
-  # Cookbook Route
+  # Cookbook Image Route
   #----------------------------------------------------------------------------
   get "/cookbook/images/:image" do
-
     File.read("./data/cookbook/images/#{File.basename(params[:image])}")
   end
 
+  # Cookbook Route
+  #----------------------------------------------------------------------------
   get "/cookbook/:page" do
+    
     current_recipie = settings.recipies[params[:page]]
- 
     halt 404 unless current_recipie
 
     @contents = current_recipie[:content]
     @metadata = current_recipie[:metadata]
-
     @markdown = settings.markdown
-    haml :cookbook
 
+    haml :cookbook
   end
 
 
-  # Return the queries file as JSON
+  # Return the appropriate fields for the entity_type file as JSON
   #----------------------------------------------------------------------------
   get "/data" do
+
     halt 404 unless params[:entity_type] && settings.available_types.keys.include?(params[:entity_type])
+
     data = Dir.glob('./data/fields/**/*.yaml').collect do |file|
       obj = YAML.load_file(file)
       next unless obj["applies_to"].include? params[:entity_type]
