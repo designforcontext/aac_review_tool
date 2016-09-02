@@ -18,14 +18,31 @@
   .container-fluid
     .row
       .col-lg-5.col-lg-offset-1  
-        %h2 AAC Data Mappings
+        %h2 AAC Browse Application Testbed
+
+        %p 
+          This page contains reference material for the AAC Mappings for the browse application.  
+          These mappings are slightly different than the mappings that ISI is doing—those are mappings from institutional data to RDF, using the CIDOC-CRM ontology.   
+        %p
+          These mappings are for the RDF to the browse application, or to other applications.  We are interested in verifying that the information that was entered is retrievable in a consistent, regular fashion.
+        %p
+          Below are mapping for the fields of each of our core entities. There is also a series of FAQs displayed, describing common questions about LOD and our mappings, and when possible recording our consensus of AAC 'good practices'.
+
+
+        %h3 Field-Level Mappings
         %div.list-group
           - @available_types.each do |key, val|
             %a.list-group-item{href: "/entity/#{key}"}
-              %span.badge=val.count
-              = "Fields for <strong>#{key}</strong>"
-      .col-lg-5 
-        %h2 AAC Linked Open Data FAQs
+              %span.badge="#{val.count} fields"
+              = "<strong>#{key}</strong>"
+
+      .col-lg-4.col-lg-offset-1 
+
+        %h4 Linked Open Data FAQs
         %div.list-group
           - @recipies.sort.each do |key, obj|
-            %a.list-group-item{href: "/cookbook/#{obj[:path]}"}= obj[:metadata]["title"]
+            %a.list-group-item{href: "/cookbook/#{obj[:path]}"}
+              = obj[:metadata]["title"]
+              - if obj[:metadata]["answered"]
+                %span.badge ✔
+

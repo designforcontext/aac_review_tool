@@ -2,6 +2,9 @@
 require "json"
 require "yaml"
 require 'tempfile'
+require 'digest'
+require 'typhoeus'
+
 
 # Sinatra & Extensions
 require 'sinatra/base'
@@ -45,7 +48,8 @@ class MyApp < Sinatra::Base
         contents = md.post_match
         metadata = YAML.load(md[:metadata])
       end
-      metadata["title"] ||= File.basename(file, ".md").gsub("-"," ")
+      metadata["title"] ||= File.basename(file, ".md").gsub("-"," ") << "?"
+      metadata["answered"] ||= !contents.include?("### Best Practice:\n\n*To Be Determined*")
 
       obj= {
         content: contents,
@@ -65,6 +69,19 @@ class MyApp < Sinatra::Base
     end
     set :available_types, found_types
 
+
+    render_options = {
+        with_toc_data: true
+    }
+    extensions = {
+        tables: true,
+        no_intra_emphasis: true,
+        autolink: true,
+        lax_spacing: true,
+        footnotes: true,
+    }
+    renderer = Redcarpet::Render::HTML.new(render_options)
+    set :markdown, Redcarpet::Markdown.new(renderer, extensions)
   end
 
 
@@ -98,18 +115,7 @@ class MyApp < Sinatra::Base
     @contents = current_recipie[:content]
     @metadata = current_recipie[:metadata]
 
-    render_options = {
-        with_toc_data: true
-    }
-    extensions = {
-        tables: true,
-        no_intra_emphasis: true,
-        autolink: true,
-        lax_spacing: true,
-        footnotes: true,
-    }
-    renderer = Redcarpet::Render::HTML.new(render_options)
-    @markdown = Redcarpet::Markdown.new(renderer, extensions)
+    @markdown = settings.markdown
     haml :cookbook
 
   end
@@ -238,27 +244,31 @@ class MyApp < Sinatra::Base
     return val
   end
 
+
   # Generate a SVG path from the graph.
   # Given a TTL file, run it through the rdfpuml code
   # and generate a graph.
   #----------------------------------------------------------------------------
   post "/graph" do
-    $graph_cache ||= {}
-    val = params[:ttl].gsub("?", "_:")
 
-    encoded_data = $graph_cache[val]
-    unless encoded_data
-      file = Tempfile.new(["",".ttl"])
-      file.write(val)
-      file.write(params[:extras]) if (params[:extras])
-      file.close
-      results = `perl ./rdfpuml/rdfpuml.pl #{file.path}`
-      file.unlink
-      # puts "results of the graph: #{results} from #{file.path}"
-      encoded_data = PlantUmlEncode64.encode(results)
-      $graph_cache[val] = encoded_data
-    end
-    return "http://www.plantuml.com/plantuml/svg/#{encoded_data}"
+    val = params[:ttl].gsub("?", "_:")
+    hash = Digest::SHA256.hexdigest val
+
+    filename = "./site/public/graphs/#{hash}.svg"
+    return "/graphs/#{hash}.svg" if File.exists? filename
+
+    file = Tempfile.new(["",".ttl"])
+    file.write(val)
+    file.write(params[:extras]) if (params[:extras])
+    file.close
+    results = `perl ./rdfpuml/rdfpuml.pl #{file.path}`
+    file.unlink
+    # puts "results of the graph: #{results} from #{file.path}"
+    encoded_data = PlantUmlEncode64.encode(results)
+    url =  "http://www.plantuml.com/plantuml/svg/#{encoded_data}"
+    response = Typhoeus.get(url, followlocation: true)
+    File.open(filename, "wb") {|f| f.write response.body}
+    return "/graphs/#{hash}.svg"
   end
 
 end

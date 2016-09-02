@@ -8,7 +8,7 @@ We need to choose a specific namespace.
 
 We will be using the official CIDOC-CRM namespace (<http://www.cidoc-crm.org/cidoc-crm/>). 
 
-See also [How do we ensure predicates go both ways?](How-do-we-ensure-predicates-go-both-ways%3F)
+See also [How do we ensure predicates go both ways?](How-do-we-ensure-predicates-go-both-ways)
 
 ### Discussion:
 

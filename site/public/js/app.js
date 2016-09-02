@@ -52036,27 +52036,23 @@
 	      { className: "container-fluid" },
 	      _react2.default.createElement(
 	        "div",
-	        { className: "col-md-4 col-sm-6" },
+	        { className: "navbar-header" },
+	        _react2.default.createElement(
+	          "button",
+	          { type: "button", className: "navbar-toggle collapsed", "data-toggle": "collapse", "data-target": "#navbar", "aria-expanded": "false", "aria-controls": "navbar" },
+	          _react2.default.createElement(
+	            "span",
+	            { className: "sr-only" },
+	            "Toggle navigation"
+	          ),
+	          _react2.default.createElement("span", { className: "icon-bar" }),
+	          _react2.default.createElement("span", { className: "icon-bar" }),
+	          _react2.default.createElement("span", { className: "icon-bar" })
+	        ),
 	        _react2.default.createElement(
 	          "div",
-	          { className: "navbar-header" },
-	          _react2.default.createElement(
-	            "button",
-	            { type: "button", className: "navbar-toggle collapsed", "data-toggle": "collapse", "data-target": "#navbar", "aria-expanded": "false", "aria-controls": "navbar" },
-	            _react2.default.createElement(
-	              "span",
-	              { className: "sr-only" },
-	              "Toggle navigation"
-	            ),
-	            _react2.default.createElement("span", { className: "icon-bar" }),
-	            _react2.default.createElement("span", { className: "icon-bar" }),
-	            _react2.default.createElement("span", { className: "icon-bar" })
-	          ),
-	          _react2.default.createElement(
-	            "div",
-	            { className: "navbar-brand" },
-	            props.title
-	          )
+	          { className: "navbar-brand" },
+	          props.title
 	        )
 	      ),
 	      _react2.default.createElement(

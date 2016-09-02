@@ -15,7 +15,7 @@ gem "sinatra"
 gem "sinatra-contrib"
 gem "sinatra-flash"
 gem "sinatra-partial"
-# gem "typhoeus"
+gem "typhoeus"
 gem 'puma'
 
 # Markup Helpers
