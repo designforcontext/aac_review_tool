@@ -35,13 +35,18 @@ const Header = React.createClass({
         <ButtonGroup bsSize="small" role="group" className='download_buttons'>
           <Button
              bsClass="btn navbar-btn btn-default" 
-             onClick={() => $.post("/full_graph",this.generateTestData("ttl"), this.props.showObjectGraph)}>
+             onClick={() => $.post("/full_graph",this.generateTestData("ttl"), this.props.showObjectGraph, "text")}>
             Show Turtle
           </Button>
           <Button
              bsClass="btn navbar-btn btn-default" 
-             onClick={() => $.post("/full_graph",this.generateTestData("nested_ttl"), this.props.showObjectGraph)}>
+             onClick={() => $.post("/full_graph",this.generateTestData("nested_ttl"), this.props.showObjectGraph, "text")}>
             Show Turtle (Nested)
+          </Button>
+          <Button
+             bsClass="btn navbar-btn btn-default" 
+             onClick={() => $.post("/full_graph",this.generateTestData("json"), this.props.showObjectGraph, "text")}>
+            Show JSON
           </Button>
         </ButtonGroup>
         <ButtonGroup bsSize="small" role="group" className='search_buttons'>

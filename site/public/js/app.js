@@ -77,7 +77,7 @@
 	
 	var _display2 = _interopRequireDefault(_display);
 	
-	var _content_modal = __webpack_require__(/*! ./content_modal.jsx */ 434);
+	var _content_modal = __webpack_require__(/*! ./content_modal.jsx */ 430);
 	
 	var _content_modal2 = _interopRequireDefault(_content_modal);
 	
@@ -32448,7 +32448,7 @@
 	          {
 	            bsClass: 'btn navbar-btn btn-default',
 	            onClick: function onClick() {
-	              return _jquery2.default.post("/full_graph", _this2.generateTestData("ttl"), _this2.props.showObjectGraph);
+	              return _jquery2.default.post("/full_graph", _this2.generateTestData("ttl"), _this2.props.showObjectGraph, "text");
 	            } },
 	          'Show Turtle'
 	        ),
@@ -32457,9 +32457,18 @@
 	          {
 	            bsClass: 'btn navbar-btn btn-default',
 	            onClick: function onClick() {
-	              return _jquery2.default.post("/full_graph", _this2.generateTestData("nested_ttl"), _this2.props.showObjectGraph);
+	              return _jquery2.default.post("/full_graph", _this2.generateTestData("nested_ttl"), _this2.props.showObjectGraph, "text");
 	            } },
 	          'Show Turtle (Nested)'
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.Button,
+	          {
+	            bsClass: 'btn navbar-btn btn-default',
+	            onClick: function onClick() {
+	              return _jquery2.default.post("/full_graph", _this2.generateTestData("json"), _this2.props.showObjectGraph, "text");
+	            } },
+	          'Show JSON'
 	        )
 	      ),
 	      _react2.default.createElement(
@@ -52089,19 +52098,19 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _title = __webpack_require__(/*! ./title.jsx */ 430);
+	var _title = __webpack_require__(/*! ./title.jsx */ 431);
 	
 	var _title2 = _interopRequireDefault(_title);
 	
-	var _props = __webpack_require__(/*! ./props.jsx */ 431);
+	var _props = __webpack_require__(/*! ./props.jsx */ 432);
 	
 	var _props2 = _interopRequireDefault(_props);
 	
-	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 432);
+	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 433);
 	
 	var _sparql_search2 = _interopRequireDefault(_sparql_search);
 	
-	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 433);
+	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 434);
 	
 	var _mapping2 = _interopRequireDefault(_mapping);
 	
@@ -52142,6 +52151,68 @@
 
 /***/ },
 /* 430 */
+/*!**************************************!*\
+  !*** ./site/react/content_modal.jsx ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _jquery = __webpack_require__(/*! jquery */ 1);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ContentModal = _react2.default.createClass({
+	  displayName: 'ContentModal',
+	  render: function render() {
+	
+	    var modalProps = Object.assign({}, this.props);
+	    delete modalProps.content;
+	    delete modalProps.title;
+	
+	    return _react2.default.createElement(
+	      _reactBootstrap.Modal,
+	      _extends({}, modalProps, { bsSize: 'large', 'aria-labelledby': 'contained-modal-title-lg' }),
+	      _react2.default.createElement(
+	        _reactBootstrap.Modal.Body,
+	        null,
+	        _react2.default.createElement(
+	          'pre',
+	          null,
+	          this.props.content
+	        )
+	      ),
+	      _react2.default.createElement(
+	        _reactBootstrap.Modal.Footer,
+	        null,
+	        _react2.default.createElement(
+	          _reactBootstrap.Button,
+	          { onClick: this.props.onHide },
+	          'Close'
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	exports.default = ContentModal;
+
+/***/ },
+/* 431 */
 /*!***********************************!*\
   !*** ./site/react/item/title.jsx ***!
   \***********************************/
@@ -52197,7 +52268,7 @@
 	exports.default = ItemTitle;
 
 /***/ },
-/* 431 */
+/* 432 */
 /*!***********************************!*\
   !*** ./site/react/item/props.jsx ***!
   \***********************************/
@@ -52270,7 +52341,7 @@
 	exports.default = ItemProps;
 
 /***/ },
-/* 432 */
+/* 433 */
 /*!*******************************************!*\
   !*** ./site/react/item/sparql_search.jsx ***!
   \*******************************************/
@@ -52415,7 +52486,7 @@
 	          )
 	        )
 	      ),
-	      _react2.default.createElement(SparqlResults, { select: this.props.select, results: this.state.results, showModal: this.props.showModal })
+	      _react2.default.createElement(SparqlResults, { title: this.props.title, select: this.props.select, results: this.state.results, showModal: this.props.showModal })
 	    );
 	  }
 	});
@@ -52493,6 +52564,10 @@
 	
 	  render: function render() {
 	    var _this2 = this;
+	
+	    var issueTitle = encodeURIComponent("Problem with mapping of " + this.props.title);
+	    var issueBody = encodeURIComponent("I expected to see:\n\n*[WHAT I EXPECTED]*\n\nbut instead I saw:\n\n*[WHAT I SAW]*\n\nThe current query was:\n\n```ttl\n" + this.props.results.select + "\n```");
+	    var issueLinkUrl = 'https://github.com/workergnome/aac_mappings/issues/new?title=' + issueTitle + '&body=' + issueBody;
 	
 	    if (!this.props.results) {
 	      return false;
@@ -52608,6 +52683,15 @@
 	                  } },
 	                this.state.showConstructed ? "Hide Turtle" : "Show Turtle"
 	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'github_issue_link' },
+	              _react2.default.createElement(
+	                'a',
+	                { href: issueLinkUrl },
+	                'Do you see a problem with this?  Submit an issue.'
+	              )
 	            )
 	          )
 	        )
@@ -52620,7 +52704,7 @@
 	exports.default = SparqlSearch;
 
 /***/ },
-/* 433 */
+/* 434 */
 /*!*************************************!*\
   !*** ./site/react/item/mapping.jsx ***!
   \*************************************/
@@ -52734,68 +52818,6 @@
 	});
 	
 	exports.default = ItemMapping;
-
-/***/ },
-/* 434 */
-/*!**************************************!*\
-  !*** ./site/react/content_modal.jsx ***!
-  \**************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _jquery = __webpack_require__(/*! jquery */ 1);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
-	var _react = __webpack_require__(/*! react */ 2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var ContentModal = _react2.default.createClass({
-	  displayName: 'ContentModal',
-	  render: function render() {
-	
-	    var modalProps = Object.assign({}, this.props);
-	    delete modalProps.content;
-	    delete modalProps.title;
-	
-	    return _react2.default.createElement(
-	      _reactBootstrap.Modal,
-	      _extends({}, modalProps, { bsSize: 'large', 'aria-labelledby': 'contained-modal-title-lg' }),
-	      _react2.default.createElement(
-	        _reactBootstrap.Modal.Body,
-	        null,
-	        _react2.default.createElement(
-	          'pre',
-	          null,
-	          this.props.content
-	        )
-	      ),
-	      _react2.default.createElement(
-	        _reactBootstrap.Modal.Footer,
-	        null,
-	        _react2.default.createElement(
-	          _reactBootstrap.Button,
-	          { onClick: this.props.onHide },
-	          'Close'
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	exports.default = ContentModal;
 
 /***/ }
 /******/ ]);

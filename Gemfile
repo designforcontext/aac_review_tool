@@ -8,6 +8,10 @@ gem "linkeddata"
 gem "diffy"
 
 
+# Slugging Gems
+gem "babosa"
+gem "unicode"
+
 ## Gems for Sintatra
 gem "rack"
 gem 'rack_csrf'

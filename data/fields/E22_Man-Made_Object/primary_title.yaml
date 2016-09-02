@@ -17,34 +17,34 @@ category:    "Tombstone Info"
 sort_order:  1
 
 #Default Test Values
-test_preferred_title_type_url: "http://collection.britishart.yale.edu/id/thesaurus/title/preferred"
+test_preferred_title_type_uri: "http://collection.britishart.yale.edu/id/thesaurus/title/preferred"
 
 # Sparql
-select:      "?title_value ?primary_title_type_name ?primary_title_uri"
-values:      "?entity_uri ?preferred_title_type_url"
+select:      "?primary_title_text ?primary_title_type ?primary_title_uri"
+values:      "?entity_uri ?preferred_title_type_uri"
 construct: |
   ?entity_uri a crm:E22_Man-Made_Object .
   ?entity_uri crm:P102_has_title _:primary_title_uri .
   _:primary_title_uri a crm:E35_Title ;
-    rdfs:label ?title_value ;
-    crm:P2_has_type _:preferred_title_type_url ;
+    rdfs:label ?primary_title_text ;
+    crm:P2_has_type _:preferred_title_type_uri ;
     owl:sameAs ?primary_title_uri .
-  _:preferred_title_type_url a crm:E55_Type ;
-    skos:prefLabel ?primary_title_type_name ;
-    rdfs:label ?primary_title_type_name ;
-    owl:sameAs ?preferred_title_type_url ;
+  _:preferred_title_type_uri a crm:E55_Type ;
+    skos:prefLabel ?primary_title_type ;
+    rdfs:label ?primary_title_type ;
+    owl:sameAs ?preferred_title_type_uri ;
     skos:broadMatch <http://vocab.americanartcollaborative.org/titles#primary_title_type> .
 
 where: |
     ?entity_uri a crm:E22_Man-Made_Object .
     ?entity_uri crm:P102_has_title ?primary_title_uri .
     ?primary_title_uri a crm:E35_Title ;
-            rdfs:label ?title_value ; 
-            crm:P2_has_type  ?preferred_title_type_url .
+            rdfs:label ?primary_title_text ; 
+            crm:P2_has_type  ?preferred_title_type_uri .
     OPTIONAL {
       {
-        ?preferred_title_type_url skos:prefLabel ?primary_title_type_name .   
+        ?preferred_title_type_uri skos:prefLabel ?primary_title_type .   
       } UNION { 
-        ?preferred_title_type_url rdfs:label ?primary_title_type_name .   
+        ?preferred_title_type_uri rdfs:label ?primary_title_type .   
       }
     }

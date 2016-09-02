@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.4.0)
+    babosa (1.0.2)
     backports (3.6.8)
     bcp47 (0.3.3)
       i18n
@@ -218,6 +219,7 @@ GEM
     tilt (2.0.5)
     typhoeus (1.0.2)
       ethon (>= 0.9.0)
+    unicode (0.4.4.2)
     webmock (1.24.6)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -227,6 +229,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  babosa
   diffy
   dotenv
   guard
@@ -244,6 +247,7 @@ DEPENDENCIES
   sinatra-flash
   sinatra-partial
   typhoeus
+  unicode
 
 RUBY VERSION
    ruby 2.3.1p112

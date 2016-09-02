@@ -10,6 +10,7 @@ var ItemDisplay = React.createClass({
 
   render: function() {
 
+
     return (
       <div className="col-sm-9 col-lg-8 col-lg-offset-1 app">
         <section className="field_info">

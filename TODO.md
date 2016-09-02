@@ -9,7 +9,6 @@
 * [ ] Document the SPARQL
 * [ ] Look into getting rid of the odd WHERE UNION (with the new graph)
 * [ ] Loading button state for turtle gets
-* [ ] JSON export
 * [ ] Github Issue Link
 
 ### Data Needed for Objects
@@ -41,6 +40,7 @@
 * [X] Improve the hashing, to handle search endpoint
 * [X] Abstract away the Objectness (to handle other things)
 * [X] Stick this behind a route
+* [X] JSON export
 
 ---
 

@@ -1,6 +1,6 @@
 
 # Field Name
-title: Other Titles
+title: Alternate Titles
 
 # Metadata
 mandatory:   false
@@ -17,26 +17,26 @@ sort_order:  2
 test_preferred_title_type_url: "http://collection.britishart.yale.edu/id/thesaurus/title/preferred"
 
 # Sparql
-select:      "?title ?field_label ?alternate_title_uri"
+select:      "?title_text ?title_type ?title_uri"
 values:      "?entity_uri ?preferred_title_type_url"
 construct: |
   ?entity_uri a crm:E22_Man-Made_Object .
   ?entity_uri crm:P102_has_title _:alternate_title_uri .
   _:alternate_title_uri a crm:E35_Title ;
-    rdfs:label ?title ;
+    rdfs:label ?title_text ;
     owl:sameAs ?alternate_title_uri ;
     crm:P2_has_type _:title_class .
   _:title_class a crm:E55_Type ;
-    owl:sameAs ?title_class ;
-    skos:prefLabel ?field_label .
+    owl:sameAs ?title_text_class ;
+    skos:prefLabel ?title_type .
 where: |
   ?entity_uri a crm:E22_Man-Made_Object .
   ?entity_uri crm:P102_has_title ?alternate_title_uri .
   ?alternate_title_uri a crm:E35_Title ;
-    rdfs:label ?title .
+    rdfs:label ?title_text .
   OPTIONAL {
-   ?alternate_title_uri crm:P2_has_type ?title_class . 
-   ?title_class a crm:E55_Type ;
-     skos:prefLabel ?field_label .
+   ?alternate_title_uri crm:P2_has_type ?title_text_class . 
+   ?title_text_class a crm:E55_Type ;
+     skos:prefLabel ?title_type .
   }
   MINUS{?alternate_title_uri crm:P2_has_type ?preferred_title_type_url .}

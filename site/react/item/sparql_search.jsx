@@ -104,7 +104,7 @@ var SparqlSearch = React.createClass({
           </div>
         </div>
 
-        <SparqlResults select={this.props.select} results={this.state.results} showModal={this.props.showModal} />
+        <SparqlResults title={this.props.title} select={this.props.select} results={this.state.results} showModal={this.props.showModal} />
       </section>
     );
   }
@@ -168,6 +168,12 @@ var SparqlResults = React.createClass({
 
   render: function() {
 
+
+    let issueTitle = encodeURIComponent("Problem with mapping of " + this.props.title)
+    let issueBody = encodeURIComponent("I expected to see:\n\n*[WHAT I EXPECTED]*\n\nbut instead I saw:\n\n*[WHAT I SAW]*\n\nThe current query was:\n\n```ttl\n"+this.props.results.select+"\n```")
+    let issueLinkUrl = `https://github.com/workergnome/aac_mappings/issues/new?title=${issueTitle}&body=${issueBody}`
+    
+
     if (!this.props.results) {return false;}
 
     let columns = this.props.select.split(" ");
@@ -218,6 +224,9 @@ var SparqlResults = React.createClass({
                        onClick={(e) => this.setState({showConstructed: !this.state.showConstructed})}>
                        { this.state.showConstructed ? "Hide Turtle" : "Show Turtle"}
                   </button>
+                 </div>
+                 <div className="github_issue_link">
+                   <a href={issueLinkUrl}>Do you see a problem with this?  Submit an issue.</a>
                  </div>
              </div>
           </div>  

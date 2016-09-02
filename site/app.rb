@@ -24,6 +24,10 @@ require 'redcarpet'
 require 'rouge'
 require 'rouge/plugins/redcarpet'
 
+# Slug Libraries
+require "unicode"
+require "babosa"
+
 class HTML < Redcarpet::Render::HTML
   include Rouge::Plugins::Redcarpet # yep, that's it.
 end
@@ -169,21 +173,26 @@ class MyApp < Sinatra::Base
   #----------------------------------------------------------------------------
   post "/search" do
 
+    # setup query
     client = AAC::QueryRunner.new(params[:endpoint])
     query = AAC::QueryObject.new(params[:fields])
     query.prefixes = {crm: params[:crm]}
 
+    # execute the query
     result_graph, values = client.test(query, params[:values], false)
 
+    # convert the resulting graph to turtle
     ttl_string = RDF::Turtle::Writer.buffer( prefixes: AAC::QueryObject::DEFAULT_PREFIXES ) do |writer|
       result_graph.each_statement do |statement|
         writer << statement
       end
     end
 
+    # retrieve the sparql ueries
     select = query.select_query(params[:values]);
     construct = query.construct_query(params[:values])
 
+    # return stuff
     json({object: ttl_string, values: values, select: select, construct: construct})
 
   end
@@ -205,26 +214,42 @@ class MyApp < Sinatra::Base
   #             
   #----------------------------------------------------------------------------
   post "/full_graph" do
+
     client = AAC::QueryRunner.new(params[:endpoint])
-
     graph = RDF::Graph.new
+    all_values = {}
 
+    # For every relevant data file,
     Dir.glob('./data/fields/**/*.yaml').each do |file|
       test_obj = YAML.load_file(file)
       next unless test_obj["applies_to"] && test_obj["applies_to"].include?(params[:entity_type])
 
-
+      # including default values,
       default_values = {}
       test_obj.select{|k,v| k.to_s =~ /^test_/}.each{|k,v| default_values[k.gsub("test_","")] = v}
       passed_values = params[:values].merge(default_values)
 
-
+      # execute a query,
       query = AAC::QueryObject.new(test_obj)
       query.prefixes = {crm: params[:crm]}
-
       result_graph, values = client.test(query, passed_values, false)    
+      
+      # and append the resulting values to the list.
       result_graph.each_statement {|s| graph.insert s}
+
+      def camelize(word)  
+        word.to_slug.normalize.to_s.gsub(/[-_](.)/){|match| $1.upcase}
+      end
+      # k.gsub(/(#{key}|#{key[0...-1]})[_-]/,"")
+      key = test_obj["key"] || camelize(test_obj["title"])
+      all_values[key] = values.collect{|obj| obj.map{|k,v| [camelize(k),v]}.to_h}
     end
+
+
+    if params[:return_type] == "json"
+      return JSON.pretty_generate all_values
+    end
+
 
     if params[:return_type] == "ttl"
       sameAs_list = {}
@@ -274,23 +299,11 @@ class MyApp < Sinatra::Base
   post "/graph" do
 
     val = params[:ttl].gsub("?", "_:")
-    hash = Digest::SHA256.hexdigest val
+    file_path = "./site/public/graphs/"
+    uri_path =  "/graphs/" 
 
-    filename = "./site/public/graphs/#{hash}.svg"
-    return "/graphs/#{hash}.svg" if File.exists? filename
-
-    file = Tempfile.new(["",".ttl"])
-    file.write(val)
-    file.write(params[:extras]) if (params[:extras])
-    file.close
-    results = `perl ./rdfpuml/rdfpuml.pl #{file.path}`
-    file.unlink
-    # puts "results of the graph: #{results} from #{file.path}"
-    encoded_data = PlantUmlEncode64.encode(results)
-    url =  "http://www.plantuml.com/plantuml/svg/#{encoded_data}"
-    response = Typhoeus.get(url, followlocation: true)
-    File.open(filename, "wb") {|f| f.write response.body}
-    return "/graphs/#{hash}.svg"
+    AAC::QueryGraph.generateGraph(val,file_path,uri_path, params[:extras])
+  
   end
 
 end
