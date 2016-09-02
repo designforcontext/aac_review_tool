@@ -5521,4 +5521,9 @@ button.close {
 .markdown-body {
   margin: 20px 0px; }
 
+.no_results {
+  text-align: center;
+  font-style: italic;
+  color: #888; }
+
 /*# sourceMappingURL=app.css.map */

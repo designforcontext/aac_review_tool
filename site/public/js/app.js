@@ -52498,7 +52498,9 @@
 	      return false;
 	    }
 	
-	    var table_headers = this.props.select.split(" ").map(function (select_item) {
+	    var columns = this.props.select.split(" ");
+	
+	    var table_headers = columns.map(function (select_item) {
 	      return _react2.default.createElement(
 	        'th',
 	        { key: select_item },
@@ -52506,37 +52508,48 @@
 	      );
 	    });
 	
-	    var table_rows = this.props.results.values.map(function (result, i) {
-	      var cells = _this2.props.select.split(" ").map(function (key) {
-	        var val = result[key.replace("?", "")];
-	        if (/^https?:\/\//.test(val)) {
-	          if (/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
-	            val = _react2.default.createElement(
-	              'a',
-	              { href: val, target: '_blank' },
-	              _react2.default.createElement('img', { className: 'img-responsive', src: val })
-	            );
-	          } else {
-	            val = _react2.default.createElement(
-	              'a',
-	              { href: val, target: '_blank' },
-	              _this2.truncate(val, 40)
-	            );
+	    var table_rows = _react2.default.createElement(
+	      'tr',
+	      null,
+	      _react2.default.createElement(
+	        'td',
+	        { colSpan: columns.length, className: 'no_results' },
+	        'No results found.'
+	      )
+	    );
+	    if (this.props.results.values.length > 0) {
+	      table_rows = this.props.results.values.map(function (result, i) {
+	        var cells = _this2.props.select.split(" ").map(function (key) {
+	          var val = result[key.replace("?", "")];
+	          if (/^https?:\/\//.test(val)) {
+	            if (/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
+	              val = _react2.default.createElement(
+	                'a',
+	                { href: val, target: '_blank' },
+	                _react2.default.createElement('img', { className: 'img-responsive', src: val })
+	              );
+	            } else {
+	              val = _react2.default.createElement(
+	                'a',
+	                { href: val, target: '_blank' },
+	                _this2.truncate(val, 40)
+	              );
+	            }
 	          }
-	        }
+	          return _react2.default.createElement(
+	            'td',
+	            { key: i + '_' + key },
+	            ' ',
+	            val
+	          );
+	        });
 	        return _react2.default.createElement(
-	          'td',
-	          { key: i + '_' + key },
-	          ' ',
-	          val
+	          'tr',
+	          { key: i },
+	          cells
 	        );
 	      });
-	      return _react2.default.createElement(
-	        'tr',
-	        { key: i },
-	        cells
-	      );
-	    });
+	    }
 	
 	    return _react2.default.createElement(
 	      'div',
@@ -52701,7 +52714,7 @@
 	          _react2.default.createElement(
 	            "h4",
 	            null,
-	            "Object Model"
+	            "Standard Property Mapping"
 	          ),
 	          svgImage
 	        )

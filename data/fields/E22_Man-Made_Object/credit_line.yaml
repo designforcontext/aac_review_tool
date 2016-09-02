@@ -50,4 +50,5 @@ where: |
 
 graph_extras: | 
   aat:300026687 puml:label "acknowledgments".
+  crm:P2_has_type puml:arrow puml:dashed .
 

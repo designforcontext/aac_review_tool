@@ -170,25 +170,31 @@ var SparqlResults = React.createClass({
 
     if (!this.props.results) {return false;}
 
+    let columns = this.props.select.split(" ");
 
-    let table_headers = this.props.select.split(" ").map(function(select_item) {
+    let table_headers = columns.map(function(select_item) {
       return ( <th key={select_item} >{select_item.replace("?","")}</th>)
     });
 
-    let table_rows = this.props.results.values.map((result, i) => {
-      let cells = this.props.select.split(" ").map((key) => {
-        let val = result[key.replace("?","")];
-        if(/^https?:\/\//.test(val)) {
-          if(/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
-            val = <a href={val} target='_blank'><img className='img-responsive' src={val} /></a>
-          }else {
-            val = <a href={val} target='_blank'>{this.truncate(val,40)}</a>
+    let table_rows = (
+      <tr><td colSpan={columns.length} className='no_results'>No results found.</td></tr>
+    )
+    if (this.props.results.values.length > 0) {
+        table_rows= this.props.results.values.map((result, i) => {
+        let cells = this.props.select.split(" ").map((key) => {
+          let val = result[key.replace("?","")];
+          if(/^https?:\/\//.test(val)) {
+            if(/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
+              val = <a href={val} target='_blank'><img className='img-responsive' src={val} /></a>
+            }else {
+              val = <a href={val} target='_blank'>{this.truncate(val,40)}</a>
+            }
           }
-        }
-        return (<td key={`${i}_${key}`}> {val}</td>)
-      });
-      return ( <tr key={i}>{cells}</tr>)
-    })
+          return (<td key={`${i}_${key}`}> {val}</td>)
+        });
+        return ( <tr key={i}>{cells}</tr>)
+      })
+    }
 
     return (
       <div className="row results">

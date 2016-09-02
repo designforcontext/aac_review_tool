@@ -48,7 +48,7 @@ var ItemMapping = React.createClass({
       <section className="illustration">
         <div className="row">
           <div className="col-md-12">
-            <h4>Object Model</h4>
+            <h4>Standard Property Mapping</h4>
             {svgImage} 
           </div> 
         </div>
