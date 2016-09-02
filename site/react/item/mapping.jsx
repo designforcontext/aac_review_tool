@@ -1,9 +1,11 @@
 import React from 'react';
 import $ from "jquery";
+import ModalTrigger from '../utilities/modal_trigger.jsx'
 
 
 var ItemMapping = React.createClass({
-    getInitialState: function() {
+
+  getInitialState: function() {
     return {svg: "", show_ttl: false}
   },
   componentWillReceiveProps: function(nextProps){
@@ -18,31 +20,31 @@ var ItemMapping = React.createClass({
   getSvg: function(data) {
     if (!data.construct) return false;
 
-    $.post("/graph", {ttl: data.construct, extras: data.extras}, this.handleSVG);
     this.setState({svg: ""})      
+    $.post("/graph", {ttl: data.construct, extras: data.extras}, (svg_url) => this.setState({svg: svg_url}) );
+  },
 
-  },
-  handleSVG: function(svg_url) {
-    this.setState({svg: svg_url});
-  },
 
   render: function() {
 
 
     var svgImage = this.state.svg ? <img className="img-responsive center-block" src={this.state.svg} /> : <p className='textCenter'>Loading Diagram...</p>
 
-
-    var btn;
-    var ttl;
-    if (!this.state.showConstructed) {
-      btn = <button  className="btn btn-info btn-xs center-block" onClick={(e) => this.setState({showConstructed: true})}>Show Turtle</button>
-      ttl = false;
+    var btn = "";
+    if (this.state.svg) {
+      btn = (
+        <div className="row">
+          <div className="col-lg-10 col-lg-offset-1 text-center">
+            <ModalTrigger 
+              func={this.props.showModal} 
+              text={this.props.construct} 
+            >
+              Show Mapping as Turtle
+            </ModalTrigger>
+          </div>
+        </div>
+        )
     }
-    else {
-      btn = <button className="btn btn-info btn-xs center-block" onClick={(e) => this.setState({showConstructed: false})}>Hide Turtle</button>
-      ttl = <pre>{this.props.construct}</pre>
-    }
-
 
     return (
       <section className="illustration">
@@ -52,12 +54,7 @@ var ItemMapping = React.createClass({
             {svgImage} 
           </div> 
         </div>
-        <div className="row">
-          <div className="col-lg-10 col-lg-offset-1">
-            {ttl}
-            {btn}
-          </div>
-        </div>
+        {btn}
       </section>
     );
   }

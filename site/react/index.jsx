@@ -6,7 +6,7 @@ import {render}    from 'react-dom';
 // Import Components
 import Sidebar     from './sidebar.jsx';
 import Header      from "./header.jsx";
-import ItemDisplay from "./item/display.jsx";
+import ItemDisplay from "./item/item_display.jsx";
 import ContentModal from "./content_modal.jsx";
 
 

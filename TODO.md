@@ -6,10 +6,9 @@
 * [ ] Make a better homepage
 * [ ] Solve the RDFPUML problem
 * [ ] Add a Readme
-* [ ] Document the SPARQL
 * [ ] Look into getting rid of the odd WHERE UNION (with the new graph)
 * [ ] Loading button state for turtle gets
-* [ ] Github Issue Link
+* [ ] Document the SPARQL
 
 ### Data Needed for Objects
 
@@ -41,6 +40,8 @@
 * [X] Abstract away the Objectness (to handle other things)
 * [X] Stick this behind a route
 * [X] JSON export
+* [X] Github Issue Link
+
 
 ---
 

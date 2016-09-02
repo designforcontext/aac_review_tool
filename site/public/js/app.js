@@ -73,11 +73,11 @@
 	
 	var _header2 = _interopRequireDefault(_header);
 	
-	var _display = __webpack_require__(/*! ./item/display.jsx */ 429);
+	var _item_display = __webpack_require__(/*! ./item/item_display.jsx */ 429);
 	
-	var _display2 = _interopRequireDefault(_display);
+	var _item_display2 = _interopRequireDefault(_item_display);
 	
-	var _content_modal = __webpack_require__(/*! ./content_modal.jsx */ 430);
+	var _content_modal = __webpack_require__(/*! ./content_modal.jsx */ 436);
 	
 	var _content_modal2 = _interopRequireDefault(_content_modal);
 	
@@ -240,7 +240,7 @@
 	            },
 	            currentItem: this.state.currentItem
 	          }),
-	          _react2.default.createElement(_display2.default, _extends({}, currentFields, { search: currentSearchEndpoint, showModal: this.showModal
+	          _react2.default.createElement(_item_display2.default, _extends({}, currentFields, { search: currentSearchEndpoint, showModal: this.showModal
 	          }))
 	        )
 	      ),
@@ -52083,8 +52083,479 @@
 
 /***/ },
 /* 429 */
+/*!******************************************!*\
+  !*** ./site/react/item/item_display.jsx ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (props) {
+	
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'col-sm-9 col-lg-8 col-lg-offset-1 app' },
+	    _react2.default.createElement(_title2.default, {
+	      title: props.title,
+	      mandatory: props.mandatory,
+	      multiples: props.multiples,
+	      description: props.long_description ? props.long_description : props.description,
+	      example: props.example,
+	      lod_type: props.lod_type
+	    }),
+	    _react2.default.createElement(_sparql_search2.default, props),
+	    _react2.default.createElement(_mapping2.default, { construct: props.construct, extras: props.graph_extras, showModal: props.showModal })
+	  );
+	};
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _title = __webpack_require__(/*! ./title.jsx */ 430);
+	
+	var _title2 = _interopRequireDefault(_title);
+	
+	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 431);
+	
+	var _sparql_search2 = _interopRequireDefault(_sparql_search);
+	
+	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 435);
+	
+	var _mapping2 = _interopRequireDefault(_mapping);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+/* 430 */
+/*!***********************************!*\
+  !*** ./site/react/item/title.jsx ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (props) {
+	  return _react2.default.createElement(
+	    "section",
+	    { className: "field_info" },
+	    _react2.default.createElement(
+	      "div",
+	      { className: "row" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "col-md-12" },
+	        _react2.default.createElement(
+	          "h2",
+	          { className: "field_name" },
+	          props.title,
+	          _react2.default.createElement(
+	            "span",
+	            { className: "badge" },
+	            props.mandatory ? "Mandatory" : ""
+	          ),
+	          _react2.default.createElement(
+	            "span",
+	            { className: "badge" },
+	            props.multiples ? "" : "Only One Allowed"
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "p",
+	          null,
+	          props.description
+	        )
+	      )
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      { className: "row" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "col-md-12" },
+	        _react2.default.createElement(
+	          "dl",
+	          { className: "dl-horizontal" },
+	          _react2.default.createElement(
+	            "dt",
+	            null,
+	            "Example:"
+	          ),
+	          _react2.default.createElement(
+	            "dd",
+	            null,
+	            props.example
+	          ),
+	          _react2.default.createElement(
+	            "dt",
+	            null,
+	            "Mandatory:"
+	          ),
+	          _react2.default.createElement(
+	            "dd",
+	            null,
+	            props.mandatory ? "Yes" : "No"
+	          ),
+	          _react2.default.createElement(
+	            "dt",
+	            null,
+	            "Multiples:"
+	          ),
+	          _react2.default.createElement(
+	            "dd",
+	            null,
+	            props.multiples ? "Yes" : "No"
+	          ),
+	          _react2.default.createElement(
+	            "dt",
+	            null,
+	            props.lod_type ? "Associated AAC ID:" : ""
+	          ),
+	          _react2.default.createElement(
+	            "dd",
+	            null,
+	            _react2.default.createElement(
+	              "a",
+	              { href: props.lod_type, target: "_blank" },
+	              props.lod_type
+	            )
+	          )
+	        )
+	      )
+	    )
+	  );
+	};
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/******************************************************************************
+	*
+	*  This is the Item Display title section, with the badges. 
+	*  
+	******************************************************************************/
+	
+	;
+
+/***/ },
+/* 431 */
+/*!*******************************************!*\
+  !*** ./site/react/item/sparql_search.jsx ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 1);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _modal_trigger = __webpack_require__(/*! ../utilities/modal_trigger.jsx */ 433);
+	
+	var _modal_trigger2 = _interopRequireDefault(_modal_trigger);
+	
+	var _sparql_results = __webpack_require__(/*! ./sparql_results.jsx */ 437);
+	
+	var _sparql_results2 = _interopRequireDefault(_sparql_results);
+	
+	var _search_input_field = __webpack_require__(/*! ./search_input_field.jsx */ 434);
+	
+	var _search_input_field2 = _interopRequireDefault(_search_input_field);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SparqlSearch = _react2.default.createClass({
+	  displayName: 'SparqlSearch',
+	
+	
+	  getInitialState: function getInitialState() {
+	    return { results: false, isSearching: false };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.autoSearch();
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    if (nextProps.title != this.props.title) {
+	      this.setState({ results: false });
+	    }
+	  },
+	  componentDidUpdate: function componentDidUpdate(prevProps) {
+	    if (prevProps.title != this.props.title || prevProps.search.endpoint != this.props.search.endpoint) {
+	      this.autoSearch();
+	    }
+	  },
+	
+	  autoSearch: function autoSearch() {
+	    var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+	
+	    if (e) {
+	      e.preventDefault();
+	    }
+	    var obj = (0, _jquery2.default)("#search_form").serializeArray();
+	    this.doSearch(obj);
+	  },
+	
+	  doSearch: function doSearch(obj) {
+	    var val = {};
+	    var blank_found = false;
+	    obj.forEach(function (v) {
+	      if (v.name == "entity_uri" && v.value == "") {
+	        blank_found = true;
+	      };
+	      val[v.name] = v.value;
+	    });
+	
+	    if (blank_found) {
+	      return false;
+	    }
+	
+	    var submission = {
+	      fields: {
+	        select: this.props.select,
+	        construct: this.props.construct,
+	        where: this.props.where,
+	        values: this.props.values
+	      },
+	      endpoint: this.props.search.endpoint,
+	      crm: this.props.search.predicate,
+	      values: val
+	    };
+	    _jquery2.default.post("/search", submission, this.handleResults);
+	    this.setState({ isSearching: true });
+	  },
+	
+	  handleResults: function handleResults(data) {
+	    this.setState({ results: data, isSearching: false });
+	  },
+	
+	  render: function render() {
+	    var _this = this;
+	
+	    var input_boxes = this.props.values.split(" ").map(function (value) {
+	
+	      var field_name = value.replace("?", "");
+	      var default_value = _this.props['test_' + field_name];
+	      if (field_name == "entity_uri") {
+	        default_value = _this.props.search[ENTITY_TYPE].default;
+	      }
+	      return _react2.default.createElement(_search_input_field2.default, {
+	        key: field_name,
+	        value: field_name,
+	        'default': default_value
+	      });
+	    });
+	
+	    return _react2.default.createElement(
+	      'section',
+	      { className: 'search' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-md-12' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'Test An Example'
+	          ),
+	          _react2.default.createElement(
+	            'form',
+	            { id: 'search_form', className: 'form-horizontal', onSubmit: this.state.isSearching ? null : this.autoSearch },
+	            input_boxes,
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'form-group' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'col-sm-offset-3 col-sm-6' },
+	                _react2.default.createElement(
+	                  _reactBootstrap.Button,
+	                  {
+	                    bsStyle: 'primary',
+	                    disabled: this.state.isSearching,
+	                    onClick: this.state.isSearching ? null : this.autoSearch
+	                  },
+	                  this.state.isSearching ? 'Searching...' : 'Search'
+	                )
+	              )
+	            )
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(_sparql_results2.default, { title: this.props.title, select: this.props.select, results: this.state.results, showModal: this.props.showModal })
+	    );
+	  }
+	});
+	
+	//-----------------------------------------------------------------------------
+	exports.default = SparqlSearch;
+
+/***/ },
+/* 432 */
+/*!***********************************************!*\
+  !*** ./site/react/utilities/github_issue.jsx ***!
+  \***********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (props) {
+	  var issueTitle = encodeURIComponent("Problem with mapping of " + props.title);
+	  var issueBody = encodeURIComponent("I expected to see:\n\n*[WHAT I EXPECTED]*\n\nbut instead I saw:\n\n*[WHAT I SAW]*\n\nThe current query was:\n\n```ttl\n" + props.query + "\n```");
+	  var issueLinkUrl = "https://github.com/workergnome/aac_mappings/issues/new?title=" + issueTitle + "&body=" + issueBody;
+	
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "github_issue_link" },
+	    _react2.default.createElement(
+	      "a",
+	      { href: issueLinkUrl },
+	      "Do you see a problem with this?  Submit an issue."
+	    )
+	  );
+	};
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+/* 433 */
+/*!************************************************!*\
+  !*** ./site/react/utilities/modal_trigger.jsx ***!
+  \************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (props) {
+	  return _react2.default.createElement(
+	    "button",
+	    {
+	      className: "btn btn-info btn-xs",
+	      onClick: function onClick(e) {
+	        return props.func(props.text);
+	      } },
+	    props.children
+	  );
+	};
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+/* 434 */
+/*!************************************************!*\
+  !*** ./site/react/item/search_input_field.jsx ***!
+  \************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	  displayName: "search_input_field",
+	
+	  getInitialState: function getInitialState() {
+	    return { value: this.props.default || "" };
+	  },
+	  handleChange: function handleChange(e) {
+	    this.setState({ value: e.target.value });
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    if (nextProps.default != this.props.default) {
+	      this.setState({ value: nextProps.default || "" });
+	    }
+	  },
+	  render: function render() {
+	
+	    var id_val = "sparql_" + this.props.value;
+	    var title = this.props.value.replace(/_/g, " ");
+	    var placeholder = "Enter a " + title;
+	    var default_value = this.props.default;
+	
+	    return _react2.default.createElement(
+	      "div",
+	      { className: "form-group" },
+	      _react2.default.createElement(
+	        "label",
+	        { className: "col-sm-3 text-right", htmlFor: id_val, style: { "textTransform": "capitalize" } },
+	        title
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        { className: "col-sm-6" },
+	        _react2.default.createElement("input", {
+	          type: "text",
+	          className: "form-control",
+	          name: this.props.value,
+	          id: id_val,
+	          placeholder: placeholder,
+	          value: this.state.value,
+	          onChange: this.handleChange
+	        })
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        { className: "col-sm-2" },
+	        _react2.default.createElement(
+	          "a",
+	          { className: "search_link", href: this.state.value, target: "_blank" },
+	          "(link)"
+	        )
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+/* 435 */
 /*!*************************************!*\
-  !*** ./site/react/item/display.jsx ***!
+  !*** ./site/react/item/mapping.jsx ***!
   \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
@@ -52098,59 +52569,97 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _title = __webpack_require__(/*! ./title.jsx */ 431);
+	var _jquery = __webpack_require__(/*! jquery */ 1);
 	
-	var _title2 = _interopRequireDefault(_title);
+	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _props = __webpack_require__(/*! ./props.jsx */ 432);
+	var _modal_trigger = __webpack_require__(/*! ../utilities/modal_trigger.jsx */ 433);
 	
-	var _props2 = _interopRequireDefault(_props);
-	
-	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 433);
-	
-	var _sparql_search2 = _interopRequireDefault(_sparql_search);
-	
-	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 434);
-	
-	var _mapping2 = _interopRequireDefault(_mapping);
+	var _modal_trigger2 = _interopRequireDefault(_modal_trigger);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var ItemDisplay = _react2.default.createClass({
-	  displayName: 'ItemDisplay',
+	var ItemMapping = _react2.default.createClass({
+	  displayName: 'ItemMapping',
 	
+	
+	  getInitialState: function getInitialState() {
+	    return { svg: "", show_ttl: false };
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    if (nextProps.construct != this.props.construct) {
+	      this.getSvg(nextProps);
+	    }
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.getSvg(this.props);
+	  },
+	
+	  getSvg: function getSvg(data) {
+	    var _this = this;
+	
+	    if (!data.construct) return false;
+	
+	    this.setState({ svg: "" });
+	    _jquery2.default.post("/graph", { ttl: data.construct, extras: data.extras }, function (svg_url) {
+	      return _this.setState({ svg: svg_url });
+	    });
+	  },
 	
 	  render: function render() {
 	
+	    var svgImage = this.state.svg ? _react2.default.createElement('img', { className: 'img-responsive center-block', src: this.state.svg }) : _react2.default.createElement(
+	      'p',
+	      { className: 'textCenter' },
+	      'Loading Diagram...'
+	    );
+	
+	    var btn = "";
+	    if (this.state.svg) {
+	      btn = _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-lg-10 col-lg-offset-1 text-center' },
+	          _react2.default.createElement(
+	            _modal_trigger2.default,
+	            {
+	              func: this.props.showModal,
+	              text: this.props.construct
+	            },
+	            'Show Mapping as Turtle'
+	          )
+	        )
+	      );
+	    }
+	
 	    return _react2.default.createElement(
-	      'div',
-	      { className: 'col-sm-9 col-lg-8 col-lg-offset-1 app' },
+	      'section',
+	      { className: 'illustration' },
 	      _react2.default.createElement(
-	        'section',
-	        { className: 'field_info' },
-	        _react2.default.createElement(_title2.default, {
-	          title: this.props.title,
-	          mandatory: this.props.mandatory,
-	          multiples: this.props.multiples,
-	          description: this.props.long_description ? this.props.long_description : this.props.description
-	        }),
-	        _react2.default.createElement(_props2.default, {
-	          example: this.props.example,
-	          lod_type: this.props.lod_type,
-	          mandatory: this.props.mandatory,
-	          multiples: this.props.multiples
-	        })
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-md-12' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'Standard Property Mapping'
+	          ),
+	          svgImage
+	        )
 	      ),
-	      _react2.default.createElement(_sparql_search2.default, this.props),
-	      _react2.default.createElement(_mapping2.default, { construct: this.props.construct, extras: this.props.graph_extras })
+	      btn
 	    );
 	  }
 	});
 	
-	exports.default = ItemDisplay;
+	exports.default = ItemMapping;
 
 /***/ },
-/* 430 */
+/* 436 */
 /*!**************************************!*\
   !*** ./site/react/content_modal.jsx ***!
   \**************************************/
@@ -52212,139 +52721,10 @@
 	exports.default = ContentModal;
 
 /***/ },
-/* 431 */
-/*!***********************************!*\
-  !*** ./site/react/item/title.jsx ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var ItemTitle = _react2.default.createClass({
-	  displayName: "ItemTitle",
-	
-	  render: function render() {
-	    return _react2.default.createElement(
-	      "div",
-	      { className: "row" },
-	      _react2.default.createElement(
-	        "div",
-	        { className: "col-md-12" },
-	        _react2.default.createElement(
-	          "h2",
-	          { className: "field_name" },
-	          this.props.title,
-	          _react2.default.createElement(
-	            "span",
-	            { className: "badge" },
-	            this.props.mandatory ? "Mandatory" : ""
-	          ),
-	          _react2.default.createElement(
-	            "span",
-	            { className: "badge" },
-	            this.props.multiples ? "" : "Only One Allowed"
-	          )
-	        ),
-	        _react2.default.createElement(
-	          "p",
-	          null,
-	          this.props.description
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	exports.default = ItemTitle;
-
-/***/ },
-/* 432 */
-/*!***********************************!*\
-  !*** ./site/react/item/props.jsx ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	// Renders the metadata key/value listing.
-	function ItemProps(props) {
-	  return _react2.default.createElement(
-	    "dl",
-	    { className: "dl-horizontal" },
-	    _react2.default.createElement(
-	      "dt",
-	      null,
-	      "Example:"
-	    ),
-	    _react2.default.createElement(
-	      "dd",
-	      null,
-	      props.example
-	    ),
-	    _react2.default.createElement(
-	      "dt",
-	      null,
-	      "Mandatory:"
-	    ),
-	    _react2.default.createElement(
-	      "dd",
-	      null,
-	      props.mandatory ? "Yes" : "No"
-	    ),
-	    _react2.default.createElement(
-	      "dt",
-	      null,
-	      "Multiples:"
-	    ),
-	    _react2.default.createElement(
-	      "dd",
-	      null,
-	      props.multiples ? "Yes" : "No"
-	    ),
-	    _react2.default.createElement(
-	      "dt",
-	      null,
-	      props.lod_type ? "Associated AAC ID:" : ""
-	    ),
-	    _react2.default.createElement(
-	      "dd",
-	      null,
-	      _react2.default.createElement(
-	        "a",
-	        { href: props.lod_type, target: "_blank" },
-	        props.lod_type
-	      )
-	    )
-	  );
-	}
-	
-	exports.default = ItemProps;
-
-/***/ },
-/* 433 */
-/*!*******************************************!*\
-  !*** ./site/react/item/sparql_search.jsx ***!
-  \*******************************************/
+/* 437 */
+/*!********************************************!*\
+  !*** ./site/react/item/sparql_results.jsx ***!
+  \********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52357,199 +52737,18 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
+	var _modal_trigger = __webpack_require__(/*! ../utilities/modal_trigger.jsx */ 433);
 	
-	var _jquery = __webpack_require__(/*! jquery */ 1);
+	var _modal_trigger2 = _interopRequireDefault(_modal_trigger);
 	
-	var _jquery2 = _interopRequireDefault(_jquery);
+	var _github_issue = __webpack_require__(/*! ../utilities/github_issue.jsx */ 432);
+	
+	var _github_issue2 = _interopRequireDefault(_github_issue);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var SparqlSearch = _react2.default.createClass({
-	  displayName: 'SparqlSearch',
-	
-	
-	  getInitialState: function getInitialState() {
-	    return { results: false, isSearching: false };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.autoSearch();
-	  },
-	
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	    if (nextProps.title != this.props.title) {
-	      this.setState({ results: false });
-	    }
-	  },
-	  componentDidUpdate: function componentDidUpdate(prevProps) {
-	    if (prevProps.title != this.props.title || prevProps.search.endpoint != this.props.search.endpoint) {
-	      this.autoSearch();
-	    }
-	  },
-	
-	  autoSearch: function autoSearch() {
-	    var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-	
-	    if (e) {
-	      e.preventDefault();
-	    }
-	    var obj = (0, _jquery2.default)("#search_form").serializeArray();
-	    this.doSearch(obj);
-	  },
-	
-	  doSearch: function doSearch(obj) {
-	
-	    var val = {};
-	    var blank_found = false;
-	    obj.forEach(function (v) {
-	      if (v.name == "entity_uri" && v.value == "") {
-	        blank_found = true;
-	      };
-	      val[v.name] = v.value;
-	    });
-	
-	    if (blank_found) {
-	      return false;
-	    }
-	
-	    var submission = {
-	      fields: {
-	        select: this.props.select,
-	        construct: this.props.construct,
-	        where: this.props.where,
-	        values: this.props.values
-	      },
-	      endpoint: this.props.search.endpoint,
-	      crm: this.props.search.predicate,
-	      values: val
-	    };
-	    _jquery2.default.post("/search", submission, this.handleResults);
-	    this.setState({ isSearching: true });
-	  },
-	
-	  handleResults: function handleResults(data) {
-	    this.setState({ results: data, isSearching: false });
-	  },
-	
-	  render: function render() {
-	
-	    var _this = this;
-	    var input_boxes = this.props.values.split(" ").map(function (value) {
-	
-	      var field_name = value.replace("?", "");
-	      var default_value = _this.props['test_' + field_name];
-	      if (field_name == "entity_uri") {
-	        default_value = _this.props.search[ENTITY_TYPE].default;
-	      }
-	      return _react2.default.createElement(SearchInputField, {
-	        key: field_name,
-	        value: field_name,
-	        'default': default_value
-	      });
-	    });
-	
-	    return _react2.default.createElement(
-	      'section',
-	      { className: 'search' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'row' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-md-12' },
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            'Test An Example'
-	          ),
-	          _react2.default.createElement(
-	            'form',
-	            { id: 'search_form', className: 'form-horizontal', onSubmit: this.state.isSearching ? null : this.autoSearch },
-	            input_boxes,
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'form-group' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'col-sm-offset-3 col-sm-6' },
-	                _react2.default.createElement(
-	                  _reactBootstrap.Button,
-	                  {
-	                    bsStyle: 'primary',
-	                    disabled: this.state.isSearching,
-	                    onClick: this.state.isSearching ? null : this.autoSearch
-	                  },
-	                  this.state.isSearching ? 'Searching...' : 'Search'
-	                )
-	              )
-	            )
-	          )
-	        )
-	      ),
-	      _react2.default.createElement(SparqlResults, { title: this.props.title, select: this.props.select, results: this.state.results, showModal: this.props.showModal })
-	    );
-	  }
-	});
-	
-	//-----------------------------------------------------------------------------
-	var SearchInputField = _react2.default.createClass({
-	  displayName: 'SearchInputField',
-	
-	  getInitialState: function getInitialState() {
-	    return { value: this.props.default || "" };
-	  },
-	  handleChange: function handleChange(e) {
-	    this.setState({ value: e.target.value });
-	  },
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	    if (nextProps.default != this.props.default) {
-	      this.setState({ value: nextProps.default || "" });
-	    }
-	  },
-	  render: function render() {
-	
-	    var id_val = 'sparql_' + this.props.value;
-	    var title = this.props.value.replace(/_/g, " ");
-	    var placeholder = 'Enter a ' + title;
-	    var default_value = this.props.default;
-	
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'form-group' },
-	      _react2.default.createElement(
-	        'label',
-	        { className: 'col-sm-3 text-right', htmlFor: id_val, style: { "textTransform": "capitalize" } },
-	        title
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-sm-6' },
-	        _react2.default.createElement('input', {
-	          type: 'text',
-	          className: 'form-control',
-	          name: this.props.value,
-	          id: id_val,
-	          placeholder: placeholder,
-	          value: this.state.value,
-	          onChange: this.handleChange
-	        })
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'col-sm-2' },
-	        _react2.default.createElement(
-	          'a',
-	          { className: 'search_link', href: this.state.value, target: '_blank' },
-	          '(link)'
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	//-----------------------------------------------------------------------------
-	var SparqlResults = _react2.default.createClass({
-	  displayName: 'SparqlResults',
+	exports.default = _react2.default.createClass({
+	  displayName: 'sparql_results',
 	
 	  getInitialState: function getInitialState() {
 	    return { showConstructed: false };
@@ -52563,11 +52762,7 @@
 	  },
 	
 	  render: function render() {
-	    var _this2 = this;
-	
-	    var issueTitle = encodeURIComponent("Problem with mapping of " + this.props.title);
-	    var issueBody = encodeURIComponent("I expected to see:\n\n*[WHAT I EXPECTED]*\n\nbut instead I saw:\n\n*[WHAT I SAW]*\n\nThe current query was:\n\n```ttl\n" + this.props.results.select + "\n```");
-	    var issueLinkUrl = 'https://github.com/workergnome/aac_mappings/issues/new?title=' + issueTitle + '&body=' + issueBody;
+	    var _this = this;
 	
 	    if (!this.props.results) {
 	      return false;
@@ -52594,7 +52789,7 @@
 	    );
 	    if (this.props.results.values.length > 0) {
 	      table_rows = this.props.results.values.map(function (result, i) {
-	        var cells = _this2.props.select.split(" ").map(function (key) {
+	        var cells = _this.props.select.split(" ").map(function (key) {
 	          var val = result[key.replace("?", "")];
 	          if (/^https?:\/\//.test(val)) {
 	            if (/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
@@ -52607,7 +52802,7 @@
 	              val = _react2.default.createElement(
 	                'a',
 	                { href: val, target: '_blank' },
-	                _this2.truncate(val, 40)
+	                _this.truncate(val, 40)
 	              );
 	            }
 	          }
@@ -52656,168 +52851,31 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'panel-body text-center' },
-	            this.state.showConstructed ? _react2.default.createElement(
-	              'pre',
-	              { className: 'pre-scrollable text-left' },
-	              this.props.results.object
-	            ) : "",
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'btn-group btn-group-xs ' },
 	              _react2.default.createElement(
-	                'button',
-	                {
-	                  id: 'copy-sparql',
-	                  className: 'btn btn-info',
-	                  onClick: function onClick(e) {
-	                    return _this2.props.showModal(_this2.props.results.select);
-	                  } },
-	                'Show Query'
+	                _modal_trigger2.default,
+	                { func: this.props.showModal, text: this.props.results.select },
+	                'Show this Query'
 	              ),
 	              _react2.default.createElement(
-	                'button',
-	                {
-	                  className: 'btn btn-info',
-	                  onClick: function onClick(e) {
-	                    return _this2.setState({ showConstructed: !_this2.state.showConstructed });
-	                  } },
-	                this.state.showConstructed ? "Hide Turtle" : "Show Turtle"
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'github_issue_link' },
-	              _react2.default.createElement(
-	                'a',
-	                { href: issueLinkUrl },
-	                'Do you see a problem with this?  Submit an issue.'
+	                _modal_trigger2.default,
+	                { func: this.props.showModal, text: this.props.results.object },
+	                'Show as Turtle'
 	              )
 	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'panel-footer' },
+	            _react2.default.createElement(_github_issue2.default, { title: this.props.title, query: this.props.results.select })
 	          )
 	        )
 	      )
 	    );
 	  }
 	});
-	
-	//-----------------------------------------------------------------------------
-	exports.default = SparqlSearch;
-
-/***/ },
-/* 434 */
-/*!*************************************!*\
-  !*** ./site/react/item/mapping.jsx ***!
-  \*************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _jquery = __webpack_require__(/*! jquery */ 1);
-	
-	var _jquery2 = _interopRequireDefault(_jquery);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var ItemMapping = _react2.default.createClass({
-	  displayName: "ItemMapping",
-	
-	  getInitialState: function getInitialState() {
-	    return { svg: "", show_ttl: false };
-	  },
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	    if (nextProps.construct != this.props.construct) {
-	      this.getSvg(nextProps);
-	    }
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.getSvg(this.props);
-	  },
-	
-	  getSvg: function getSvg(data) {
-	    if (!data.construct) return false;
-	
-	    _jquery2.default.post("/graph", { ttl: data.construct, extras: data.extras }, this.handleSVG);
-	    this.setState({ svg: "" });
-	  },
-	  handleSVG: function handleSVG(svg_url) {
-	    this.setState({ svg: svg_url });
-	  },
-	
-	  render: function render() {
-	    var _this = this;
-	
-	    var svgImage = this.state.svg ? _react2.default.createElement("img", { className: "img-responsive center-block", src: this.state.svg }) : _react2.default.createElement(
-	      "p",
-	      { className: "textCenter" },
-	      "Loading Diagram..."
-	    );
-	
-	    var btn;
-	    var ttl;
-	    if (!this.state.showConstructed) {
-	      btn = _react2.default.createElement(
-	        "button",
-	        { className: "btn btn-info btn-xs center-block", onClick: function onClick(e) {
-	            return _this.setState({ showConstructed: true });
-	          } },
-	        "Show Turtle"
-	      );
-	      ttl = false;
-	    } else {
-	      btn = _react2.default.createElement(
-	        "button",
-	        { className: "btn btn-info btn-xs center-block", onClick: function onClick(e) {
-	            return _this.setState({ showConstructed: false });
-	          } },
-	        "Hide Turtle"
-	      );
-	      ttl = _react2.default.createElement(
-	        "pre",
-	        null,
-	        this.props.construct
-	      );
-	    }
-	
-	    return _react2.default.createElement(
-	      "section",
-	      { className: "illustration" },
-	      _react2.default.createElement(
-	        "div",
-	        { className: "row" },
-	        _react2.default.createElement(
-	          "div",
-	          { className: "col-md-12" },
-	          _react2.default.createElement(
-	            "h4",
-	            null,
-	            "Standard Property Mapping"
-	          ),
-	          svgImage
-	        )
-	      ),
-	      _react2.default.createElement(
-	        "div",
-	        { className: "row" },
-	        _react2.default.createElement(
-	          "div",
-	          { className: "col-lg-10 col-lg-offset-1" },
-	          ttl,
-	          btn
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	exports.default = ItemMapping;
 
 /***/ }
 /******/ ]);
