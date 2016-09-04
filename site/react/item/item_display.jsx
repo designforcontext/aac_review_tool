@@ -27,7 +27,7 @@ export default function(props) {
 
       <SparqlSearch {...props}/>
 
-      <ItemMapping construct={props.construct} extras={props.graph_extras} showModal={props.showModal}/>
+      <ItemMapping fieldTitle={props.title} construct={props.construct} extras={props.graph_extras} showModal={props.showModal}/>
     </div>
   )
 }

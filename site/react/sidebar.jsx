@@ -22,7 +22,7 @@ var Sidebar = React.createClass({
     });
 
     return (
-      <div className="col-md-3 col-lg-2 sidebar">
+      <div className="col-md-3 col-lg-2 sidebar hidden-print">
         <dl>
           {items}
         </dl>

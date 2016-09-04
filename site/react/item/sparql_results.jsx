@@ -57,7 +57,7 @@ export default  React.createClass({
                <thead><tr>{table_headers}</tr></thead>
                <tbody>{table_rows}</tbody>
              </table>
-             <div className="panel-body text-center">
+             <div className="panel-body text-cente hidden-printr">
                  <div className="btn-group btn-group-xs ">
                   <ModalTrigger func={this.props.showModal} text={this.props.results.select} title="SPARQL Query">
                     Show this Query
@@ -67,7 +67,7 @@ export default  React.createClass({
                   </ModalTrigger>
                  </div>
              </div>
-             <div className="panel-footer">
+             <div className="panel-footer hidden-print">
               <GithubIssue title={this.props.title} query={this.props.results.select}/>
              </div>
           </div>  

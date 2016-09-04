@@ -48,7 +48,7 @@ var ItemMapping = React.createClass({
       <section className="illustration">
         <div className="row">
           <div className="col-md-12">
-            <h4>Standard Property Mapping</h4>
+            <h4>AAC Target Mapping For <strong>{this.props.fieldTitle}</strong></h4>
             {svgImage} 
           </div> 
         </div>

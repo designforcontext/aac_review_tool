@@ -87,10 +87,10 @@ var SparqlSearch = React.createClass({
       <section className="search">
         <div className="row">
           <div className="col-md-12">
-            <h4>Test An Example</h4>
+            <h4>Search {this.props.search.name} for <strong>{this.props.title}</strong></h4>
             <form id="search_form" className="form-horizontal" onSubmit={this.state.isSearching ? null :this.autoSearch}>
               {input_boxes}
-              <div className="form-group">
+              <div className="form-group hidden-print">
                 <div className="col-sm-offset-3 col-sm-6">
                   <Button
                     bsStyle="primary"

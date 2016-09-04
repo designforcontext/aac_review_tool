@@ -4,7 +4,7 @@ import React from 'react';
 export default function(props){
 
   return (
-    <header className="container-fluid page_header">
+    <header className="container-fluid page_header hidden-print">
       <div className="row">
         <div className="col-md-4">
           <h1><a href="/">AAC Entity Mappings</a> </h1>

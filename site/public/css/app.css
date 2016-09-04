@@ -5505,10 +5505,13 @@ button.close {
     margin-bottom: 30px;
     margin-top: 0;
     background: #fff; }
+  .app h4 {
+    font-weight: 400; }
   .app section {
     margin-bottom: 50px;
     padding-bottom: 10px;
-    background: #eee; }
+    background: #eee;
+    page-break-inside: avoid; }
     .app section:first-child {
       background-color: inherit; }
 
