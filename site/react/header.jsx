@@ -14,16 +14,17 @@ const Header = React.createClass({
     if (this.state.modalLoading) {return false;}
     this.setState({modalLoading: true});
     const type = $(e.target).data('type');
+    const title = $(e.target).data('modal-title');
     let ajax = $.post("/full_graph",this.generateObjectData(type), "text");
-    ajax.done(this.handleDataReturn);
+    ajax.done((data) => this.handleDataReturn(data,title));
     ajax.fail((_,errorText,error) => {
       this.props.showObjectGraph(error);
       this.setState({modalLoading: false})
     })
   },
 
-  handleDataReturn: function(data) {
-    this.props.showObjectGraph(data);
+  handleDataReturn: function(data, title) {
+    this.props.showObjectGraph(data, title);
     this.setState({modalLoading: false})
   },
   generateObjectData: function(type="ttl") {
@@ -60,18 +61,21 @@ const Header = React.createClass({
         <ButtonGroup bsSize="small" role="group" className='download_buttons'>
           <Button
              data-type="ttl"
+             data-modal-title="Entity as Linked Open Data (in Turtle)"
              disabled= {this.state.modalLoading}
              onClick={this.loadObjectData}>
             Turtle
           </Button>
           <Button
              data-type="nested_ttl"
+             data-modal-title="Entity as Turtle (Nested Graph with Blank Nodes)"
              disabled={this.state.modalLoading}
              onClick={this.loadObjectData}>
             Turtle (Nested)
           </Button>
           <Button
              data-type="json"
+             data-modal-title="JSON Representation of the Entity"
              disabled ={this.state.modalLoading}
              onClick={this.loadObjectData}>
             JSON
@@ -82,7 +86,7 @@ const Header = React.createClass({
     return (
       <HeaderWrapper 
           title={title} 
-          bottomButtonsLabel="Search Against:"
+          bottomButtonsLabel="Current SPARQL Endpoint:"
           bottomButtons={topButtons} 
           topButtonsLabel={this.state.modalLoading ? "Processing..." : "Export Entity As:"} 
           topButtons={bottomButtons}

@@ -4,7 +4,7 @@ export default function(props) {
   return (
     <button  
          className="btn btn-info btn-xs" 
-         onClick={(e) => props.func(props.text)}>
+         onClick={(e) => props.func(props.text, props.title)}>
          {props.children}
     </button>
   )

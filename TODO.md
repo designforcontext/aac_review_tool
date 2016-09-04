@@ -9,6 +9,8 @@
 * [ ] Look into getting rid of the odd WHERE UNION (with the new graph)
 * [ ] Document the SPARQL
 * [ ] Optimize Test Runner for only needed type of query.
+* [ ] Update header for FAQ and homepage
+* [ ] Make the report.
 
 ### Data Needed for Objects
 

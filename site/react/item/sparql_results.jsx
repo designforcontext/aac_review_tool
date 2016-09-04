@@ -59,10 +59,10 @@ export default  React.createClass({
              </table>
              <div className="panel-body text-center">
                  <div className="btn-group btn-group-xs ">
-                  <ModalTrigger func={this.props.showModal} text={this.props.results.select}>
+                  <ModalTrigger func={this.props.showModal} text={this.props.results.select} title="SPARQL Query">
                     Show this Query
                   </ModalTrigger>
-                  <ModalTrigger func={this.props.showModal} text={this.props.results.object}>
+                  <ModalTrigger func={this.props.showModal} text={this.props.results.object} title="Results as Linked Open Data">
                     Show as Turtle
                   </ModalTrigger>
                  </div>

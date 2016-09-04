@@ -36,7 +36,7 @@ webpackJsonp([0,2],{
 	
 	var _item_display2 = _interopRequireDefault(_item_display);
 	
-	var _content_modal = __webpack_require__(/*! ./content_modal.jsx */ 438);
+	var _content_modal = __webpack_require__(/*! ./widgets/content_modal.jsx */ 438);
 	
 	var _content_modal2 = _interopRequireDefault(_content_modal);
 	
@@ -159,7 +159,9 @@ webpackJsonp([0,2],{
 	  // Handle showing the global modal.  
 	  // TODO:  This is probably the wrong layer to keep this in.
 	  showModal: function showModal(content) {
-	    this.setState({ modal: { content: content, title: "", show: true } });
+	    var title = arguments.length <= 1 || arguments[1] === undefined ? "" : arguments[1];
+	
+	    this.setState({ modal: { content: content, title: title, show: true } });
 	  },
 	
 	  // Render function
@@ -373,16 +375,19 @@ webpackJsonp([0,2],{
 	    }
 	    this.setState({ modalLoading: true });
 	    var type = (0, _jquery2.default)(e.target).data('type');
+	    var title = (0, _jquery2.default)(e.target).data('modal-title');
 	    var ajax = _jquery2.default.post("/full_graph", this.generateObjectData(type), "text");
-	    ajax.done(this.handleDataReturn);
+	    ajax.done(function (data) {
+	      return _this.handleDataReturn(data, title);
+	    });
 	    ajax.fail(function (_, errorText, error) {
 	      _this.props.showObjectGraph(error);
 	      _this.setState({ modalLoading: false });
 	    });
 	  },
 	
-	  handleDataReturn: function handleDataReturn(data) {
-	    this.props.showObjectGraph(data);
+	  handleDataReturn: function handleDataReturn(data, title) {
+	    this.props.showObjectGraph(data, title);
 	    this.setState({ modalLoading: false });
 	  },
 	  generateObjectData: function generateObjectData() {
@@ -434,6 +439,7 @@ webpackJsonp([0,2],{
 	        _reactBootstrap.Button,
 	        {
 	          'data-type': 'ttl',
+	          'data-modal-title': 'Entity as Linked Open Data (in Turtle)',
 	          disabled: this.state.modalLoading,
 	          onClick: this.loadObjectData },
 	        'Turtle'
@@ -442,6 +448,7 @@ webpackJsonp([0,2],{
 	        _reactBootstrap.Button,
 	        {
 	          'data-type': 'nested_ttl',
+	          'data-modal-title': 'Entity as Turtle (Nested Graph with Blank Nodes)',
 	          disabled: this.state.modalLoading,
 	          onClick: this.loadObjectData },
 	        'Turtle (Nested)'
@@ -450,6 +457,7 @@ webpackJsonp([0,2],{
 	        _reactBootstrap.Button,
 	        {
 	          'data-type': 'json',
+	          'data-modal-title': 'JSON Representation of the Entity',
 	          disabled: this.state.modalLoading,
 	          onClick: this.loadObjectData },
 	        'JSON'
@@ -458,7 +466,7 @@ webpackJsonp([0,2],{
 	
 	    return _react2.default.createElement(_header_wrapper2.default, {
 	      title: title,
-	      bottomButtonsLabel: 'Search Against:',
+	      bottomButtonsLabel: 'Current SPARQL Endpoint:',
 	      bottomButtons: topButtons,
 	      topButtonsLabel: this.state.modalLoading ? "Processing..." : "Export Entity As:",
 	      topButtons: bottomButtons
@@ -705,17 +713,7 @@ webpackJsonp([0,2],{
 	        _react2.default.createElement(
 	          "h2",
 	          { className: "field_name" },
-	          props.title,
-	          _react2.default.createElement(
-	            "span",
-	            { className: "badge" },
-	            props.mandatory ? "Mandatory" : ""
-	          ),
-	          _react2.default.createElement(
-	            "span",
-	            { className: "badge" },
-	            props.multiples ? "" : "Only One Allowed"
-	          )
+	          props.title
 	        ),
 	        _react2.default.createElement(
 	          "p",
@@ -736,7 +734,7 @@ webpackJsonp([0,2],{
 	          _react2.default.createElement(
 	            "dt",
 	            null,
-	            "Example: "
+	            "Sample Data: "
 	          ),
 	          _react2.default.createElement(
 	            "dd",
@@ -983,7 +981,7 @@ webpackJsonp([0,2],{
 	    {
 	      className: "btn btn-info btn-xs",
 	      onClick: function onClick(e) {
-	        return props.func(props.text);
+	        return props.func(props.text, props.title);
 	      } },
 	    props.children
 	  );
@@ -1138,12 +1136,12 @@ webpackJsonp([0,2],{
 	              { className: 'btn-group btn-group-xs ' },
 	              _react2.default.createElement(
 	                _modal_trigger2.default,
-	                { func: this.props.showModal, text: this.props.results.select },
+	                { func: this.props.showModal, text: this.props.results.select, title: 'SPARQL Query' },
 	                'Show this Query'
 	              ),
 	              _react2.default.createElement(
 	                _modal_trigger2.default,
-	                { func: this.props.showModal, text: this.props.results.object },
+	                { func: this.props.showModal, text: this.props.results.object, title: 'Results as Linked Open Data' },
 	                'Show as Turtle'
 	              )
 	            )
@@ -1325,9 +1323,9 @@ webpackJsonp([0,2],{
 /***/ },
 
 /***/ 438:
-/*!**************************************!*\
-  !*** ./site/react/content_modal.jsx ***!
-  \**************************************/
+/*!**********************************************!*\
+  !*** ./site/react/widgets/content_modal.jsx ***!
+  \**********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1362,12 +1360,21 @@ webpackJsonp([0,2],{
 	      _reactBootstrap.Modal,
 	      _extends({}, modalProps, { bsSize: 'large', 'aria-labelledby': 'contained-modal-title-lg' }),
 	      _react2.default.createElement(
+	        _reactBootstrap.Modal.Header,
+	        { closeButton: true },
+	        _react2.default.createElement(
+	          'h4',
+	          null,
+	          this.props.title
+	        )
+	      ),
+	      _react2.default.createElement(
 	        _reactBootstrap.Modal.Body,
 	        null,
 	        _react2.default.createElement(
 	          'pre',
 	          null,
-	          this.props.content
+	          this.props.content || "Nothing to see here..."
 	        )
 	      ),
 	      _react2.default.createElement(

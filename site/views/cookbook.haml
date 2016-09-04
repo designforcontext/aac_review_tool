@@ -17,7 +17,12 @@
 </div>
 </nav>
 .container-fluid
+
   .row
     .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
       .markdown-body
         = @markdown.render(@contents)
+  .row
+    .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
+      %a.btn.btn-primary{href: "https://github.com/workergnome/aac_mappings/edit/master/data/cookbook/#{@path}.md"}
+        Edit this page

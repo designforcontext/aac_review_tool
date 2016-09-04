@@ -7,7 +7,7 @@ import {render}    from 'react-dom';
 import Sidebar     from './sidebar.jsx';
 import Header      from "./header.jsx";
 import ItemDisplay from "./item/item_display.jsx";
-import ContentModal from "./content_modal.jsx";
+import ContentModal from "./widgets/content_modal.jsx";
 
 
 //-----------------------------------------------------------------------------
@@ -126,8 +126,8 @@ var App = React.createClass({
   //-------------------------------
   // Handle showing the global modal.  
   // TODO:  This is probably the wrong layer to keep this in.
-  showModal: function (content) {
-    this.setState({modal: {content: content, title: "", show: true}});
+  showModal: function (content, title="") {
+    this.setState({modal: {content: content, title: title, show: true}});
   },
   
   // Render function

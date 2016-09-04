@@ -139,7 +139,9 @@ class MyApp < Sinatra::Base
 
     @contents = current_recipie[:content]
     @metadata = current_recipie[:metadata]
+    @path     = current_recipie[:path]
     @markdown = settings.markdown
+
 
     haml :cookbook
   end

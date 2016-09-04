@@ -15,8 +15,10 @@ export default  function(props) {
         <div className="col-md-12">
           <h2 className="field_name">
             {props.title}
+            {/*
             <span className='badge'>{props.mandatory ? "Mandatory" : ""}</span>
             <span className='badge'>{props.multiples ? "" : "Only One Allowed"}</span>
+            */}
           </h2>
           <p>{props.description}</p>
         </div>
@@ -24,7 +26,7 @@ export default  function(props) {
       <div className="row">
         <div className="col-md-12">
           <dl className="dl-horizontal">
-            <dt>Example: </dt>
+            <dt>Sample Data: </dt>
             <dd>{props.example}</dd>
             <dt>Mandatory:</dt>
             <dd>{props.mandatory ? "Yes" : "No"}</dd>
