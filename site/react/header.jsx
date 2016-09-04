@@ -9,26 +9,32 @@ const Header = React.createClass({
   getInitialState: function() {
     return {modalLoading: false}
   },
-  generateTestData: function(type="ttl") {
-    var testObjectIndex = this.props.data.findIndex( (el)=> el.name == this.props.searchAgainst)
-    
-    return {
-      endpoint: this.props.data[testObjectIndex].endpoint,
-      crm: this.props.data[testObjectIndex].predicate,
-      values: {entity_uri: this.props.data[testObjectIndex][ENTITY_TYPE].default},
-      entity_type: ENTITY_TYPE,
-      return_type: type
-    }
-  },
 
   loadObjectData: function(e) {
     if (this.state.modalLoading) {return false;}
     this.setState({modalLoading: true});
     const type = $(e.target).data('type');
-    $.post("/full_graph",this.generateTestData(type), (data) => {
-        this.props.showObjectGraph(data);
-        this.setState({modalLoading: false})
-      }, "text")
+    let ajax = $.post("/full_graph",this.generateObjectData(type), "text");
+    ajax.done(this.handleDataReturn);
+    ajax.fail((_,errorText,error) => {
+      this.props.showObjectGraph(error);
+      this.setState({modalLoading: false})
+    })
+  },
+
+  handleDataReturn: function(data) {
+    this.props.showObjectGraph(data);
+    this.setState({modalLoading: false})
+  },
+  generateObjectData: function(type="ttl") {
+    var objIndex = this.props.data.findIndex( (el)=> el.name == this.props.searchAgainst)  
+    return {
+      endpoint: this.props.data[objIndex].endpoint,
+      crm: this.props.data[objIndex].predicate,
+      values: {entity_uri: this.props.data[objIndex][ENTITY_TYPE].default},
+      entity_type: ENTITY_TYPE,
+      return_type: type
+    }
   },
 
   render: function() {
@@ -51,7 +57,6 @@ const Header = React.createClass({
     )
 
     let bottomButtons = (
-      <div className="btn-toolbar">
         <ButtonGroup bsSize="small" role="group" className='download_buttons'>
           <Button
              data-type="ttl"
@@ -72,16 +77,15 @@ const Header = React.createClass({
             JSON
           </Button>
         </ButtonGroup>
-      </div>
     )
 
     return (
       <HeaderWrapper 
           title={title} 
-          topButtonsLabel="Search Against:"
-          topButtons={topButtons} 
-          bottomButtonsLabel={this.state.modalLoading ? "Processing..." : "Export Entity As:"} 
-          bottomButtons={bottomButtons}
+          bottomButtonsLabel="Search Against:"
+          bottomButtons={topButtons} 
+          topButtonsLabel={this.state.modalLoading ? "Processing..." : "Export Entity As:"} 
+          topButtons={bottomButtons}
       />
     )
   }

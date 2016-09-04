@@ -364,36 +364,42 @@ webpackJsonp([0,2],{
 	  getInitialState: function getInitialState() {
 	    return { modalLoading: false };
 	  },
-	  generateTestData: function generateTestData() {
-	    var _this = this;
-	
-	    var type = arguments.length <= 0 || arguments[0] === undefined ? "ttl" : arguments[0];
-	
-	    var testObjectIndex = this.props.data.findIndex(function (el) {
-	      return el.name == _this.props.searchAgainst;
-	    });
-	
-	    return {
-	      endpoint: this.props.data[testObjectIndex].endpoint,
-	      crm: this.props.data[testObjectIndex].predicate,
-	      values: { entity_uri: this.props.data[testObjectIndex][ENTITY_TYPE].default },
-	      entity_type: ENTITY_TYPE,
-	      return_type: type
-	    };
-	  },
 	
 	  loadObjectData: function loadObjectData(e) {
-	    var _this2 = this;
+	    var _this = this;
 	
 	    if (this.state.modalLoading) {
 	      return false;
 	    }
 	    this.setState({ modalLoading: true });
 	    var type = (0, _jquery2.default)(e.target).data('type');
-	    _jquery2.default.post("/full_graph", this.generateTestData(type), function (data) {
-	      _this2.props.showObjectGraph(data);
-	      _this2.setState({ modalLoading: false });
-	    }, "text");
+	    var ajax = _jquery2.default.post("/full_graph", this.generateObjectData(type), "text");
+	    ajax.done(this.handleDataReturn);
+	    ajax.fail(function (_, errorText, error) {
+	      _this.props.showObjectGraph(error);
+	      _this.setState({ modalLoading: false });
+	    });
+	  },
+	
+	  handleDataReturn: function handleDataReturn(data) {
+	    this.props.showObjectGraph(data);
+	    this.setState({ modalLoading: false });
+	  },
+	  generateObjectData: function generateObjectData() {
+	    var _this2 = this;
+	
+	    var type = arguments.length <= 0 || arguments[0] === undefined ? "ttl" : arguments[0];
+	
+	    var objIndex = this.props.data.findIndex(function (el) {
+	      return el.name == _this2.props.searchAgainst;
+	    });
+	    return {
+	      endpoint: this.props.data[objIndex].endpoint,
+	      crm: this.props.data[objIndex].predicate,
+	      values: { entity_uri: this.props.data[objIndex][ENTITY_TYPE].default },
+	      entity_type: ENTITY_TYPE,
+	      return_type: type
+	    };
 	  },
 	
 	  render: function render() {
@@ -422,44 +428,40 @@ webpackJsonp([0,2],{
 	    );
 	
 	    var bottomButtons = _react2.default.createElement(
-	      'div',
-	      { className: 'btn-toolbar' },
+	      _reactBootstrap.ButtonGroup,
+	      { bsSize: 'small', role: 'group', className: 'download_buttons' },
 	      _react2.default.createElement(
-	        _reactBootstrap.ButtonGroup,
-	        { bsSize: 'small', role: 'group', className: 'download_buttons' },
-	        _react2.default.createElement(
-	          _reactBootstrap.Button,
-	          {
-	            'data-type': 'ttl',
-	            disabled: this.state.modalLoading,
-	            onClick: this.loadObjectData },
-	          'Turtle'
-	        ),
-	        _react2.default.createElement(
-	          _reactBootstrap.Button,
-	          {
-	            'data-type': 'nested_ttl',
-	            disabled: this.state.modalLoading,
-	            onClick: this.loadObjectData },
-	          'Turtle (Nested)'
-	        ),
-	        _react2.default.createElement(
-	          _reactBootstrap.Button,
-	          {
-	            'data-type': 'json',
-	            disabled: this.state.modalLoading,
-	            onClick: this.loadObjectData },
-	          'JSON'
-	        )
+	        _reactBootstrap.Button,
+	        {
+	          'data-type': 'ttl',
+	          disabled: this.state.modalLoading,
+	          onClick: this.loadObjectData },
+	        'Turtle'
+	      ),
+	      _react2.default.createElement(
+	        _reactBootstrap.Button,
+	        {
+	          'data-type': 'nested_ttl',
+	          disabled: this.state.modalLoading,
+	          onClick: this.loadObjectData },
+	        'Turtle (Nested)'
+	      ),
+	      _react2.default.createElement(
+	        _reactBootstrap.Button,
+	        {
+	          'data-type': 'json',
+	          disabled: this.state.modalLoading,
+	          onClick: this.loadObjectData },
+	        'JSON'
 	      )
 	    );
 	
 	    return _react2.default.createElement(_header_wrapper2.default, {
 	      title: title,
-	      topButtonsLabel: 'Search Against:',
-	      topButtons: topButtons,
-	      bottomButtonsLabel: this.state.modalLoading ? "Processing..." : "Export Entity As:",
-	      bottomButtons: bottomButtons
+	      bottomButtonsLabel: 'Search Against:',
+	      bottomButtons: topButtons,
+	      topButtonsLabel: this.state.modalLoading ? "Processing..." : "Export Entity As:",
+	      topButtons: bottomButtons
 	    });
 	  }
 	});

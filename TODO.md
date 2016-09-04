@@ -7,8 +7,8 @@
 * [ ] Solve the RDFPUML problem
 * [ ] Add a Readme
 * [ ] Look into getting rid of the odd WHERE UNION (with the new graph)
-* [ ] Loading button state for turtle gets
 * [ ] Document the SPARQL
+* [ ] Optimize Test Runner for only needed type of query.
 
 ### Data Needed for Objects
 
@@ -41,6 +41,7 @@
 * [X] Stick this behind a route
 * [X] JSON export
 * [X] Github Issue Link
+* [X] Loading button state for turtle gets
 
 
 ---

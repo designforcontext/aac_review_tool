@@ -5439,18 +5439,18 @@ button.close {
       color: #fff; }
   .page_header h2 {
     font-size: 18px;
-    font-weight: 200; }
+    font-weight: 200;
+    margin-top: 5px; }
   .page_header h3 {
-    font-size: 16px;
-    font-weight: 200; }
+    font-size: 13px;
+    font-weight: 400; }
   .page_header .navbar-nav > li > a {
     color: #fff; }
     .page_header .navbar-nav > li > a.active {
       background-color: #be3636; }
   .page_header .btn_group_label {
     display: inline-block;
-    vertical-align: bottom;
-    margin-left: -5px; }
+    vertical-align: bottom; }
   .page_header .btn-group {
     margin-top: 5px;
     margin-bottom: 5px;
