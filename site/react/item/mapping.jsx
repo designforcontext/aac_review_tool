@@ -1,12 +1,12 @@
 import React from 'react';
 import $ from "jquery";
-import ModalTrigger from '../utilities/modal_trigger.jsx'
+import ModalTrigger from '../widgets/modal_trigger.jsx'
 
 
 var ItemMapping = React.createClass({
 
   getInitialState: function() {
-    return {svg: "", show_ttl: false}
+    return {svg: ""}
   },
   componentWillReceiveProps: function(nextProps){
     if (nextProps.construct != this.props.construct) {
@@ -19,7 +19,6 @@ var ItemMapping = React.createClass({
 
   getSvg: function(data) {
     if (!data.construct) return false;
-
     this.setState({svg: ""})      
     $.post("/graph", {ttl: data.construct, extras: data.extras}, (svg_url) => this.setState({svg: svg_url}) );
   },
@@ -27,10 +26,9 @@ var ItemMapping = React.createClass({
 
   render: function() {
 
+    let svgImage = this.state.svg ? <img className="img-responsive center-block" src={this.state.svg} /> : <p className='textCenter'>Loading Diagram...</p>
 
-    var svgImage = this.state.svg ? <img className="img-responsive center-block" src={this.state.svg} /> : <p className='textCenter'>Loading Diagram...</p>
-
-    var btn = "";
+    let btn = "";
     if (this.state.svg) {
       btn = (
         <div className="row">

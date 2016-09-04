@@ -1,9 +1,9 @@
 /******************************************************************************
 *
-*  This is the Item Display title section, with the badges. 
+*  This is the Item Display title section, with the badges and the metadata.
+*  No functionality, just a display template.
 *  
 ******************************************************************************/
-
 
 import React from 'react';
 
@@ -24,7 +24,7 @@ export default  function(props) {
       <div className="row">
         <div className="col-md-12">
           <dl className="dl-horizontal">
-            <dt>Example:</dt>
+            <dt>Example: </dt>
             <dd>{props.example}</dd>
             <dt>Mandatory:</dt>
             <dd>{props.mandatory ? "Yes" : "No"}</dd>

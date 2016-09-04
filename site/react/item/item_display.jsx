@@ -1,7 +1,7 @@
 /******************************************************************************
 *
 *  This is a wrapper class for the main item display screen.  
-*  No functionality, no state—Just sending properties where they belong.
+*  No functionality, no state.  Just sending properties where they belong.
 *  
 ******************************************************************************/
 

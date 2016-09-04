@@ -5426,30 +5426,38 @@ button.close {
   color: #009999; }
 
 /* Literal.Number.Integer.Long */
-.btn-info.zeroclipboard-is-hover {
-  color: #fff;
-  background-color: #31b0d5;
-  border-color: #269abc; }
-
-.btn-group .btn.zeroclipboard-is-hover {
-  z-index: 2; }
-
-.main_nav {
+.page_header {
+  padding-top: 10px;
+  padding-bottom: 5px;
   margin-bottom: 0;
   background-color: #962b2b; }
-  .main_nav .navbar-brand {
+  .page_header h1, .page_header h2, .page_header h3 {
+    font-size: 24px;
+    margin: 0;
     color: #fff; }
-    .main_nav .navbar-brand:hover {
+    .page_header h1 a, .page_header h1 a:hover, .page_header h2 a, .page_header h2 a:hover, .page_header h3 a, .page_header h3 a:hover {
       color: #fff; }
-  .main_nav .navbar-nav > li > a {
+  .page_header h2 {
+    font-size: 18px;
+    font-weight: 200; }
+  .page_header h3 {
+    font-size: 16px;
+    font-weight: 200; }
+  .page_header .navbar-nav > li > a {
     color: #fff; }
-    .main_nav .navbar-nav > li > a.active {
+    .page_header .navbar-nav > li > a.active {
       background-color: #be3636; }
-  .main_nav .search_buttons {
+  .page_header .btn_group_label {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-left: -5px; }
+  .page_header .btn-group {
+    margin-top: 5px;
+    margin-bottom: 5px;
     margin-right: 20px; }
-    .main_nav .search_buttons button {
+    .page_header .btn-group button {
       color: #999; }
-      .main_nav .search_buttons button.active {
+      .page_header .btn-group button.active {
         color: inherit;
         font-weight: bold; }
 

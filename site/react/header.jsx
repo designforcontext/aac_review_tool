@@ -1,9 +1,14 @@
 import React from 'react';
 import { Button, ButtonGroup} from 'react-bootstrap';
 import $ from "jquery";
-import HeaderWrapper from "./header_wrapper.jsx"
+import HeaderWrapper    from "./header_wrapper.jsx"
+import SearchInputField from './widgets/search_input_field.jsx'
 
 const Header = React.createClass({
+
+  getInitialState: function() {
+    return {modalLoading: false}
+  },
   generateTestData: function(type="ttl") {
     var testObjectIndex = this.props.data.findIndex( (el)=> el.name == this.props.searchAgainst)
     
@@ -16,47 +21,68 @@ const Header = React.createClass({
     }
   },
 
-  render: function() {
-    let title = `AAC Mappings: ${ENTITY_TYPE}`
+  loadObjectData: function(e) {
+    if (this.state.modalLoading) {return false;}
+    this.setState({modalLoading: true});
+    const type = $(e.target).data('type');
+    $.post("/full_graph",this.generateTestData(type), (data) => {
+        this.props.showObjectGraph(data);
+        this.setState({modalLoading: false})
+      }, "text")
+  },
 
-    let buttons = this.props.data.map((source, index) => {
+  render: function() {
+    let title = ENTITY_TYPE;
+
+    let sourceButtons = this.props.data.map((source, index) => {
       return (<Button 
-        key={index}
-        bsClass="btn navbar-btn btn-default" 
         active={this.props.searchAgainst == source.name} 
         onClick={() =>this.props.setSearch(source.name)}
+        key={index}
       >
         {source.name}
       </Button>)
-    });``
+    });
 
-    let all_buttons = (
+    let topButtons = (
+      <ButtonGroup bsSize="small" role="group" className='search_buttons'>
+        {sourceButtons}
+      </ButtonGroup>
+    )
+
+    let bottomButtons = (
       <div className="btn-toolbar">
         <ButtonGroup bsSize="small" role="group" className='download_buttons'>
           <Button
-             bsClass="btn navbar-btn btn-default" 
-             onClick={() => $.post("/full_graph",this.generateTestData("ttl"), this.props.showObjectGraph, "text")}>
-            Show Turtle
+             data-type="ttl"
+             disabled= {this.state.modalLoading}
+             onClick={this.loadObjectData}>
+            Turtle
           </Button>
           <Button
-             bsClass="btn navbar-btn btn-default" 
-             onClick={() => $.post("/full_graph",this.generateTestData("nested_ttl"), this.props.showObjectGraph, "text")}>
-            Show Turtle (Nested)
+             data-type="nested_ttl"
+             disabled={this.state.modalLoading}
+             onClick={this.loadObjectData}>
+            Turtle (Nested)
           </Button>
           <Button
-             bsClass="btn navbar-btn btn-default" 
-             onClick={() => $.post("/full_graph",this.generateTestData("json"), this.props.showObjectGraph, "text")}>
-            Show JSON
+             data-type="json"
+             disabled ={this.state.modalLoading}
+             onClick={this.loadObjectData}>
+            JSON
           </Button>
-        </ButtonGroup>
-        <ButtonGroup bsSize="small" role="group" className='search_buttons'>
-          {buttons}
         </ButtonGroup>
       </div>
     )
 
     return (
-      <HeaderWrapper title={title} buttons={all_buttons} />
+      <HeaderWrapper 
+          title={title} 
+          topButtonsLabel="Search Against:"
+          topButtons={topButtons} 
+          bottomButtonsLabel={this.state.modalLoading ? "Processing..." : "Export Entity As:"} 
+          bottomButtons={bottomButtons}
+      />
     )
   }
 });

@@ -33,7 +33,7 @@ export default React.createClass({
               onChange={this.handleChange}
             />
           </div>
-          <div className="col-sm-2">
+          <div className="col-sm-3">
             <a className="search_link" href={this.state.value} target="_blank">
               (link)
             </a>

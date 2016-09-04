@@ -2,9 +2,9 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import $ from "jquery";
 
-import ModalTrigger     from '../utilities/modal_trigger.jsx'
+import ModalTrigger     from '../widgets/modal_trigger.jsx'
 import SparqlResults    from './sparql_results.jsx'
-import SearchInputField from './search_input_field.jsx'
+import SearchInputField from '../widgets/search_input_field.jsx'
 
 
 var SparqlSearch = React.createClass({
