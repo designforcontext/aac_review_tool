@@ -54,7 +54,7 @@ where: |
     {
       ?production_timespan crm:P3_has_note ?display_date. 
     } UNION {
-      ?production_timespan skos:prefLabel:label ?display_date. 
+      ?production_timespan skos:prefLabel ?display_date. 
     } UNION {
       ?production_timespan rdfs:label ?display_date. 
     }

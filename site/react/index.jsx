@@ -133,8 +133,8 @@ var App = React.createClass({
   //-------------------------------
   // Handle showing the global modal.  
   // TODO:  This is probably the wrong layer to keep this in.
-  showModal: function (content, title="") {
-    this.setState({modal: {content: content, title: title, show: true}});
+  showModal: function (content, title="", html=false) {
+    this.setState({modal: {content: content, title: title, show: true, html: html}});
   },
   
   // Render function

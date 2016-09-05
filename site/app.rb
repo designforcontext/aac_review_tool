@@ -83,11 +83,14 @@ class MyApp < Sinatra::Base
     # `settings.markdown
     #-------------------------------------------------
     render_options = {
-        with_toc_data: true
+        with_toc_data: true,
+        filter_html: false,
+        link_attributes: {target: "_blank"}
     }
     extensions = {
         tables: true,
         no_intra_emphasis: true,
+        space_after_headers: true,
         autolink: true,
         lax_spacing: true,
         footnotes: true,
@@ -220,11 +223,17 @@ class MyApp < Sinatra::Base
     client = AAC::QueryRunner.new(params[:endpoint])
     graph = RDF::Graph.new
     all_values = {}
+    all_fields = {}
+
+    def camelize(word)  
+      word.to_slug.normalize.to_s.gsub(/[-_](.)/){|match| $1.upcase}
+    end
 
     # For every relevant data file,
     Dir.glob('./data/fields/**/*.yaml').each do |file|
       test_obj = YAML.load_file(file)
       next unless test_obj["applies_to"] && test_obj["applies_to"].include?(params[:entity_type])
+
 
       # including default values,
       default_values = {}
@@ -239,14 +248,45 @@ class MyApp < Sinatra::Base
       # and append the resulting values to the list.
       result_graph.each_statement {|s| graph.insert s}
 
-      def camelize(word)  
-        word.to_slug.normalize.to_s.gsub(/[-_](.)/){|match| $1.upcase}
-      end
+
+
       # k.gsub(/(#{key}|#{key[0...-1]})[_-]/,"")
       key = test_obj["key"] || camelize(test_obj["title"])
       all_values[key] = values.collect{|obj| obj.map{|k,v| [camelize(k),v]}.to_h}
+
+      # save the fields if we're doing a report
+      all_fields[key] = test_obj if params[:return_type] == "report";
+
     end
 
+    if params[:return_type] == "report"
+      report_sections = all_fields.sort_by{|k,v| v["sort_order"]}.collect do |key,obj|
+        values = all_values[key]
+        title_classes = []
+        title_classes.push("no_values") if values.count == 0
+        str = ""
+        str << "#### <span class='#{title_classes.join(" ")}'>#{obj["title"]}</span>\n\n"
+
+        if values.count > 0
+          table_headers = values.first.keys
+          str << "|#{table_headers.join(" | ")}|\n"
+          str << "|#{table_headers.map{|i| i.gsub(/./,"-")}.join("-|-")}|"
+          str << "\n"
+          str << values.collect do |value|
+            "|" + table_headers.collect do |cell|
+              value[cell]
+            end.join(" | ")+ "|"
+          end.join("\n")
+          str << "\n\n"
+        else 
+          str  << "<span class='no_results'>*(no results)*</span>\n\n"
+        end
+        str << "------\n\n"
+        str
+      end
+
+      return settings.markdown.render(report_sections.join("\n\n")).gsub("<table>","<table class='table table-striped table-condensed table-bordered'>")
+    end
 
     if params[:return_type] == "json"
       return JSON.pretty_generate all_values

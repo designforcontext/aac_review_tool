@@ -25,8 +25,9 @@ const Header = React.createClass({
     this.setState({modalLoading: true});
     const type = $(e.target).data('type');
     const title = $(e.target).data('modal-title');
+    const html = type == "report"
     let ajax = $.post("/full_graph",this.generateObjectData(type), "text");
-    ajax.done((data) => this.handleDataReturn(data,title));
+    ajax.done((data) => this.handleDataReturn(data,title,html));
     ajax.fail((_,errorText,error) => {
       this.props.showObjectGraph(error);
       this.setState({modalLoading: false})
@@ -35,8 +36,8 @@ const Header = React.createClass({
   getCurrentEntityURI: function() {
    return this.props.data.find( (el)=> el.name == this.props.searchAgainst)[ENTITY_TYPE].default; 
   },
-  handleDataReturn: function(data, title) {
-    this.props.showObjectGraph(data, title);
+  handleDataReturn: function(data, title,html) {
+    this.props.showObjectGraph(data, title,html);
     this.setState({modalLoading: false})
   },
   generateObjectData: function(type="ttl") {
@@ -91,6 +92,13 @@ const Header = React.createClass({
              disabled ={this.state.modalLoading}
              onClick={this.loadObjectData}>
             JSON
+          </Button>
+          <Button
+             data-type="report"
+             data-modal-title="Entity Validation Report"
+             disabled ={this.state.modalLoading}
+             onClick={this.loadObjectData}>
+            Report
           </Button>
         </ButtonGroup>
     )

@@ -5453,7 +5453,8 @@ button.close {
   .page_header .header_interface {
     background-color: #3986a4;
     padding: 6px 0 0;
-    margin-top: 15px; }
+    margin-top: 15px;
+    border-top: 2px solid #377f9d; }
   .page_header .search_link {
     margin-left: 0;
     color: #ccc;
@@ -5477,6 +5478,10 @@ footer {
     color: #fff; }
   footer p {
     margin-bottom: 5px; }
+
+.no_values, no_results {
+  color: #999;
+  font-style: italic; }
 
 h5 {
   border-bottom: 1px solid #62abc8;

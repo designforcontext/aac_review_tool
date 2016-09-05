@@ -40,7 +40,7 @@ webpackJsonp([0,2],{
 	
 	var _item_display2 = _interopRequireDefault(_item_display);
 	
-	var _content_modal = __webpack_require__(/*! ./widgets/content_modal.jsx */ 438);
+	var _content_modal = __webpack_require__(/*! ./widgets/content_modal.jsx */ 440);
 	
 	var _content_modal2 = _interopRequireDefault(_content_modal);
 	
@@ -170,8 +170,9 @@ webpackJsonp([0,2],{
 	  // TODO:  This is probably the wrong layer to keep this in.
 	  showModal: function showModal(content) {
 	    var title = arguments.length <= 1 || arguments[1] === undefined ? "" : arguments[1];
+	    var html = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 	
-	    this.setState({ modal: { content: content, title: title, show: true } });
+	    this.setState({ modal: { content: content, title: title, show: true, html: html } });
 	  },
 	
 	  // Render function
@@ -406,9 +407,10 @@ webpackJsonp([0,2],{
 	    this.setState({ modalLoading: true });
 	    var type = (0, _jquery2.default)(e.target).data('type');
 	    var title = (0, _jquery2.default)(e.target).data('modal-title');
+	    var html = type == "report";
 	    var ajax = _jquery2.default.post("/full_graph", this.generateObjectData(type), "text");
 	    ajax.done(function (data) {
-	      return _this.handleDataReturn(data, title);
+	      return _this.handleDataReturn(data, title, html);
 	    });
 	    ajax.fail(function (_, errorText, error) {
 	      _this.props.showObjectGraph(error);
@@ -422,8 +424,8 @@ webpackJsonp([0,2],{
 	      return el.name == _this2.props.searchAgainst;
 	    })[ENTITY_TYPE].default;
 	  },
-	  handleDataReturn: function handleDataReturn(data, title) {
-	    this.props.showObjectGraph(data, title);
+	  handleDataReturn: function handleDataReturn(data, title, html) {
+	    this.props.showObjectGraph(data, title, html);
 	    this.setState({ modalLoading: false });
 	  },
 	  generateObjectData: function generateObjectData() {
@@ -497,6 +499,15 @@ webpackJsonp([0,2],{
 	          disabled: this.state.modalLoading,
 	          onClick: this.loadObjectData },
 	        'JSON'
+	      ),
+	      _react2.default.createElement(
+	        _reactBootstrap.Button,
+	        {
+	          'data-type': 'report',
+	          'data-modal-title': 'Entity Validation Report',
+	          disabled: this.state.modalLoading,
+	          onClick: this.loadObjectData },
+	        'Report'
 	      )
 	    );
 	
@@ -572,12 +583,12 @@ webpackJsonp([0,2],{
 	      { className: "row header_interface" },
 	      _react2.default.createElement(
 	        "div",
-	        { className: "col-sm-6 col-lg-4 col-lg-offset-3 " },
+	        { className: "col-sm-6 col-lg-3 col-lg-offset-3 " },
 	        props.children
 	      ),
 	      _react2.default.createElement(
 	        "div",
-	        { className: "col-sm-5 col-lg-4" },
+	        { className: "col-sm-5 col-lg-5" },
 	        _react2.default.createElement(
 	          "div",
 	          { className: "pull-left" },
@@ -864,7 +875,7 @@ webpackJsonp([0,2],{
 	
 	var _sparql_search2 = _interopRequireDefault(_sparql_search);
 	
-	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 437);
+	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 439);
 	
 	var _mapping2 = _interopRequireDefault(_mapping);
 
@@ -1208,11 +1219,11 @@ webpackJsonp([0,2],{
 	
 	var _modal_trigger2 = _interopRequireDefault(_modal_trigger);
 	
-	var _github_issue = __webpack_require__(/*! ../widgets/github_issue.jsx */ 439);
+	var _github_issue = __webpack_require__(/*! ../widgets/github_issue.jsx */ 437);
 	
 	var _github_issue2 = _interopRequireDefault(_github_issue);
 	
-	var _helpers = __webpack_require__(/*! ../lib/helpers.jsx */ 440);
+	var _helpers = __webpack_require__(/*! ../lib/helpers.jsx */ 438);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1388,6 +1399,74 @@ webpackJsonp([0,2],{
 /***/ },
 
 /***/ 437:
+/*!*********************************************!*\
+  !*** ./site/react/widgets/github_issue.jsx ***!
+  \*********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (props) {
+	  var issueTitle = encodeURIComponent("Problem with mapping of " + props.title);
+	  var issueBody = encodeURIComponent("I expected to see:\n\n*[WHAT I EXPECTED]*\n\nbut instead I saw:\n\n*[WHAT I SAW]*\n\nThe current query was:\n\n```ttl\n" + props.query + "\n```");
+	  var issueLinkUrl = "https://github.com/workergnome/aac_mappings/issues/new?title=" + issueTitle + "&body=" + issueBody;
+	
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "github_issue_link" },
+	    _react2.default.createElement(
+	      "a",
+	      { href: issueLinkUrl },
+	      "Do you see a problem with this?  Submit an issue."
+	    )
+	  );
+	};
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+
+/***/ 438:
+/*!************************************!*\
+  !*** ./site/react/lib/helpers.jsx ***!
+  \************************************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.truncate = truncate;
+	function truncate(str, len) {
+	  var url_predicates = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	
+	  console.log(url_predicates);
+	
+	  Object.keys(url_predicates).forEach(function (key) {
+	    var val = url_predicates[key];
+	    if (str.includes(val)) {
+	      str = str.replace(val, key + ":");
+	    }
+	  });
+	  if (str.length <= len) {
+	    return str;
+	  }
+	
+	  return str.substring(0, len - 3) + "...";
+	}
+
+/***/ },
+
+/***/ 439:
 /*!*************************************!*\
   !*** ./site/react/item/mapping.jsx ***!
   \*************************************/
@@ -1506,7 +1585,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 438:
+/***/ 440:
 /*!**********************************************!*\
   !*** ./site/react/widgets/content_modal.jsx ***!
   \**********************************************/
@@ -1530,6 +1609,8 @@ webpackJsonp([0,2],{
 	
 	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
 	
+	var _helpers = __webpack_require__(/*! ../lib/helpers.jsx */ 438);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var ContentModal = _react2.default.createClass({
@@ -1539,6 +1620,27 @@ webpackJsonp([0,2],{
 	    var modalProps = Object.assign({}, this.props);
 	    delete modalProps.content;
 	    delete modalProps.title;
+	    delete modalProps.html;
+	
+	    var content = this.props.content || "Nothing to see here...";
+	    if (this.props.html) {
+	      var contentObj = { __html: content };
+	      content = _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-12' },
+	          _react2.default.createElement('div', { dangerouslySetInnerHTML: contentObj })
+	        )
+	      );
+	    } else {
+	      content = _react2.default.createElement(
+	        'pre',
+	        null,
+	        content
+	      );
+	    }
 	
 	    return _react2.default.createElement(
 	      _reactBootstrap.Modal,
@@ -1555,11 +1657,7 @@ webpackJsonp([0,2],{
 	      _react2.default.createElement(
 	        _reactBootstrap.Modal.Body,
 	        null,
-	        _react2.default.createElement(
-	          'pre',
-	          null,
-	          this.props.content || "Nothing to see here..."
-	        )
+	        content
 	      ),
 	      _react2.default.createElement(
 	        _reactBootstrap.Modal.Footer,
@@ -1575,74 +1673,6 @@ webpackJsonp([0,2],{
 	});
 	
 	exports.default = ContentModal;
-
-/***/ },
-
-/***/ 439:
-/*!*********************************************!*\
-  !*** ./site/react/widgets/github_issue.jsx ***!
-  \*********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	exports.default = function (props) {
-	  var issueTitle = encodeURIComponent("Problem with mapping of " + props.title);
-	  var issueBody = encodeURIComponent("I expected to see:\n\n*[WHAT I EXPECTED]*\n\nbut instead I saw:\n\n*[WHAT I SAW]*\n\nThe current query was:\n\n```ttl\n" + props.query + "\n```");
-	  var issueLinkUrl = "https://github.com/workergnome/aac_mappings/issues/new?title=" + issueTitle + "&body=" + issueBody;
-	
-	  return _react2.default.createElement(
-	    "div",
-	    { className: "github_issue_link" },
-	    _react2.default.createElement(
-	      "a",
-	      { href: issueLinkUrl },
-	      "Do you see a problem with this?  Submit an issue."
-	    )
-	  );
-	};
-	
-	var _react = __webpack_require__(/*! react */ 2);
-	
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/***/ },
-
-/***/ 440:
-/*!************************************!*\
-  !*** ./site/react/lib/helpers.jsx ***!
-  \************************************/
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.truncate = truncate;
-	function truncate(str, len) {
-	  var url_predicates = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-	
-	  console.log(url_predicates);
-	
-	  Object.keys(url_predicates).forEach(function (key) {
-	    var val = url_predicates[key];
-	    if (str.includes(val)) {
-	      str = str.replace(val, key + ":");
-	    }
-	  });
-	  if (str.length <= len) {
-	    return str;
-	  }
-	
-	  return str.substring(0, len - 3) + "...";
-	}
 
 /***/ }
 
