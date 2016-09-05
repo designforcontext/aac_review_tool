@@ -1,0 +1,14 @@
+### Problem Statement:
+
+While the CIDOC-CRM has many predicates and classes, they are not entirely sufficient to cover all our needs Which ontologies or vocabulaties will we support beyond the CIDOC-CRM?
+
+*([see this question about simplifications](Should-we-use-ontologies-outside-of-the-CRM-to-define-relationships) for a related question.)*
+
+### Best Practice:
+
+*To Be Determined*
+
+### Discussion:
+
+
+### Reference:

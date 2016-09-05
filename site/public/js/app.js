@@ -1,2 +1,1509 @@
-webpackJsonp([2,0],{0:function(e,t,a){"use strict";function l(e){return e&&e.__esModule?e:{"default":e}}var n=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var a=arguments[t];for(var l in a)Object.prototype.hasOwnProperty.call(a,l)&&(e[l]=a[l])}return e},r=a(39),s=l(r),i=a(1),u=l(i),o=a(17),d=a(214),c=l(d),f=a(206),p=l(f),m=a(208),h=l(m),E=a(215),v=l(E),g=[{name:"YCBA",endpoint:"http://collection.britishart.yale.edu/openrdf-sesame/repositories/ycba",predicate:"http://erlangen-crm.org/current/",E39_Actor:{"default":null},"E22_Man-Made_Object":{"default":"http://collection.britishart.yale.edu/id/object/1000"}},{name:"SAAM",endpoint:"http://edan.si.edu/saam/sparql",predicate:"http://www.cidoc-crm.org/cidoc-crm/",E39_Actor:{"default":null},"E22_Man-Made_Object":{"default":"http://edan.si.edu/saam/id/object/1991.189"}},{name:"British Museum",endpoint:"http://collection.britishmuseum.org/sparql",predicate:"http://erlangen-crm.org/current/",E39_Actor:{"default":"http://collection.britishmuseum.org/id/person-institution/70240"},"E22_Man-Made_Object":{"default":"http://collection.britishmuseum.org/id/object/YCA62958"}}],_=u["default"].createClass({displayName:"App",getInitialState:function(){return{loading:!0,modal:{show:!1},fields:null}},componentDidMount:function(){var e=s["default"].getJSON("/data?entity_type="+ENTITY_TYPE);e.done(this.initializeData),e.fail(function(e,t){return console.log("Error getting json: "+t)})},initializeData:function(e){window.location.hash?this.setHashValues(this.getHashValues()):this.setHashValues({id:0,search:g[0].name}),window.addEventListener("hashchange",this.handleNewHash,!1);var t=function(e,t){return(e.sort_order||0)>=(t.sort_order||0)?1:-1};this.setState({loading:!1,fields:e.sort(t)})},setHashValues:function(e){void 0==e.id?e.id=this.state.currentItem:this.setState({currentItem:e.id}),void 0==e.search?e.search=this.state.search:this.setState({search:e.search});var t=g.findIndex(function(t){return t.name==e.search});window.location.hash="field_"+e.id+"-search_"+t},getHashValues:function(){var e=window.location.hash.replace("#","").split("-"),t=Number(e[0].replace("field_","")),a=g[Number(e[1].replace("search_",""))].name;return{id:t,search:a}},handleNewHash:function(){this.setHashValues(this.getHashValues())},showModal:function(e){var t=arguments.length<=1||void 0===arguments[1]?"":arguments[1];this.setState({modal:{content:e,title:t,show:!0}})},render:function(){var e=this;if(this.state.loading)return!1;var t=g.find(function(t){return e.state.search==t.name}),a=this.state.fields[this.state.currentItem];return u["default"].createElement("main",null,u["default"].createElement(p["default"],{searchAgainst:this.state.search,data:g,setSearch:function(t){return e.setHashValues({search:t})},showObjectGraph:this.showModal}),u["default"].createElement("div",{className:"container-fluid"},u["default"].createElement("div",{className:"row"},u["default"].createElement(c["default"],{fields:this.state.fields,gotoField:function(t){return e.setHashValues({id:t})},currentItem:this.state.currentItem}),u["default"].createElement(h["default"],n({},a,{search:t,showModal:this.showModal})))),u["default"].createElement(v["default"],n({},this.state.modal,{onHide:function(){return e.setState({modal:{show:!1}})}})))}});(0,o.render)(u["default"].createElement(_,null),document.getElementById("app"))},81:function(e,t,a){"use strict";function l(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0}),t["default"]=function(e){return r["default"].createElement("button",{className:"btn btn-info btn-xs hidden-print",onClick:function(t){return e.func(e.text,e.title)}},e.children)};var n=a(1),r=l(n)},133:function(e,t,a){"use strict";function l(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0});var n=a(1),r=l(n);t["default"]=r["default"].createClass({displayName:"search_input_field",getInitialState:function(){return{value:this.props["default"]||""}},handleChange:function(e){this.setState({value:e.target.value})},componentWillReceiveProps:function(e){e["default"]!=this.props["default"]&&this.setState({value:e["default"]||""})},render:function(){var e="sparql_"+this.props.value,t=this.props.value.replace(/_/g," "),a="Enter a "+t;return this.props["default"],r["default"].createElement("div",{className:"form-group"},r["default"].createElement("label",{className:"col-sm-3 text-right",htmlFor:e,style:{textTransform:"capitalize"}},t),r["default"].createElement("div",{className:"col-sm-6"},r["default"].createElement("input",{type:"text",className:"form-control",name:this.props.value,id:e,placeholder:a,value:this.state.value,onChange:this.handleChange})),r["default"].createElement("div",{className:"col-sm-3 hidden-print"},r["default"].createElement("a",{className:"search_link",href:this.state.value,target:"_blank"},"(link)")))}})},206:function(e,t,a){"use strict";function l(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0});var n=a(1),r=l(n),s=a(57),i=a(39),u=l(i),o=a(207),d=l(o),c=a(133),f=(l(c),r["default"].createClass({displayName:"Header",getInitialState:function(){return{modalLoading:!1}},loadObjectData:function(e){var t=this;if(this.state.modalLoading)return!1;this.setState({modalLoading:!0});var a=(0,u["default"])(e.target).data("type"),l=(0,u["default"])(e.target).data("modal-title"),n=u["default"].post("/full_graph",this.generateObjectData(a),"text");n.done(function(e){return t.handleDataReturn(e,l)}),n.fail(function(e,a,l){t.props.showObjectGraph(l),t.setState({modalLoading:!1})})},handleDataReturn:function(e,t){this.props.showObjectGraph(e,t),this.setState({modalLoading:!1})},generateObjectData:function(){var e=this,t=arguments.length<=0||void 0===arguments[0]?"ttl":arguments[0],a=this.props.data.findIndex(function(t){return t.name==e.props.searchAgainst});return{endpoint:this.props.data[a].endpoint,crm:this.props.data[a].predicate,values:{entity_uri:this.props.data[a][ENTITY_TYPE]["default"]},entity_type:ENTITY_TYPE,return_type:t}},render:function(){var e=this,t=ENTITY_TYPE,a=this.props.data.map(function(t,a){return r["default"].createElement(s.Button,{active:e.props.searchAgainst==t.name,onClick:function(){return e.props.setSearch(t.name)},key:a},t.name)}),l=r["default"].createElement(s.ButtonGroup,{bsSize:"small",role:"group",className:"search_buttons"},a),n=r["default"].createElement(s.ButtonGroup,{bsSize:"small",role:"group",className:"download_buttons"},r["default"].createElement(s.Button,{"data-type":"ttl","data-modal-title":"Entity as Linked Open Data (in Turtle)",disabled:this.state.modalLoading,onClick:this.loadObjectData},"Turtle"),r["default"].createElement(s.Button,{"data-type":"nested_ttl","data-modal-title":"Entity as Turtle (Nested Graph with Blank Nodes)",disabled:this.state.modalLoading,onClick:this.loadObjectData},"Turtle (Nested)"),r["default"].createElement(s.Button,{"data-type":"json","data-modal-title":"JSON Representation of the Entity",disabled:this.state.modalLoading,onClick:this.loadObjectData},"JSON"));return r["default"].createElement(d["default"],{title:t,bottomButtonsLabel:"Current SPARQL Endpoint:",bottomButtons:l,topButtonsLabel:this.state.modalLoading?"Processing...":"Export Entity As:",topButtons:n})}}));t["default"]=f},207:function(e,t,a){"use strict";function l(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0}),t["default"]=function(e){return r["default"].createElement("header",{className:"container-fluid page_header hidden-print"},r["default"].createElement("div",{className:"row"},r["default"].createElement("div",{className:"col-md-4"},r["default"].createElement("h1",null,r["default"].createElement("a",{href:"/"},"AAC Entity Mappings")," "),r["default"].createElement("h2",null,e.title)),r["default"].createElement("div",{className:"col-md-8"},r["default"].createElement("div",{className:"pull-right"},r["default"].createElement("h3",{className:"btn_group_label"},e.topButtonsLabel),r["default"].createElement("div",{className:"btn-toolbar"},e.topButtons)),r["default"].createElement("div",{className:"pull-right"},r["default"].createElement("h3",{className:"btn_group_label"},e.bottomButtonsLabel),r["default"].createElement("div",{className:"btn-toolbar"},e.bottomButtons)))))};var n=a(1),r=l(n)},208:function(e,t,a){"use strict";function l(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0}),t["default"]=function(e){return r["default"].createElement("div",{className:"col-sm-9 col-lg-8 col-lg-offset-1 app"},r["default"].createElement(i["default"],{title:e.title,mandatory:e.mandatory,multiples:e.multiples,description:e.long_description?e.long_description:e.description,example:e.example,lod_type:e.lod_type}),r["default"].createElement(o["default"],e),r["default"].createElement(c["default"],{fieldTitle:e.title,construct:e.construct,extras:e.graph_extras,showModal:e.showModal}))};var n=a(1),r=l(n),s=a(212),i=l(s),u=a(211),o=l(u),d=a(209),c=l(d)},209:function(e,t,a){"use strict";function l(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0});var n=a(1),r=l(n),s=a(39),i=l(s),u=a(81),o=l(u),d=r["default"].createClass({displayName:"ItemMapping",getInitialState:function(){return{svg:""}},componentWillReceiveProps:function(e){e.construct!=this.props.construct&&this.getSvg(e)},componentDidMount:function(){this.getSvg(this.props)},getSvg:function(e){var t=this;return!!e.construct&&(this.setState({svg:""}),void i["default"].post("/graph",{ttl:e.construct,extras:e.extras},function(e){return t.setState({svg:e})}))},render:function(){var e=this.state.svg?r["default"].createElement("img",{className:"img-responsive center-block",src:this.state.svg}):r["default"].createElement("p",{className:"textCenter"},"Loading Diagram..."),t="";return this.state.svg&&(t=r["default"].createElement("div",{className:"row"},r["default"].createElement("div",{className:"col-lg-10 col-lg-offset-1 text-center"},r["default"].createElement(o["default"],{func:this.props.showModal,text:this.props.construct},"Show Mapping as Turtle")))),r["default"].createElement("section",{className:"illustration"},r["default"].createElement("div",{className:"row"},r["default"].createElement("div",{className:"col-md-12"},r["default"].createElement("h4",null,"AAC Target Mapping For ",r["default"].createElement("strong",null,this.props.fieldTitle)),e)),t)}});t["default"]=d},210:function(e,t,a){"use strict";function l(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0});var n=a(1),r=l(n),s=a(81),i=l(s),u=a(216),o=l(u),d=a(213);t["default"]=r["default"].createClass({displayName:"sparql_results",render:function(){var e=this;if(!this.props.results)return!1;var t=this.props.select.split(" "),a=t.map(function(e){return r["default"].createElement("th",{key:e},e.replace("?",""))}),l=null;return l=this.props.results.values.length>0?this.props.results.values.map(function(t,a){var l=e.props.select.split(" ").map(function(e){var l=t[e.replace("?","")];return/^https?:\/\//.test(l)&&(l=/\.(?:jpg|png|tif|tiff|svg)$/.test(l)?r["default"].createElement("a",{href:l,target:"_blank"},r["default"].createElement("img",{className:"img-responsive",src:l})):r["default"].createElement("a",{href:l,target:"_blank"},(0,d.truncate)(l,40))),r["default"].createElement("td",{key:a+"_"+e}," ",l)});return r["default"].createElement("tr",{key:a},l)}):r["default"].createElement("tr",null,r["default"].createElement("td",{colSpan:t.length,className:"no_results"},"No results found.")),r["default"].createElement("div",{className:"row results"},r["default"].createElement("div",{className:"col-md-10 col-md-offset-1"},r["default"].createElement("div",{className:"panel panel-default"},r["default"].createElement("table",{className:"table table-hover"},r["default"].createElement("thead",null,r["default"].createElement("tr",null,a)),r["default"].createElement("tbody",null,l)),r["default"].createElement("div",{className:"panel-body text-cente hidden-printr"},r["default"].createElement("div",{className:"btn-group btn-group-xs "},r["default"].createElement(i["default"],{func:this.props.showModal,text:this.props.results.select,title:"SPARQL Query"},"Show this Query"),r["default"].createElement(i["default"],{func:this.props.showModal,text:this.props.results.object,title:"Results as Linked Open Data"},"Show as Turtle"))),r["default"].createElement("div",{className:"panel-footer hidden-print"},r["default"].createElement(o["default"],{title:this.props.title,query:this.props.results.select})))))}})},211:function(e,t,a){"use strict";function l(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0});var n=a(1),r=l(n),s=a(57),i=a(39),u=l(i),o=a(81),d=(l(o),a(210)),c=l(d),f=a(133),p=l(f),m=r["default"].createClass({displayName:"SparqlSearch",getInitialState:function(){return{results:!1,isSearching:!1}},componentDidMount:function(){this.autoSearch()},componentWillReceiveProps:function(e){e.title!=this.props.title&&this.setState({results:!1})},componentDidUpdate:function(e){e.title==this.props.title&&e.search.endpoint==this.props.search.endpoint||this.autoSearch()},autoSearch:function(){var e=arguments.length<=0||void 0===arguments[0]?null:arguments[0];e&&e.preventDefault();var t=(0,u["default"])("#search_form").serializeArray();this.doSearch(t)},doSearch:function(e){var t={},a=!1;if(e.forEach(function(e){"entity_uri"==e.name&&""==e.value&&(a=!0),t[e.name]=e.value}),a)return!1;var l={fields:{select:this.props.select,construct:this.props.construct,where:this.props.where,values:this.props.values},endpoint:this.props.search.endpoint,crm:this.props.search.predicate,values:t};u["default"].post("/search",l,this.handleResults),this.setState({isSearching:!0})},handleResults:function(e){this.setState({results:e,isSearching:!1})},render:function(){var e=this,t=this.props.values.split(" ").map(function(t){var a=t.replace("?",""),l=e.props["test_"+a];return"entity_uri"==a&&(l=e.props.search[ENTITY_TYPE]["default"]),r["default"].createElement(p["default"],{key:a,value:a,"default":l})});return r["default"].createElement("section",{className:"search"},r["default"].createElement("div",{className:"row"},r["default"].createElement("div",{className:"col-md-12"},r["default"].createElement("h4",null,"Search ",this.props.search.name," for ",r["default"].createElement("strong",null,this.props.title)),r["default"].createElement("form",{id:"search_form",className:"form-horizontal",onSubmit:this.state.isSearching?null:this.autoSearch},t,r["default"].createElement("div",{className:"form-group hidden-print"},r["default"].createElement("div",{className:"col-sm-offset-3 col-sm-6"},r["default"].createElement(s.Button,{bsStyle:"primary",disabled:this.state.isSearching,onClick:this.state.isSearching?null:this.autoSearch},this.state.isSearching?"Searching...":"Search")))))),r["default"].createElement(c["default"],{title:this.props.title,select:this.props.select,results:this.state.results,showModal:this.props.showModal}))}});t["default"]=m},212:function(e,t,a){"use strict";function l(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0}),t["default"]=function(e){return r["default"].createElement("section",{className:"field_info"},r["default"].createElement("div",{className:"row"},r["default"].createElement("div",{className:"col-md-12"},r["default"].createElement("h2",{className:"field_name"},e.title),r["default"].createElement("p",null,e.description))),r["default"].createElement("div",{className:"row"},r["default"].createElement("div",{className:"col-md-12"},r["default"].createElement("dl",{className:"dl-horizontal"},r["default"].createElement("dt",null,"Sample Data: "),r["default"].createElement("dd",null,e.example),r["default"].createElement("dt",null,"Mandatory:"),r["default"].createElement("dd",null,e.mandatory?"Yes":"No"),r["default"].createElement("dt",null,"Multiples:"),r["default"].createElement("dd",null,e.multiples?"Yes":"No"),r["default"].createElement("dt",null,e.lod_type?"Associated AAC ID:":""),r["default"].createElement("dd",null,r["default"].createElement("a",{href:e.lod_type,target:"_blank"},e.lod_type))))))};var n=a(1),r=l(n)},213:function(e,t){"use strict";function a(e,t){return e.length<=t?e:e.substring(0,t-3)+"..."}Object.defineProperty(t,"__esModule",{value:!0}),t.truncate=a},214:function(e,t,a){"use strict";function l(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0});var n=a(1),r=l(n),s=a(7),i=l(s),u=r["default"].createClass({displayName:"Sidebar",render:function(){var e=this,t=this.props.fields.map(function(t,a){return r["default"].createElement(o,{id:a,name:t.title,desc:t.description,key:t.category+"_"+t.title,func:e.props.gotoField,applies_to:t.applies_to,category:t.category,prev_category:0==a?"":e.props.fields[a-1].category,selected:a==e.props.currentItem})});return r["default"].createElement("div",{className:"col-md-3 col-lg-2 sidebar hidden-print"},r["default"].createElement("dl",null,t))}}),o=r["default"].createClass({displayName:"SidebarListItem",handleClick:function(){this.props.func(this.props.id)},render:function(){var e=(0,i["default"])("sidebar_item",{selected:this.props.selected}),t=!1;return this.props.category!=this.props.prev_category&&(t=r["default"].createElement("h5",null," ",this.props.category," ")),r["default"].createElement("div",null,t,r["default"].createElement("div",{className:e,onClick:this.handleClick},r["default"].createElement("dt",null," ",this.props.name," "),r["default"].createElement("dd",null," ",this.props.desc," ")))}});t["default"]=u},215:function(e,t,a){"use strict";function l(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0});var n=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var a=arguments[t];for(var l in a)Object.prototype.hasOwnProperty.call(a,l)&&(e[l]=a[l])}return e},r=a(39),s=(l(r),a(1)),i=l(s),u=a(57),o=i["default"].createClass({displayName:"ContentModal",render:function(){var e=Object.assign({},this.props);return delete e.content,delete e.title,i["default"].createElement(u.Modal,n({},e,{bsSize:"large","aria-labelledby":"contained-modal-title-lg"}),i["default"].createElement(u.Modal.Header,{closeButton:!0},i["default"].createElement("h4",null,this.props.title)),i["default"].createElement(u.Modal.Body,null,i["default"].createElement("pre",null,this.props.content||"Nothing to see here...")),i["default"].createElement(u.Modal.Footer,null,i["default"].createElement(u.Button,{onClick:this.props.onHide},"Close")))}});t["default"]=o},216:function(e,t,a){"use strict";function l(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0}),t["default"]=function(e){var t=encodeURIComponent("Problem with mapping of "+e.title),a=encodeURIComponent("I expected to see:\n\n*[WHAT I EXPECTED]*\n\nbut instead I saw:\n\n*[WHAT I SAW]*\n\nThe current query was:\n\n```ttl\n"+e.query+"\n```"),l="https://github.com/workergnome/aac_mappings/issues/new?title="+t+"&body="+a;return r["default"].createElement("div",{className:"github_issue_link"},r["default"].createElement("a",{href:l},"Do you see a problem with this?  Submit an issue."))};var n=a(1),r=l(n)}});
+webpackJsonp([0,2],{
+
+/***/ 0:
+/*!******************************!*\
+  !*** ./site/react/index.jsx ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; // Import Libraries
+	
+	
+	// Import Components
+	
+	
+	var _jquery = __webpack_require__(/*! jquery */ 1);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(/*! react-dom */ 35);
+	
+	var _sidebar = __webpack_require__(/*! ./sidebar.jsx */ 173);
+	
+	var _sidebar2 = _interopRequireDefault(_sidebar);
+	
+	var _header = __webpack_require__(/*! ./header.jsx */ 175);
+	
+	var _header2 = _interopRequireDefault(_header);
+	
+	var _item_display = __webpack_require__(/*! ./item/item_display.jsx */ 431);
+	
+	var _item_display2 = _interopRequireDefault(_item_display);
+	
+	var _content_modal = __webpack_require__(/*! ./widgets/content_modal.jsx */ 439);
+	
+	var _content_modal2 = _interopRequireDefault(_content_modal);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	//-----------------------------------------------------------------------------
+	// This is the known set of RDF endpoints that we can search against.   
+	
+	var SEARCH_DATA = [{
+	  name: "YCBA",
+	  endpoint: "http://collection.britishart.yale.edu/openrdf-sesame/repositories/ycba",
+	  predicate: "http://erlangen-crm.org/current/",
+	  E39_Actor: {
+	    default: null
+	  },
+	  "E22_Man-Made_Object": {
+	    default: "http://collection.britishart.yale.edu/id/object/1000"
+	  }
+	}, {
+	  name: "SAAM",
+	  endpoint: "http://edan.si.edu/saam/sparql",
+	  predicate: "http://www.cidoc-crm.org/cidoc-crm/",
+	  E39_Actor: {
+	    default: null
+	  },
+	  "E22_Man-Made_Object": {
+	    default: "http://edan.si.edu/saam/id/object/1991.189"
+	  }
+	}, {
+	  name: "British Museum",
+	  endpoint: "http://collection.britishmuseum.org/sparql",
+	  predicate: "http://erlangen-crm.org/current/",
+	  E39_Actor: {
+	    default: "http://collection.britishmuseum.org/id/person-institution/70240"
+	  },
+	  "E22_Man-Made_Object": {
+	    default: "http://collection.britishmuseum.org/id/object/YCA62958"
+	  }
+	}];
+	
+	//-----------------------------------------------------------------------------
+	// This is the "brains" of the application.  It controls the global state of
+	// the system, which includes navigation and loading the data in.
+	var App = _react2.default.createClass({
+	  displayName: 'App',
+	
+	
+	  // Lifecycle Events
+	  getInitialState: function getInitialState() {
+	    return {
+	      loading: true, // Has the application gotten the main data?
+	      modal: {
+	        show: false },
+	      fields: null, // This will be filled in with the field list
+	      entity_uri: null
+	    };
+	  },
+	
+	  componentDidMount: function componentDidMount() {
+	    var ajax = _jquery2.default.getJSON("/data?entity_type=" + ENTITY_TYPE);
+	    ajax.done(this.initializeData);
+	    ajax.fail(function (x, msg) {
+	      return console.log('Error getting json: ' + msg);
+	    });
+	  },
+	
+	  //-------------------------------
+	  // Handle initial field data load, 
+	  // set up the hash navigation
+	  initializeData: function initializeData(data) {
+	
+	    // Setup Hash Navigation
+	    var defaultSectionId = 0;
+	    if (window.location.hash) {
+	      this.setHashValues(this.getHashValues());
+	    } else {
+	      this.setHashValues({ id: 0, search: SEARCH_DATA[0].name });
+	    }
+	    window.addEventListener('hashchange', this.handleNewHash, false);
+	
+	    // Update state with the field data
+	    var fieldSortFunction = function fieldSortFunction(a, b) {
+	      return (a.sort_order || 0) >= (b.sort_order || 0) ? 1 : -1;
+	    };
+	    this.setState({
+	      loading: false,
+	      fields: data.sort(fieldSortFunction)
+	    });
+	  },
+	
+	  setHashValues: function setHashValues(obj) {
+	    if (obj.id == undefined) {
+	      obj.id = this.state.currentItem;
+	    } else {
+	      this.setState({ currentItem: obj.id });
+	    }
+	
+	    if (obj.search == undefined) {
+	      obj.search = this.state.search;
+	    } else {
+	      this.setState({ search: obj.search });
+	    }
+	    var search_index = SEARCH_DATA.findIndex(function (v) {
+	      return v.name == obj.search;
+	    });
+	    window.location.hash = 'field_' + obj.id + '-search_' + search_index;
+	  },
+	  getHashValues: function getHashValues() {
+	    var bits = window.location.hash.replace("#", "").split("-");
+	    var id = Number(bits[0].replace("field_", ""));
+	    var search = SEARCH_DATA[Number(bits[1].replace("search_", ""))].name;
+	    return { id: id, search: search };
+	  },
+	  //-------------------------------
+	  // Handle hash changes (for back button)
+	  handleNewHash: function handleNewHash() {
+	    this.setHashValues(this.getHashValues());
+	  },
+	
+	  //-------------------------------
+	  // Handle showing the global modal.  
+	  // TODO:  This is probably the wrong layer to keep this in.
+	  showModal: function showModal(content) {
+	    var title = arguments.length <= 1 || arguments[1] === undefined ? "" : arguments[1];
+	
+	    this.setState({ modal: { content: content, title: title, show: true } });
+	  },
+	
+	  // Render function
+	  render: function render() {
+	    var _this = this;
+	
+	    if (this.state.loading) {
+	      return false;
+	    }
+	
+	    var currentSearchEndpoint = SEARCH_DATA.find(function (endpoint) {
+	      return _this.state.search == endpoint.name;
+	    });
+	    var currentFields = this.state.fields[this.state.currentItem];
+	
+	    return _react2.default.createElement(
+	      'main',
+	      null,
+	      _react2.default.createElement(_header2.default, {
+	        searchAgainst: this.state.search,
+	        data: SEARCH_DATA,
+	        setSearch: function setSearch(val) {
+	          return _this.setHashValues({ search: val });
+	        },
+	        showObjectGraph: this.showModal,
+	        setEntityUri: function setEntityUri(val) {
+	          return _this.setState({ entity_uri: val });
+	        }
+	      }),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'container-fluid' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement(_sidebar2.default, {
+	            fields: this.state.fields,
+	            gotoField: function gotoField(id) {
+	              return _this.setHashValues({ id: id });
+	            },
+	            currentItem: this.state.currentItem
+	          }),
+	          _react2.default.createElement(_item_display2.default, _extends({}, currentFields, {
+	            search: currentSearchEndpoint,
+	            showModal: this.showModal,
+	            currentEntity: this.state.entity_uri
+	          }))
+	        )
+	      ),
+	      _react2.default.createElement(_content_modal2.default, _extends({}, this.state.modal, {
+	        onHide: function onHide() {
+	          return _this.setState({ modal: { show: false } });
+	        } }))
+	    );
+	  }
+	});
+	
+	//-----------------------------------------------------------------------------
+	(0, _reactDom.render)(_react2.default.createElement(App, null), document.getElementById('app'));
+
+/***/ },
+
+/***/ 173:
+/*!********************************!*\
+  !*** ./site/react/sidebar.jsx ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _classnames = __webpack_require__(/*! classnames */ 174);
+	
+	var _classnames2 = _interopRequireDefault(_classnames);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	//-----------------------------------------------------------------------------
+	var Sidebar = _react2.default.createClass({
+	  displayName: 'Sidebar',
+	
+	  render: function render() {
+	
+	    var _this = this;
+	
+	    var items = this.props.fields.map(function (field, index) {
+	      return _react2.default.createElement(SidebarListItem, {
+	        id: index,
+	        name: field.title,
+	        desc: field.description,
+	        key: field.category + '_' + field.title,
+	        func: _this.props.gotoField,
+	        applies_to: field.applies_to,
+	        category: field.category,
+	        prev_category: index == 0 ? "" : _this.props.fields[index - 1].category,
+	        selected: index == _this.props.currentItem
+	      });
+	    });
+	
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'col-md-3 col-lg-2 sidebar hidden-print' },
+	      _react2.default.createElement(
+	        'dl',
+	        null,
+	        items
+	      )
+	    );
+	  }
+	});
+	
+	//-----------------------------------------------------------------------------
+	var SidebarListItem = _react2.default.createClass({
+	  displayName: 'SidebarListItem',
+	
+	  handleClick: function handleClick() {
+	    this.props.func(this.props.id);
+	  },
+	  render: function render() {
+	
+	    var classes = (0, _classnames2.default)("sidebar_item", { selected: this.props.selected });
+	
+	    var header = false;
+	    if (this.props.category != this.props.prev_category) {
+	      header = _react2.default.createElement(
+	        'h5',
+	        null,
+	        ' ',
+	        this.props.category,
+	        ' '
+	      );
+	    }
+	
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      header,
+	      _react2.default.createElement(
+	        'div',
+	        { className: classes, onClick: this.handleClick },
+	        _react2.default.createElement(
+	          'dt',
+	          null,
+	          ' ',
+	          this.props.name,
+	          ' '
+	        ),
+	        _react2.default.createElement(
+	          'dd',
+	          null,
+	          ' ',
+	          this.props.desc,
+	          ' '
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	//-----------------------------------------------------------------------------
+	exports.default = Sidebar;
+
+/***/ },
+
+/***/ 175:
+/*!*******************************!*\
+  !*** ./site/react/header.jsx ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 1);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _header_wrapper = __webpack_require__(/*! ./header_wrapper.jsx */ 428);
+	
+	var _header_wrapper2 = _interopRequireDefault(_header_wrapper);
+	
+	var _search_input_field = __webpack_require__(/*! ./widgets/search_input_field.jsx */ 429);
+	
+	var _search_input_field2 = _interopRequireDefault(_search_input_field);
+	
+	var _constants = __webpack_require__(/*! ./lib/constants.jsx */ 430);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Header = _react2.default.createClass({
+	  displayName: 'Header',
+	
+	
+	  getInitialState: function getInitialState() {
+	    return { modalLoading: false };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.props.setEntityUri(this.getCurrentEntityURI());
+	  },
+	
+	  componentDidUpdate: function componentDidUpdate(prevProps) {
+	    if (prevProps.searchAgainst != this.props.searchAgainst) {
+	      this.props.setEntityUri(this.getCurrentEntityURI());
+	    }
+	  },
+	
+	  loadObjectData: function loadObjectData(e) {
+	    var _this = this;
+	
+	    if (this.state.modalLoading) {
+	      return false;
+	    }
+	    this.setState({ modalLoading: true });
+	    var type = (0, _jquery2.default)(e.target).data('type');
+	    var title = (0, _jquery2.default)(e.target).data('modal-title');
+	    var ajax = _jquery2.default.post("/full_graph", this.generateObjectData(type), "text");
+	    ajax.done(function (data) {
+	      return _this.handleDataReturn(data, title);
+	    });
+	    ajax.fail(function (_, errorText, error) {
+	      _this.props.showObjectGraph(error);
+	      _this.setState({ modalLoading: false });
+	    });
+	  },
+	  getCurrentEntityURI: function getCurrentEntityURI() {
+	    var _this2 = this;
+	
+	    return this.props.data.find(function (el) {
+	      return el.name == _this2.props.searchAgainst;
+	    })[ENTITY_TYPE].default;
+	  },
+	  handleDataReturn: function handleDataReturn(data, title) {
+	    this.props.showObjectGraph(data, title);
+	    this.setState({ modalLoading: false });
+	  },
+	  generateObjectData: function generateObjectData() {
+	    var _this3 = this;
+	
+	    var type = arguments.length <= 0 || arguments[0] === undefined ? "ttl" : arguments[0];
+	
+	    var objIndex = this.props.data.findIndex(function (el) {
+	      return el.name == _this3.props.searchAgainst;
+	    });
+	    return {
+	      endpoint: this.props.data[objIndex].endpoint,
+	      crm: this.props.data[objIndex].predicate,
+	      values: { entity_uri: this.getCurrentEntityURI() },
+	      entity_type: ENTITY_TYPE,
+	      return_type: type
+	    };
+	  },
+	
+	  render: function render() {
+	    var _this4 = this;
+	
+	    var title = ENTITY_TYPE;
+	
+	    var sourceButtons = this.props.data.map(function (source, index) {
+	      return _react2.default.createElement(
+	        _reactBootstrap.Button,
+	        {
+	          active: _this4.props.searchAgainst == source.name,
+	          onClick: function onClick() {
+	            return _this4.props.setSearch(source.name);
+	          },
+	          key: index
+	        },
+	        source.name
+	      );
+	    });
+	
+	    var topButtons = _react2.default.createElement(
+	      _reactBootstrap.ButtonGroup,
+	      { bsSize: 'small', role: 'group', className: 'search_buttons' },
+	      sourceButtons
+	    );
+	
+	    var bottomButtons = _react2.default.createElement(
+	      _reactBootstrap.ButtonGroup,
+	      { bsSize: 'small', role: 'group', className: 'download_buttons' },
+	      _react2.default.createElement(
+	        _reactBootstrap.Button,
+	        {
+	          'data-type': 'ttl',
+	          'data-modal-title': 'Entity as Linked Open Data (in Turtle)',
+	          disabled: this.state.modalLoading,
+	          onClick: this.loadObjectData },
+	        'Turtle'
+	      ),
+	      _react2.default.createElement(
+	        _reactBootstrap.Button,
+	        {
+	          'data-type': 'nested_ttl',
+	          'data-modal-title': 'Entity as Turtle (Nested Graph with Blank Nodes)',
+	          disabled: this.state.modalLoading,
+	          onClick: this.loadObjectData },
+	        'Turtle (Nested)'
+	      ),
+	      _react2.default.createElement(
+	        _reactBootstrap.Button,
+	        {
+	          'data-type': 'json',
+	          'data-modal-title': 'JSON Representation of the Entity',
+	          disabled: this.state.modalLoading,
+	          onClick: this.loadObjectData },
+	        'JSON'
+	      )
+	    );
+	
+	    return _react2.default.createElement(
+	      _header_wrapper2.default,
+	      {
+	        title: title,
+	        bottomButtonsLabel: 'Current SPARQL Endpoint:',
+	        bottomButtons: topButtons,
+	        topButtonsLabel: this.state.modalLoading ? "Processing..." : "Export Entity As:",
+	        topButtons: bottomButtons
+	      },
+	      _react2.default.createElement(_search_input_field2.default, {
+	        func: this.props.setEntityUri,
+	        value: _constants2.default.ENTITY_FIELD_NAME,
+	        'default': this.getCurrentEntityURI(),
+	        title: 'Current Entity URI',
+	        stacked: true })
+	    );
+	  }
+	});
+	
+	exports.default = Header;
+
+/***/ },
+
+/***/ 428:
+/*!***************************************!*\
+  !*** ./site/react/header_wrapper.jsx ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (props) {
+	
+	  return _react2.default.createElement(
+	    "header",
+	    { className: "container-fluid page_header hidden-print" },
+	    _react2.default.createElement(
+	      "div",
+	      { className: "row" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "col-sm-12" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "pull-left logo" },
+	          _react2.default.createElement(
+	            "a",
+	            { href: "/" },
+	            _react2.default.createElement("img", { src: "/images/aac_logo.png" })
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "h1",
+	          null,
+	          "AAC Mapping Validator"
+	        ),
+	        _react2.default.createElement(
+	          "h2",
+	          null,
+	          props.title
+	        )
+	      )
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      { className: "row header_interface" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "col-sm-6 " },
+	        props.children
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        { className: "col-sm-5" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "pull-left" },
+	          _react2.default.createElement(
+	            "label",
+	            { className: "btn_group_label" },
+	            props.bottomButtonsLabel
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "btn-toolbar" },
+	            props.bottomButtons
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "pull-right" },
+	          _react2.default.createElement(
+	            "label",
+	            { className: "btn_group_label" },
+	            props.topButtonsLabel
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "btn-toolbar" },
+	            props.topButtons
+	          )
+	        )
+	      )
+	    )
+	  );
+	};
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	;
+
+/***/ },
+
+/***/ 429:
+/*!***************************************************!*\
+  !*** ./site/react/widgets/search_input_field.jsx ***!
+  \***************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createClass({
+	  displayName: "search_input_field",
+	
+	  getInitialState: function getInitialState() {
+	    return { value: this.props.default || "" };
+	  },
+	  handleChange: function handleChange(e) {
+	    this.setState({ value: e.target.value });
+	  },
+	  handleKeyDown: function handleKeyDown(e) {
+	    console.log(e.keyCode);
+	    if (e.keyCode == 13 && this.props.func) {
+	      this.props.func(this.state.value);
+	      e.preventDefault();
+	    }
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    if (nextProps.default != this.props.default) {
+	      this.setState({ value: nextProps.default || "" });
+	    }
+	  },
+	  render: function render() {
+	    var _this = this;
+	
+	    var id_val = "sparql_" + this.props.value;
+	    var title = this.props.title || this.props.value.replace(/_/g, " ");
+	    var placeholder = "Enter a " + title;
+	    var default_value = this.props.default;
+	
+	    var the_input = _react2.default.createElement("input", {
+	      type: "text",
+	      className: "form-control",
+	      name: this.props.value,
+	      id: id_val,
+	      placeholder: placeholder,
+	      value: this.state.value,
+	      onChange: this.handleChange,
+	      onKeyDown: this.handleKeyDown
+	    });
+	
+	    var the_link = _react2.default.createElement(
+	      "a",
+	      { className: "search_link", href: this.state.value, target: "_blank" },
+	      "(link)"
+	    );
+	
+	    var the_label = _react2.default.createElement(
+	      "label",
+	      { htmlFor: id_val, style: { "textTransform": "capitalize" } },
+	      title,
+	      ":"
+	    );
+	
+	    if (this.props.stacked) {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "form-group form-group-sm" },
+	        the_label,
+	        " ",
+	        the_link,
+	        _react2.default.createElement(
+	          "div",
+	          { className: "input-group" },
+	          the_input,
+	          _react2.default.createElement(
+	            "span",
+	            { className: "input-group-btn" },
+	            _react2.default.createElement(
+	              "button",
+	              {
+	                className: "btn btn-sm btn-default",
+	                type: "button",
+	                onClick: function onClick() {
+	                  return _this.props.func(_this.state.value);
+	                }
+	              },
+	              "Search"
+	            )
+	          )
+	        )
+	      );
+	    }
+	
+	    return _react2.default.createElement(
+	      "div",
+	      { className: "form-group" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "col-sm-3 col-md-offset-1 text-right" },
+	        the_label
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        { className: "col-sm-7" },
+	        the_input
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        { className: "col-sm-1 hidden-print" },
+	        the_link
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+
+/***/ 430:
+/*!**************************************!*\
+  !*** ./site/react/lib/constants.jsx ***!
+  \**************************************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {
+	  ENTITY_FIELD_NAME: "entity_uri"
+	};
+
+/***/ },
+
+/***/ 431:
+/*!******************************************!*\
+  !*** ./site/react/item/item_display.jsx ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (props) {
+	
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'col-sm-9 col-lg-8 col-lg-offset-1 app' },
+	    _react2.default.createElement(_title2.default, {
+	      title: props.title,
+	      mandatory: props.mandatory,
+	      multiples: props.multiples,
+	      description: props.long_description ? props.long_description : props.description,
+	      example: props.example,
+	      lod_type: props.lod_type
+	    }),
+	    _react2.default.createElement(_sparql_search2.default, props),
+	    _react2.default.createElement(_mapping2.default, { fieldTitle: props.title, construct: props.construct, extras: props.graph_extras, showModal: props.showModal })
+	  );
+	};
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _title = __webpack_require__(/*! ./title.jsx */ 432);
+	
+	var _title2 = _interopRequireDefault(_title);
+	
+	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 433);
+	
+	var _sparql_search2 = _interopRequireDefault(_sparql_search);
+	
+	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 438);
+	
+	var _mapping2 = _interopRequireDefault(_mapping);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+
+/***/ 432:
+/*!***********************************!*\
+  !*** ./site/react/item/title.jsx ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (props) {
+	  return _react2.default.createElement(
+	    "section",
+	    { className: "field_info" },
+	    _react2.default.createElement(
+	      "div",
+	      { className: "row" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "col-md-12" },
+	        _react2.default.createElement(
+	          "h2",
+	          { className: "field_name" },
+	          props.title
+	        ),
+	        _react2.default.createElement(
+	          "p",
+	          { className: "main_desc" },
+	          props.description
+	        )
+	      )
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      { className: "row" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "col-md-12" },
+	        _react2.default.createElement(
+	          "dl",
+	          { className: "dl-horizontal" },
+	          _react2.default.createElement(
+	            "dt",
+	            null,
+	            "Sample Data: "
+	          ),
+	          _react2.default.createElement(
+	            "dd",
+	            null,
+	            props.example
+	          ),
+	          _react2.default.createElement(
+	            "dt",
+	            null,
+	            "Mandatory:"
+	          ),
+	          _react2.default.createElement(
+	            "dd",
+	            null,
+	            props.mandatory ? "Yes" : "No"
+	          ),
+	          _react2.default.createElement(
+	            "dt",
+	            null,
+	            "Multiples:"
+	          ),
+	          _react2.default.createElement(
+	            "dd",
+	            null,
+	            props.multiples ? "Yes" : "No"
+	          ),
+	          _react2.default.createElement(
+	            "dt",
+	            null,
+	            props.lod_type ? "Associated AAC ID:" : ""
+	          ),
+	          _react2.default.createElement(
+	            "dd",
+	            null,
+	            _react2.default.createElement(
+	              "a",
+	              { href: props.lod_type, target: "_blank" },
+	              props.lod_type
+	            )
+	          )
+	        )
+	      )
+	    )
+	  );
+	};
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/******************************************************************************
+	*
+	*  This is the Item Display title section, with the badges and the metadata.
+	*  No functionality, just a display template.
+	*  
+	******************************************************************************/
+	
+	;
+
+/***/ },
+
+/***/ 433:
+/*!*******************************************!*\
+  !*** ./site/react/item/sparql_search.jsx ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 1);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 434);
+	
+	var _modal_trigger2 = _interopRequireDefault(_modal_trigger);
+	
+	var _sparql_results = __webpack_require__(/*! ./sparql_results.jsx */ 435);
+	
+	var _sparql_results2 = _interopRequireDefault(_sparql_results);
+	
+	var _search_input_field = __webpack_require__(/*! ../widgets/search_input_field.jsx */ 429);
+	
+	var _search_input_field2 = _interopRequireDefault(_search_input_field);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SparqlSearch = _react2.default.createClass({
+	  displayName: 'SparqlSearch',
+	
+	
+	  getInitialState: function getInitialState() {
+	    return { results: false, isSearching: false };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.autoSearch();
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    if (nextProps.title != this.props.title) {
+	      this.setState({ results: false });
+	    }
+	  },
+	  componentDidUpdate: function componentDidUpdate(prevProps) {
+	    if (prevProps.title != this.props.title || prevProps.search.endpoint != this.props.search.endpoint || prevProps.currentEntity != this.props.currentEntity) {
+	      this.autoSearch();
+	    }
+	  },
+	
+	  autoSearch: function autoSearch() {
+	    var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+	
+	    if (e) {
+	      e.preventDefault();
+	    }
+	    var obj = (0, _jquery2.default)("#search_form").serializeArray();
+	    this.doSearch(obj);
+	  },
+	
+	  doSearch: function doSearch(obj) {
+	    if (!this.props.currentEntity) {
+	      return false;
+	    }
+	
+	    var val = { entity_uri: this.props.currentEntity };
+	
+	    obj.forEach(function (v) {
+	      val[v.name] = v.value;
+	    });
+	
+	    var submission = {
+	      fields: {
+	        select: this.props.select,
+	        construct: this.props.construct,
+	        where: this.props.where,
+	        values: this.props.values
+	      },
+	      endpoint: this.props.search.endpoint,
+	      crm: this.props.search.predicate,
+	      values: val
+	    };
+	    _jquery2.default.post("/search", submission, this.handleResults);
+	    this.setState({ isSearching: true });
+	  },
+	
+	  handleResults: function handleResults(data) {
+	    this.setState({ results: data, isSearching: false });
+	  },
+	
+	  render: function render() {
+	    var _this = this;
+	
+	    if (!this.props.currentEntity) return false;
+	
+	    var input_boxes = this.props.values.split(" ").map(function (value) {
+	
+	      var field_name = value.replace("?", "");
+	      var default_value = _this.props['test_' + field_name];
+	      if (field_name == "entity_uri") {
+	        return false;
+	      }
+	      return _react2.default.createElement(_search_input_field2.default, {
+	        key: field_name,
+	        value: field_name,
+	        'default': default_value
+	      });
+	    });
+	
+	    return _react2.default.createElement(
+	      'section',
+	      { className: 'search' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-md-12' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            this.props.title,
+	            ' for ',
+	            _react2.default.createElement(
+	              'a',
+	              { href: this.props.currentEntity, className: 'entity_uri_label', target: '_blank' },
+	              this.props.currentEntity.replace(/https?:\/\//, "")
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'form',
+	            { id: 'search_form', className: 'form-horizontal', onSubmit: this.state.isSearching ? null : this.autoSearch },
+	            input_boxes
+	          )
+	        )
+	      ),
+	      _react2.default.createElement(_sparql_results2.default, { title: this.props.title, select: this.props.select, results: this.state.results, showModal: this.props.showModal })
+	    );
+	  }
+	});
+	
+	//-----------------------------------------------------------------------------
+	exports.default = SparqlSearch;
+
+/***/ },
+
+/***/ 434:
+/*!**********************************************!*\
+  !*** ./site/react/widgets/modal_trigger.jsx ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (props) {
+	  return _react2.default.createElement(
+	    "button",
+	    {
+	      className: "btn btn-info btn-xs hidden-print",
+	      onClick: function onClick(e) {
+	        return props.func(props.text, props.title);
+	      } },
+	    props.children
+	  );
+	};
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+
+/***/ 435:
+/*!********************************************!*\
+  !*** ./site/react/item/sparql_results.jsx ***!
+  \********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 434);
+	
+	var _modal_trigger2 = _interopRequireDefault(_modal_trigger);
+	
+	var _github_issue = __webpack_require__(/*! ../widgets/github_issue.jsx */ 436);
+	
+	var _github_issue2 = _interopRequireDefault(_github_issue);
+	
+	var _helpers = __webpack_require__(/*! ../lib/helpers.jsx */ 437);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/******************************************************************************
+	*
+	*  This builds the table of serach results.  
+	*
+	*  Assumes the following properties:
+	*    results:   The results of the search
+	*    select:    The select portion of the sparql query
+	*    title:     The page title, used for the Github Issue submit
+	*    showModal: The function to display a modal popup.
+	* 
+	******************************************************************************/
+	
+	exports.default = _react2.default.createClass({
+	  displayName: 'sparql_results',
+	
+	  render: function render() {
+	    var _this = this;
+	
+	    var content = "";
+	    if (this.props.results) {
+	
+	      // Set up the table headers
+	      var columns = this.props.select.split(" ");
+	      var table_headers = columns.map(function (select_item) {
+	        return _react2.default.createElement(
+	          'th',
+	          { key: select_item },
+	          select_item.replace("?", "")
+	        );
+	      });
+	
+	      // Set up the table values
+	      var table_rows = null;
+	      if (this.props.results.values.length > 0) {
+	        table_rows = this.props.results.values.map(function (result, i) {
+	          var cells = _this.props.select.split(" ").map(function (key) {
+	            var val = result[key.replace("?", "")];
+	            if (/^https?:\/\//.test(val)) {
+	              if (/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
+	                val = _react2.default.createElement(
+	                  'a',
+	                  { href: val, target: '_blank' },
+	                  _react2.default.createElement('img', { className: 'img-responsive', src: val })
+	                );
+	              } else {
+	                val = _react2.default.createElement(
+	                  'a',
+	                  { href: val, target: '_blank' },
+	                  (0, _helpers.truncate)(val, 40)
+	                );
+	              }
+	            }
+	            return _react2.default.createElement(
+	              'td',
+	              { key: i + '_' + key },
+	              ' ',
+	              val
+	            );
+	          });
+	          return _react2.default.createElement(
+	            'tr',
+	            { key: i },
+	            cells
+	          );
+	        });
+	      } else {
+	        table_rows = _react2.default.createElement(
+	          'tr',
+	          null,
+	          _react2.default.createElement(
+	            'td',
+	            { colSpan: columns.length, className: 'no_results' },
+	            'No results found.'
+	          )
+	        );
+	      }
+	      content = _react2.default.createElement(
+	        'table',
+	        { className: 'table table-hover' },
+	        _react2.default.createElement(
+	          'thead',
+	          null,
+	          _react2.default.createElement(
+	            'tr',
+	            null,
+	            table_headers
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'tbody',
+	          null,
+	          table_rows
+	        )
+	      );
+	    } else {
+	      content = _react2.default.createElement(
+	        'div',
+	        { className: 'panel-body text-center hidden-printr' },
+	        'Searching...'
+	      );
+	    }
+	
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'row results' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-md-10 col-md-offset-1' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'panel panel-default' },
+	          content,
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'panel-footer text-center hidden-printr' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'btn-group btn-group-xs ' },
+	              _react2.default.createElement(
+	                _modal_trigger2.default,
+	                { func: this.props.showModal, text: this.props.results.select, title: 'SPARQL Query' },
+	                'Show this Query'
+	              ),
+	              _react2.default.createElement(
+	                _modal_trigger2.default,
+	                { func: this.props.showModal, text: this.props.results.object, title: 'Results as Linked Open Data' },
+	                'Show as Turtle'
+	              )
+	            ),
+	            _react2.default.createElement(_github_issue2.default, { title: this.props.title, query: this.props.results.select })
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+/***/ },
+
+/***/ 436:
+/*!*********************************************!*\
+  !*** ./site/react/widgets/github_issue.jsx ***!
+  \*********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (props) {
+	  var issueTitle = encodeURIComponent("Problem with mapping of " + props.title);
+	  var issueBody = encodeURIComponent("I expected to see:\n\n*[WHAT I EXPECTED]*\n\nbut instead I saw:\n\n*[WHAT I SAW]*\n\nThe current query was:\n\n```ttl\n" + props.query + "\n```");
+	  var issueLinkUrl = "https://github.com/workergnome/aac_mappings/issues/new?title=" + issueTitle + "&body=" + issueBody;
+	
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "github_issue_link" },
+	    _react2.default.createElement(
+	      "a",
+	      { href: issueLinkUrl },
+	      "Do you see a problem with this?  Submit an issue."
+	    )
+	  );
+	};
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+
+/***/ 437:
+/*!************************************!*\
+  !*** ./site/react/lib/helpers.jsx ***!
+  \************************************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.truncate = truncate;
+	function truncate(str, len) {
+	  if (str.length <= len) {
+	    return str;
+	  }
+	  return str.substring(0, len - 3) + "...";
+	}
+
+/***/ },
+
+/***/ 438:
+/*!*************************************!*\
+  !*** ./site/react/item/mapping.jsx ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _jquery = __webpack_require__(/*! jquery */ 1);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 434);
+	
+	var _modal_trigger2 = _interopRequireDefault(_modal_trigger);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ItemMapping = _react2.default.createClass({
+	  displayName: 'ItemMapping',
+	
+	
+	  getInitialState: function getInitialState() {
+	    return { svg: "" };
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    if (nextProps.construct != this.props.construct) {
+	      this.getSvg(nextProps);
+	    }
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.getSvg(this.props);
+	  },
+	
+	  getSvg: function getSvg(data) {
+	    var _this = this;
+	
+	    if (!data.construct) return false;
+	    this.setState({ svg: "" });
+	    _jquery2.default.post("/graph", { ttl: data.construct, extras: data.extras }, function (svg_url) {
+	      return _this.setState({ svg: svg_url });
+	    });
+	  },
+	
+	  render: function render() {
+	
+	    var svgImage = this.state.svg ? _react2.default.createElement('img', { className: 'img-responsive center-block', src: this.state.svg }) : _react2.default.createElement(
+	      'p',
+	      { className: 'textCenter' },
+	      'Loading Diagram...'
+	    );
+	
+	    var btn = "";
+	    if (this.state.svg) {
+	      btn = _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-lg-10 col-lg-offset-1 text-center' },
+	          _react2.default.createElement(
+	            _modal_trigger2.default,
+	            {
+	              func: this.props.showModal,
+	              text: this.props.construct
+	            },
+	            'Show Mapping as Turtle'
+	          )
+	        )
+	      );
+	    }
+	
+	    return _react2.default.createElement(
+	      'section',
+	      { className: 'illustration' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-md-12' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'AAC Target Mapping For ',
+	            _react2.default.createElement(
+	              'strong',
+	              null,
+	              this.props.fieldTitle
+	            )
+	          ),
+	          svgImage
+	        )
+	      ),
+	      btn
+	    );
+	  }
+	});
+	
+	exports.default = ItemMapping;
+
+/***/ },
+
+/***/ 439:
+/*!**********************************************!*\
+  !*** ./site/react/widgets/content_modal.jsx ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _jquery = __webpack_require__(/*! jquery */ 1);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ContentModal = _react2.default.createClass({
+	  displayName: 'ContentModal',
+	  render: function render() {
+	
+	    var modalProps = Object.assign({}, this.props);
+	    delete modalProps.content;
+	    delete modalProps.title;
+	
+	    return _react2.default.createElement(
+	      _reactBootstrap.Modal,
+	      _extends({}, modalProps, { bsSize: 'large', 'aria-labelledby': 'contained-modal-title-lg' }),
+	      _react2.default.createElement(
+	        _reactBootstrap.Modal.Header,
+	        { closeButton: true },
+	        _react2.default.createElement(
+	          'h4',
+	          null,
+	          this.props.title
+	        )
+	      ),
+	      _react2.default.createElement(
+	        _reactBootstrap.Modal.Body,
+	        null,
+	        _react2.default.createElement(
+	          'pre',
+	          null,
+	          this.props.content || "Nothing to see here..."
+	        )
+	      ),
+	      _react2.default.createElement(
+	        _reactBootstrap.Modal.Footer,
+	        null,
+	        _react2.default.createElement(
+	          _reactBootstrap.Button,
+	          { onClick: this.props.onHide },
+	          'Close'
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	exports.default = ContentModal;
+
+/***/ }
+
+});
 //# sourceMappingURL=app.js.map

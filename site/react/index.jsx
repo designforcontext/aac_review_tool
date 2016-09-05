@@ -12,7 +12,7 @@ import ContentModal from "./widgets/content_modal.jsx";
 
 //-----------------------------------------------------------------------------
 // This is the known set of RDF endpoints that we can search against.   
-//  
+
 const SEARCH_DATA = [
   {
     name:           "YCBA", 
@@ -61,7 +61,8 @@ var App = React.createClass({
       modal: {
         show:false,            // Is the modal visible?
       },
-      fields: null             // This will be filled in with the field list
+      fields: null,             // This will be filled in with the field list
+      entity_uri: null
     }
   },
 
@@ -144,6 +145,7 @@ var App = React.createClass({
             data=            {SEARCH_DATA} 
             setSearch=       {(val) => this.setHashValues({search: val})}
             showObjectGraph= {this.showModal}
+            setEntityUri=    {(val) => this.setState({entity_uri: val})}
         />
         <div className='container-fluid'>
           <div className="row">
@@ -152,8 +154,12 @@ var App = React.createClass({
                 gotoField=   {(id) => this.setHashValues({id: id})}
                 currentItem= {this.state.currentItem}
              />
-            <ItemDisplay   {...currentFields} search={currentSearchEndpoint} showModal={this.showModal}
- />
+            <ItemDisplay   
+                {...currentFields} 
+                search={currentSearchEndpoint} 
+                showModal={this.showModal}
+                currentEntity={this.state.entity_uri}
+            />
           </div>
         </div>
         <ContentModal 

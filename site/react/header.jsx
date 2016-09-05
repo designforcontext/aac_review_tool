@@ -3,11 +3,21 @@ import { Button, ButtonGroup} from 'react-bootstrap';
 import $ from "jquery";
 import HeaderWrapper    from "./header_wrapper.jsx"
 import SearchInputField from './widgets/search_input_field.jsx'
+import Constants        from './lib/constants.jsx'
 
 const Header = React.createClass({
 
   getInitialState: function() {
     return {modalLoading: false}
+  },
+  componentDidMount: function() {
+    this.props.setEntityUri(this.getCurrentEntityURI()); 
+  },
+
+  componentDidUpdate: function(prevProps) {
+    if (prevProps.searchAgainst != this.props.searchAgainst) {
+      this.props.setEntityUri(this.getCurrentEntityURI()); 
+    }
   },
 
   loadObjectData: function(e) {
@@ -22,7 +32,9 @@ const Header = React.createClass({
       this.setState({modalLoading: false})
     })
   },
-
+  getCurrentEntityURI: function() {
+   return this.props.data.find( (el)=> el.name == this.props.searchAgainst)[ENTITY_TYPE].default; 
+  },
   handleDataReturn: function(data, title) {
     this.props.showObjectGraph(data, title);
     this.setState({modalLoading: false})
@@ -32,7 +44,7 @@ const Header = React.createClass({
     return {
       endpoint: this.props.data[objIndex].endpoint,
       crm: this.props.data[objIndex].predicate,
-      values: {entity_uri: this.props.data[objIndex][ENTITY_TYPE].default},
+      values: {entity_uri: this.getCurrentEntityURI()},
       entity_type: ENTITY_TYPE,
       return_type: type
     }
@@ -90,7 +102,14 @@ const Header = React.createClass({
           bottomButtons={topButtons} 
           topButtonsLabel={this.state.modalLoading ? "Processing..." : "Export Entity As:"} 
           topButtons={bottomButtons}
-      />
+      >
+        <SearchInputField 
+          func={this.props.setEntityUri} 
+          value={Constants.ENTITY_FIELD_NAME} 
+          default={this.getCurrentEntityURI()} 
+          title="Current Entity URI"
+          stacked />
+      </HeaderWrapper>
     )
   }
 });

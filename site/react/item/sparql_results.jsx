@@ -18,57 +18,66 @@ import {truncate}       from '../lib/helpers.jsx'
 
 export default  React.createClass({
   render: function() {
+    let content = "";
+    if (this.props.results) {
 
-    if (!this.props.results) {return false;}
+      // Set up the table headers
+      let columns = this.props.select.split(" ");
+      let table_headers = columns.map(function(select_item) {
+        return ( <th key={select_item} >{select_item.replace("?","")}</th>)
+      });
 
-    // Set up the table headers
-    let columns = this.props.select.split(" ");
-    let table_headers = columns.map(function(select_item) {
-      return ( <th key={select_item} >{select_item.replace("?","")}</th>)
-    });
-
-    // Set up the table values
-    let table_rows = null;
-    if (this.props.results.values.length > 0) {
-      table_rows = this.props.results.values.map((result, i) => {
-        let cells = this.props.select.split(" ").map((key) => {
-          let val = result[key.replace("?","")];
-          if(/^https?:\/\//.test(val)) {
-            if(/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
-              val = <a href={val} target='_blank'><img className='img-responsive' src={val} /></a>
-            }else {
-              val = <a href={val} target='_blank'>{truncate(val,40)}</a>
+      // Set up the table values
+      let table_rows = null;
+      if (this.props.results.values.length > 0) {
+        table_rows = this.props.results.values.map((result, i) => {
+          let cells = this.props.select.split(" ").map((key) => {
+            let val = result[key.replace("?","")];
+            if(/^https?:\/\//.test(val)) {
+              if(/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
+                val = <a href={val} target='_blank'><img className='img-responsive' src={val} /></a>
+              }else {
+                val = <a href={val} target='_blank'>{truncate(val,40)}</a>
+              }
             }
-          }
-          return (<td key={`${i}_${key}`}> {val}</td>)
-        });
-        return ( <tr key={i}>{cells}</tr>)
-      })
-    }
-    else {
-      table_rows = <tr><td colSpan={columns.length} className='no_results'>No results found.</td></tr>
+            return (<td key={`${i}_${key}`}> {val}</td>)
+          });
+          return ( <tr key={i}>{cells}</tr>)
+        })
+      }
+      else {
+        table_rows = <tr><td colSpan={columns.length} className='no_results'>No results found.</td></tr>
+      }
+      content = (
+        <table className="table table-hover">              
+          <thead><tr>{table_headers}</tr></thead>
+          <tbody>{table_rows}</tbody>
+        </table>
+      )
+
+    } else {
+      content = (
+        <div className="panel-body text-center hidden-printr">
+        Searching...
+        </div>
+      )
     }
 
     return (
       <div className="row results">
         <div className="col-md-10 col-md-offset-1">
           <div className="panel panel-default">
-             <table className="table table-hover">              
-               <thead><tr>{table_headers}</tr></thead>
-               <tbody>{table_rows}</tbody>
-             </table>
-             <div className="panel-body text-cente hidden-printr">
-                 <div className="btn-group btn-group-xs ">
-                  <ModalTrigger func={this.props.showModal} text={this.props.results.select} title="SPARQL Query">
-                    Show this Query
-                  </ModalTrigger>
-                  <ModalTrigger func={this.props.showModal} text={this.props.results.object} title="Results as Linked Open Data">
-                    Show as Turtle
-                  </ModalTrigger>
-                 </div>
-             </div>
-             <div className="panel-footer hidden-print">
-              <GithubIssue title={this.props.title} query={this.props.results.select}/>
+             {content}
+             <div className="panel-footer text-center hidden-printr">
+               <div className="btn-group btn-group-xs ">
+                <ModalTrigger func={this.props.showModal} text={this.props.results.select} title="SPARQL Query">
+                  Show this Query
+                </ModalTrigger>
+                <ModalTrigger func={this.props.showModal} text={this.props.results.object} title="Results as Linked Open Data">
+                  Show as Turtle
+                </ModalTrigger>
+               </div>
+               <GithubIssue title={this.props.title} query={this.props.results.select}/>
              </div>
           </div>  
         </div>

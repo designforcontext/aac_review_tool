@@ -11,6 +11,7 @@
 * [ ] Optimize Test Runner for only needed type of query.
 * [ ] Update header for FAQ and homepage
 * [ ] Make the report.
+* [ ] Pre-commit hook for building?
 
 ### Data Needed for Objects
 

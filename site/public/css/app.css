@@ -5428,9 +5428,8 @@ button.close {
 /* Literal.Number.Integer.Long */
 .page_header {
   padding-top: 10px;
-  padding-bottom: 5px;
   margin-bottom: 0;
-  background-color: #962b2b; }
+  background-color: #4095b7; }
   .page_header h1, .page_header h2, .page_header h3 {
     font-size: 24px;
     margin: 0;
@@ -5441,20 +5440,25 @@ button.close {
     font-size: 18px;
     font-weight: 200;
     margin-top: 5px; }
-  .page_header h3 {
+  .page_header label {
     font-size: 13px;
-    font-weight: 400; }
-  .page_header .navbar-nav > li > a {
-    color: #fff; }
-    .page_header .navbar-nav > li > a.active {
-      background-color: #be3636; }
-  .page_header .btn_group_label {
-    display: inline-block;
-    vertical-align: bottom; }
+    font-weight: 400;
+    color: #fff;
+    vertical-align: bottom;
+    margin-bottom: 0px;
+    display: inline-block; }
+  .page_header .logo {
+    padding: 0px 10px 0 0; }
+  .page_header .header_interface {
+    background-color: #3986a4;
+    padding: 6px 0 0;
+    margin-top: 15px; }
+  .page_header .search_link {
+    margin-left: 0;
+    color: #ccc;
+    font-size: 90%; }
   .page_header .btn-group {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-right: 20px; }
+    margin-bottom: 5px; }
     .page_header .btn-group button {
       color: #999; }
       .page_header .btn-group button.active {
@@ -5498,22 +5502,28 @@ button.close {
 .app {
   padding-top: 30px; }
   .app h1, .app h2, .app h3, .app h4 {
-    border-bottom: 2px solid #962b2b;
+    border-bottom: 2px solid #337691;
     padding: 3px 0px 5px;
     color: #691010;
     box-shadow: 0px 4px 3px -2px #ddd;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     margin-top: 0;
     background: #fff; }
+  .app h2 {
+    font-size: 24px; }
   .app h4 {
     font-weight: 400; }
+  .app .main_desc {
+    font-size: 120%;
+    padding: 5px 20px; }
   .app section {
     margin-bottom: 50px;
     padding-bottom: 10px;
-    background: #eee;
-    page-break-inside: avoid; }
-    .app section:first-child {
-      background-color: inherit; }
+    background: #fafafa;
+    page-break-inside: avoid;
+    border-radius: 0 5px 5px 0; }
+    .app section .panel-footer {
+      background: #fff; }
 
 .search_link {
   margin-left: -27px;
@@ -5539,6 +5549,11 @@ button.close {
 
 .github_issue_link {
   text-align: center;
-  font-size: 80%; }
+  font-size: 80%;
+  margin-top: 2px; }
+
+.entity_uri_label {
+  color: #000;
+  font-weight: bold; }
 
 /*# sourceMappingURL=app.css.map */

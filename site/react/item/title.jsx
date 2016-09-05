@@ -20,7 +20,7 @@ export default  function(props) {
             <span className='badge'>{props.multiples ? "" : "Only One Allowed"}</span>
             */}
           </h2>
-          <p>{props.description}</p>
+          <p className="main_desc">{props.description}</p>
         </div>
       </div>
       <div className="row">

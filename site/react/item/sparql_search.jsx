@@ -21,7 +21,9 @@ var SparqlSearch = React.createClass({
     }
   },
   componentDidUpdate: function(prevProps) {
-    if (prevProps.title != this.props.title || prevProps.search.endpoint != this.props.search.endpoint) {
+    if (prevProps.title != this.props.title || 
+        prevProps.search.endpoint != this.props.search.endpoint ||
+        prevProps.currentEntity != this.props.currentEntity) {
       this.autoSearch();  
     }
   },
@@ -33,15 +35,13 @@ var SparqlSearch = React.createClass({
   },
 
   doSearch: function(obj) {
-    let val = {};
-    let blank_found = false;
+    if(!this.props.currentEntity){ return false;}
+    
+    let val = {entity_uri: this.props.currentEntity};
+
     obj.forEach(v => {
-      if (v.name == "entity_uri" && v.value == "") {blank_found = true};
       val[v.name] = v.value;
     });
-
-    if(blank_found){ return false;}
-
 
     let submission = {
       fields: {
@@ -63,13 +63,14 @@ var SparqlSearch = React.createClass({
   },
 
   render: function() {
+    if (!this.props.currentEntity) return false;
 
     let input_boxes = this.props.values.split(" ").map((value) => {  
 
       let field_name = value.replace("?","");
       let default_value = this.props[`test_${field_name}`];
       if (field_name == "entity_uri") {
-        default_value = this.props.search[ENTITY_TYPE].default
+        return false;
       }
       return (
         <SearchInputField 
@@ -87,20 +88,11 @@ var SparqlSearch = React.createClass({
       <section className="search">
         <div className="row">
           <div className="col-md-12">
-            <h4>Search {this.props.search.name} for <strong>{this.props.title}</strong></h4>
+            <h4>
+              {this.props.title} for <a href={this.props.currentEntity} className="entity_uri_label" target="_blank">{this.props.currentEntity.replace(/https?:\/\//,"")}</a>
+            </h4>
             <form id="search_form" className="form-horizontal" onSubmit={this.state.isSearching ? null :this.autoSearch}>
               {input_boxes}
-              <div className="form-group hidden-print">
-                <div className="col-sm-offset-3 col-sm-6">
-                  <Button
-                    bsStyle="primary"
-                    disabled={this.state.isSearching}
-                    onClick={this.state.isSearching ? null :this.autoSearch}
-                  >
-                    {this.state.isSearching ? 'Searching...' : 'Search'}
-                  </Button>
-                </div>
-              </div>
             </form>
           </div>
         </div>
