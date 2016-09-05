@@ -562,12 +562,12 @@ webpackJsonp([0,2],{
 	      { className: "row header_interface" },
 	      _react2.default.createElement(
 	        "div",
-	        { className: "col-sm-6 " },
+	        { className: "col-sm-6 col-lg-4 col-lg-offset-3 " },
 	        props.children
 	      ),
 	      _react2.default.createElement(
 	        "div",
-	        { className: "col-sm-5" },
+	        { className: "col-sm-5 col-lg-4" },
 	        _react2.default.createElement(
 	          "div",
 	          { className: "pull-left" },

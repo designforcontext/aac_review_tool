@@ -13,10 +13,10 @@ export default function(props){
         </div>
       </div>
       <div className="row header_interface">
-        <div className="col-sm-6 ">
+        <div className="col-sm-6 col-lg-4 col-lg-offset-3 ">
           {props.children}
         </div>
-        <div className="col-sm-5">
+        <div className="col-sm-5 col-lg-4">
           <div className="pull-left">
             <label className="btn_group_label">{props.bottomButtonsLabel}</label>
             <div className="btn-toolbar">
