@@ -3,8 +3,8 @@
 *  This builds the table of serach results.  
 *
 *  Assumes the following properties:
-*    results:   The results of the search
-*    select:    The select portion of the sparql query
+*    results:   The results of the search.  Is an object.
+*    select:    The select portion of the sparql query.
 *    title:     The page title, used for the Github Issue submit
 *    showModal: The function to display a modal popup.
 * 
@@ -18,7 +18,9 @@ import {truncate}       from '../lib/helpers.jsx'
 
 export default  React.createClass({
   render: function() {
-    let content = "";
+    
+    let content = ""; // This will hold the content.
+
     if (this.props.results) {
 
       // Set up the table headers
@@ -28,6 +30,9 @@ export default  React.createClass({
       });
 
       // Set up the table values
+      // 
+      let predicates = {};
+      Object.assign(predicates, this.props.search.prefix, {"crm": this.props.search.predicate});
       let table_rows = null;
       if (this.props.results.values.length > 0) {
         table_rows = this.props.results.values.map((result, i) => {
@@ -37,7 +42,7 @@ export default  React.createClass({
               if(/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
                 val = <a href={val} target='_blank'><img className='img-responsive' src={val} /></a>
               }else {
-                val = <a href={val} target='_blank'>{truncate(val,40)}</a>
+                val = <a href={val} target='_blank'>{truncate(val,50,predicates)}</a>
               }
             }
             return (<td key={`${i}_${key}`}> {val}</td>)
@@ -55,11 +60,12 @@ export default  React.createClass({
         </table>
       )
 
-    } else {
+    } else { // No search results
       content = (
-        <div className="panel-body text-center hidden-printr">
-        Searching...
-        </div>
+        <table className="table table-hover">              
+          <thead><tr><td>Searching</td></tr></thead>
+          <tbody><tr><td>...</td></tr></tbody>
+        </table>
       )
     }
 
@@ -74,7 +80,7 @@ export default  React.createClass({
                   Show this Query
                 </ModalTrigger>
                 <ModalTrigger func={this.props.showModal} text={this.props.results.object} title="Results as Linked Open Data">
-                  Show as Turtle
+                  Show this as Turtle
                 </ModalTrigger>
                </div>
                <GithubIssue title={this.props.title} query={this.props.results.select}/>

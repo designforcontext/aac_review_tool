@@ -32,11 +32,15 @@ webpackJsonp([0,2],{
 	
 	var _header2 = _interopRequireDefault(_header);
 	
-	var _item_display = __webpack_require__(/*! ./item/item_display.jsx */ 431);
+	var _footer = __webpack_require__(/*! ./footer.jsx */ 431);
+	
+	var _footer2 = _interopRequireDefault(_footer);
+	
+	var _item_display = __webpack_require__(/*! ./item/item_display.jsx */ 432);
 	
 	var _item_display2 = _interopRequireDefault(_item_display);
 	
-	var _content_modal = __webpack_require__(/*! ./widgets/content_modal.jsx */ 439);
+	var _content_modal = __webpack_require__(/*! ./widgets/content_modal.jsx */ 438);
 	
 	var _content_modal2 = _interopRequireDefault(_content_modal);
 	
@@ -49,6 +53,7 @@ webpackJsonp([0,2],{
 	  name: "YCBA",
 	  endpoint: "http://collection.britishart.yale.edu/openrdf-sesame/repositories/ycba",
 	  predicate: "http://erlangen-crm.org/current/",
+	  prefix: { "ycba": "http://collection.britishart.yale.edu/" },
 	  E39_Actor: {
 	    default: null
 	  },
@@ -59,6 +64,8 @@ webpackJsonp([0,2],{
 	  name: "SAAM",
 	  endpoint: "http://edan.si.edu/saam/sparql",
 	  predicate: "http://www.cidoc-crm.org/cidoc-crm/",
+	  prefix: { "saam": "http://edan.si.edu/saam/" },
+	
 	  E39_Actor: {
 	    default: null
 	  },
@@ -69,6 +76,8 @@ webpackJsonp([0,2],{
 	  name: "British Museum",
 	  endpoint: "http://collection.britishmuseum.org/sparql",
 	  predicate: "http://erlangen-crm.org/current/",
+	  prefix: { "bm": "http://collection.britishmuseum.org/" },
+	
 	  E39_Actor: {
 	    default: "http://collection.britishmuseum.org/id/person-institution/70240"
 	  },
@@ -215,7 +224,8 @@ webpackJsonp([0,2],{
 	      _react2.default.createElement(_content_modal2.default, _extends({}, this.state.modal, {
 	        onHide: function onHide() {
 	          return _this.setState({ modal: { show: false } });
-	        } }))
+	        } })),
+	      _react2.default.createElement(_footer2.default, null)
 	    );
 	  }
 	});
@@ -754,6 +764,65 @@ webpackJsonp([0,2],{
 /***/ },
 
 /***/ 431:
+/*!*******************************!*\
+  !*** ./site/react/footer.jsx ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (props) {
+	  var y = new Date().getFullYear();
+	  var copyright_year = y == 2016 ? "2016" : "2016-" + y;
+	  return _react2.default.createElement(
+	    "footer",
+	    null,
+	    _react2.default.createElement(
+	      "p",
+	      null,
+	      "Developed by ",
+	      _react2.default.createElement(
+	        "a",
+	        { href: "http://www.designforcontext.com", target: "_blank" },
+	        "Design for Context"
+	      ),
+	      ".  Copyright © ",
+	      copyright_year,
+	      "."
+	    ),
+	    _react2.default.createElement(
+	      "p",
+	      null,
+	      "This is a project of the ",
+	      _react2.default.createElement(
+	        "a",
+	        { href: "http://americanartcollaborative.org/", target: "_blank" },
+	        "American Art Collaborative"
+	      ),
+	      ". Source code available on ",
+	      _react2.default.createElement(
+	        "a",
+	        { href: "https://github.com/workergnome/aac_mappings", target: "_blank" },
+	        "Github"
+	      ),
+	      "."
+	    )
+	  );
+	};
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+
+/***/ 432:
 /*!******************************************!*\
   !*** ./site/react/item/item_display.jsx ***!
   \******************************************/
@@ -787,15 +856,15 @@ webpackJsonp([0,2],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _title = __webpack_require__(/*! ./title.jsx */ 432);
+	var _title = __webpack_require__(/*! ./title.jsx */ 433);
 	
 	var _title2 = _interopRequireDefault(_title);
 	
-	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 433);
+	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 434);
 	
 	var _sparql_search2 = _interopRequireDefault(_sparql_search);
 	
-	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 438);
+	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 437);
 	
 	var _mapping2 = _interopRequireDefault(_mapping);
 
@@ -803,7 +872,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 432:
+/***/ 433:
 /*!***********************************!*\
   !*** ./site/react/item/title.jsx ***!
   \***********************************/
@@ -913,7 +982,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 433:
+/***/ 434:
 /*!*******************************************!*\
   !*** ./site/react/item/sparql_search.jsx ***!
   \*******************************************/
@@ -935,11 +1004,11 @@ webpackJsonp([0,2],{
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 434);
+	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 435);
 	
 	var _modal_trigger2 = _interopRequireDefault(_modal_trigger);
 	
-	var _sparql_results = __webpack_require__(/*! ./sparql_results.jsx */ 435);
+	var _sparql_results = __webpack_require__(/*! ./sparql_results.jsx */ 436);
 	
 	var _sparql_results2 = _interopRequireDefault(_sparql_results);
 	
@@ -1015,19 +1084,54 @@ webpackJsonp([0,2],{
 	
 	    if (!this.props.currentEntity) return false;
 	
-	    var input_boxes = this.props.values.split(" ").map(function (value) {
+	    // Generate the list of needed parameters
+	    var cols = this.props.values.split(" ").filter(function (val) {
+	      return val != "?entity_uri";
+	    });
 	
+	    // Generate the secondary input boxes
+	    var input_boxes = cols.map(function (value) {
 	      var field_name = value.replace("?", "");
 	      var default_value = _this.props['test_' + field_name];
-	      if (field_name == "entity_uri") {
-	        return false;
-	      }
 	      return _react2.default.createElement(_search_input_field2.default, {
 	        key: field_name,
 	        value: field_name,
 	        'default': default_value
 	      });
 	    });
+	
+	    // Wrap the secondary input boxes in boilerplate
+	    var query_fields = cols.length == 0 ? "" : _react2.default.createElement(
+	      'div',
+	      { className: 'row' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'col-md-12 col-lg-10 col-lg-offset-1' },
+	        _react2.default.createElement(
+	          'h5',
+	          null,
+	          'Query-Specific Fields:'
+	        ),
+	        _react2.default.createElement(
+	          'form',
+	          { id: 'search_form', className: 'form-horizontal', onSubmit: this.state.isSearching ? null : this.autoSearch },
+	          input_boxes
+	        )
+	      )
+	    );
+	
+	    // Generate the title
+	    var the_title = _react2.default.createElement(
+	      'h4',
+	      null,
+	      this.props.title,
+	      ' for ',
+	      _react2.default.createElement(
+	        'a',
+	        { href: this.props.currentEntity, className: 'entity_uri_label', target: '_blank' },
+	        this.props.currentEntity.replace(/https?:\/\//, "")
+	      )
+	    );
 	
 	    return _react2.default.createElement(
 	      'section',
@@ -1038,25 +1142,11 @@ webpackJsonp([0,2],{
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'col-md-12' },
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            this.props.title,
-	            ' for ',
-	            _react2.default.createElement(
-	              'a',
-	              { href: this.props.currentEntity, className: 'entity_uri_label', target: '_blank' },
-	              this.props.currentEntity.replace(/https?:\/\//, "")
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'form',
-	            { id: 'search_form', className: 'form-horizontal', onSubmit: this.state.isSearching ? null : this.autoSearch },
-	            input_boxes
-	          )
+	          the_title
 	        )
 	      ),
-	      _react2.default.createElement(_sparql_results2.default, { title: this.props.title, select: this.props.select, results: this.state.results, showModal: this.props.showModal })
+	      _react2.default.createElement(_sparql_results2.default, { search: this.props.search, title: this.props.title, select: this.props.select, results: this.state.results, showModal: this.props.showModal }),
+	      query_fields
 	    );
 	  }
 	});
@@ -1066,7 +1156,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 434:
+/***/ 435:
 /*!**********************************************!*\
   !*** ./site/react/widgets/modal_trigger.jsx ***!
   \**********************************************/
@@ -1098,7 +1188,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 435:
+/***/ 436:
 /*!********************************************!*\
   !*** ./site/react/item/sparql_results.jsx ***!
   \********************************************/
@@ -1114,15 +1204,15 @@ webpackJsonp([0,2],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 434);
+	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 435);
 	
 	var _modal_trigger2 = _interopRequireDefault(_modal_trigger);
 	
-	var _github_issue = __webpack_require__(/*! ../widgets/github_issue.jsx */ 436);
+	var _github_issue = __webpack_require__(/*! ../widgets/github_issue.jsx */ 439);
 	
 	var _github_issue2 = _interopRequireDefault(_github_issue);
 	
-	var _helpers = __webpack_require__(/*! ../lib/helpers.jsx */ 437);
+	var _helpers = __webpack_require__(/*! ../lib/helpers.jsx */ 440);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1131,8 +1221,8 @@ webpackJsonp([0,2],{
 	*  This builds the table of serach results.  
 	*
 	*  Assumes the following properties:
-	*    results:   The results of the search
-	*    select:    The select portion of the sparql query
+	*    results:   The results of the search.  Is an object.
+	*    select:    The select portion of the sparql query.
 	*    title:     The page title, used for the Github Issue submit
 	*    showModal: The function to display a modal popup.
 	* 
@@ -1144,64 +1234,90 @@ webpackJsonp([0,2],{
 	  render: function render() {
 	    var _this = this;
 	
-	    var content = "";
+	    var content = ""; // This will hold the content.
+	
 	    if (this.props.results) {
+	      (function () {
 	
-	      // Set up the table headers
-	      var columns = this.props.select.split(" ");
-	      var table_headers = columns.map(function (select_item) {
-	        return _react2.default.createElement(
-	          'th',
-	          { key: select_item },
-	          select_item.replace("?", "")
-	        );
-	      });
-	
-	      // Set up the table values
-	      var table_rows = null;
-	      if (this.props.results.values.length > 0) {
-	        table_rows = this.props.results.values.map(function (result, i) {
-	          var cells = _this.props.select.split(" ").map(function (key) {
-	            var val = result[key.replace("?", "")];
-	            if (/^https?:\/\//.test(val)) {
-	              if (/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
-	                val = _react2.default.createElement(
-	                  'a',
-	                  { href: val, target: '_blank' },
-	                  _react2.default.createElement('img', { className: 'img-responsive', src: val })
-	                );
-	              } else {
-	                val = _react2.default.createElement(
-	                  'a',
-	                  { href: val, target: '_blank' },
-	                  (0, _helpers.truncate)(val, 40)
-	                );
-	              }
-	            }
-	            return _react2.default.createElement(
-	              'td',
-	              { key: i + '_' + key },
-	              ' ',
-	              val
-	            );
-	          });
+	        // Set up the table headers
+	        var columns = _this.props.select.split(" ");
+	        var table_headers = columns.map(function (select_item) {
 	          return _react2.default.createElement(
-	            'tr',
-	            { key: i },
-	            cells
+	            'th',
+	            { key: select_item },
+	            select_item.replace("?", "")
 	          );
 	        });
-	      } else {
-	        table_rows = _react2.default.createElement(
-	          'tr',
-	          null,
+	
+	        // Set up the table values
+	        // 
+	        var predicates = {};
+	        Object.assign(predicates, _this.props.search.prefix, { "crm": _this.props.search.predicate });
+	        var table_rows = null;
+	        if (_this.props.results.values.length > 0) {
+	          table_rows = _this.props.results.values.map(function (result, i) {
+	            var cells = _this.props.select.split(" ").map(function (key) {
+	              var val = result[key.replace("?", "")];
+	              if (/^https?:\/\//.test(val)) {
+	                if (/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
+	                  val = _react2.default.createElement(
+	                    'a',
+	                    { href: val, target: '_blank' },
+	                    _react2.default.createElement('img', { className: 'img-responsive', src: val })
+	                  );
+	                } else {
+	                  val = _react2.default.createElement(
+	                    'a',
+	                    { href: val, target: '_blank' },
+	                    (0, _helpers.truncate)(val, 50, predicates)
+	                  );
+	                }
+	              }
+	              return _react2.default.createElement(
+	                'td',
+	                { key: i + '_' + key },
+	                ' ',
+	                val
+	              );
+	            });
+	            return _react2.default.createElement(
+	              'tr',
+	              { key: i },
+	              cells
+	            );
+	          });
+	        } else {
+	          table_rows = _react2.default.createElement(
+	            'tr',
+	            null,
+	            _react2.default.createElement(
+	              'td',
+	              { colSpan: columns.length, className: 'no_results' },
+	              'No results found.'
+	            )
+	          );
+	        }
+	        content = _react2.default.createElement(
+	          'table',
+	          { className: 'table table-hover' },
 	          _react2.default.createElement(
-	            'td',
-	            { colSpan: columns.length, className: 'no_results' },
-	            'No results found.'
+	            'thead',
+	            null,
+	            _react2.default.createElement(
+	              'tr',
+	              null,
+	              table_headers
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'tbody',
+	            null,
+	            table_rows
 	          )
 	        );
-	      }
+	      })();
+	    } else {
+	      // No search results
 	      content = _react2.default.createElement(
 	        'table',
 	        { className: 'table table-hover' },
@@ -1211,20 +1327,26 @@ webpackJsonp([0,2],{
 	          _react2.default.createElement(
 	            'tr',
 	            null,
-	            table_headers
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              'Searching'
+	            )
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'tbody',
 	          null,
-	          table_rows
+	          _react2.default.createElement(
+	            'tr',
+	            null,
+	            _react2.default.createElement(
+	              'td',
+	              null,
+	              '...'
+	            )
+	          )
 	        )
-	      );
-	    } else {
-	      content = _react2.default.createElement(
-	        'div',
-	        { className: 'panel-body text-center hidden-printr' },
-	        'Searching...'
 	      );
 	    }
 	
@@ -1252,7 +1374,7 @@ webpackJsonp([0,2],{
 	              _react2.default.createElement(
 	                _modal_trigger2.default,
 	                { func: this.props.showModal, text: this.props.results.object, title: 'Results as Linked Open Data' },
-	                'Show as Turtle'
+	                'Show this as Turtle'
 	              )
 	            ),
 	            _react2.default.createElement(_github_issue2.default, { title: this.props.title, query: this.props.results.select })
@@ -1265,64 +1387,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 436:
-/*!*********************************************!*\
-  !*** ./site/react/widgets/github_issue.jsx ***!
-  \*********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	exports.default = function (props) {
-	  var issueTitle = encodeURIComponent("Problem with mapping of " + props.title);
-	  var issueBody = encodeURIComponent("I expected to see:\n\n*[WHAT I EXPECTED]*\n\nbut instead I saw:\n\n*[WHAT I SAW]*\n\nThe current query was:\n\n```ttl\n" + props.query + "\n```");
-	  var issueLinkUrl = "https://github.com/workergnome/aac_mappings/issues/new?title=" + issueTitle + "&body=" + issueBody;
-	
-	  return _react2.default.createElement(
-	    "div",
-	    { className: "github_issue_link" },
-	    _react2.default.createElement(
-	      "a",
-	      { href: issueLinkUrl },
-	      "Do you see a problem with this?  Submit an issue."
-	    )
-	  );
-	};
-	
-	var _react = __webpack_require__(/*! react */ 2);
-	
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/***/ },
-
 /***/ 437:
-/*!************************************!*\
-  !*** ./site/react/lib/helpers.jsx ***!
-  \************************************/
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.truncate = truncate;
-	function truncate(str, len) {
-	  if (str.length <= len) {
-	    return str;
-	  }
-	  return str.substring(0, len - 3) + "...";
-	}
-
-/***/ },
-
-/***/ 438:
 /*!*************************************!*\
   !*** ./site/react/item/mapping.jsx ***!
   \*************************************/
@@ -1342,7 +1407,7 @@ webpackJsonp([0,2],{
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 434);
+	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 435);
 	
 	var _modal_trigger2 = _interopRequireDefault(_modal_trigger);
 	
@@ -1420,8 +1485,16 @@ webpackJsonp([0,2],{
 	              null,
 	              this.props.fieldTitle
 	            )
-	          ),
-	          svgImage
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-md-10 col-md-offset-1' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'illustration_wrapper' },
+	            svgImage
+	          )
 	        )
 	      ),
 	      btn
@@ -1433,7 +1506,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 439:
+/***/ 438:
 /*!**********************************************!*\
   !*** ./site/react/widgets/content_modal.jsx ***!
   \**********************************************/
@@ -1502,6 +1575,74 @@ webpackJsonp([0,2],{
 	});
 	
 	exports.default = ContentModal;
+
+/***/ },
+
+/***/ 439:
+/*!*********************************************!*\
+  !*** ./site/react/widgets/github_issue.jsx ***!
+  \*********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (props) {
+	  var issueTitle = encodeURIComponent("Problem with mapping of " + props.title);
+	  var issueBody = encodeURIComponent("I expected to see:\n\n*[WHAT I EXPECTED]*\n\nbut instead I saw:\n\n*[WHAT I SAW]*\n\nThe current query was:\n\n```ttl\n" + props.query + "\n```");
+	  var issueLinkUrl = "https://github.com/workergnome/aac_mappings/issues/new?title=" + issueTitle + "&body=" + issueBody;
+	
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "github_issue_link" },
+	    _react2.default.createElement(
+	      "a",
+	      { href: issueLinkUrl },
+	      "Do you see a problem with this?  Submit an issue."
+	    )
+	  );
+	};
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+
+/***/ 440:
+/*!************************************!*\
+  !*** ./site/react/lib/helpers.jsx ***!
+  \************************************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.truncate = truncate;
+	function truncate(str, len) {
+	  var url_predicates = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+	
+	  console.log(url_predicates);
+	
+	  Object.keys(url_predicates).forEach(function (key) {
+	    var val = url_predicates[key];
+	    if (str.includes(val)) {
+	      str = str.replace(val, key + ":");
+	    }
+	  });
+	  if (str.length <= len) {
+	    return str;
+	  }
+	
+	  return str.substring(0, len - 3) + "...";
+	}
 
 /***/ }
 

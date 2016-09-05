@@ -5,6 +5,7 @@ title: Alternate Titles
 mandatory:   false
 multiples:   true
 description: "Alternate titles for the work."
+long_description: "Thess are title for the work that are NOT the primary title, and do not carry that type."
 example:     "Young Women Picking Fruit"
 
 # Sort Data

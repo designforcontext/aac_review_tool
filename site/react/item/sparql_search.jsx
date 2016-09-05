@@ -65,13 +65,13 @@ var SparqlSearch = React.createClass({
   render: function() {
     if (!this.props.currentEntity) return false;
 
-    let input_boxes = this.props.values.split(" ").map((value) => {  
+    // Generate the list of needed parameters
+    let cols = this.props.values.split(" ").filter((val) => val != "?entity_uri")
 
+    // Generate the secondary input boxes
+    let input_boxes = cols.map((value) => {  
       let field_name = value.replace("?","");
       let default_value = this.props[`test_${field_name}`];
-      if (field_name == "entity_uri") {
-        return false;
-      }
       return (
         <SearchInputField 
             key={field_name} 
@@ -79,25 +79,32 @@ var SparqlSearch = React.createClass({
             default={default_value}
         />
       )
-
     });
 
+    // Wrap the secondary input boxes in boilerplate
+    let query_fields = cols.length == 0 ? "" : (
+      <div className="row">
+        <div className="col-md-12 col-lg-10 col-lg-offset-1">
+          <h5>Query-Specific Fields:</h5>
+          <form id="search_form" className="form-horizontal" onSubmit={this.state.isSearching ? null :this.autoSearch}>
+            {input_boxes}
+          </form>
+        </div>
+      </div>
+    )
 
+    // Generate the title
+    let the_title = <h4>{this.props.title} for <a href={this.props.currentEntity} className="entity_uri_label" target="_blank">{this.props.currentEntity.replace(/https?:\/\//,"")}</a></h4>;
 
     return (  
       <section className="search">
         <div className="row">
           <div className="col-md-12">
-            <h4>
-              {this.props.title} for <a href={this.props.currentEntity} className="entity_uri_label" target="_blank">{this.props.currentEntity.replace(/https?:\/\//,"")}</a>
-            </h4>
-            <form id="search_form" className="form-horizontal" onSubmit={this.state.isSearching ? null :this.autoSearch}>
-              {input_boxes}
-            </form>
+            {the_title}
           </div>
         </div>
-
-        <SparqlResults title={this.props.title} select={this.props.select} results={this.state.results} showModal={this.props.showModal} />
+        <SparqlResults search={this.props.search}  title={this.props.title} select={this.props.select} results={this.state.results} showModal={this.props.showModal} />
+        {query_fields}    
       </section>
     );
   }

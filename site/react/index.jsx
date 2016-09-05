@@ -6,6 +6,7 @@ import {render}    from 'react-dom';
 // Import Components
 import Sidebar     from './sidebar.jsx';
 import Header      from "./header.jsx";
+import Footer      from "./footer.jsx";
 import ItemDisplay from "./item/item_display.jsx";
 import ContentModal from "./widgets/content_modal.jsx";
 
@@ -18,6 +19,7 @@ const SEARCH_DATA = [
     name:           "YCBA", 
     endpoint:       "http://collection.britishart.yale.edu/openrdf-sesame/repositories/ycba",
     predicate:      "http://erlangen-crm.org/current/",
+    prefix:         {"ycba": "http://collection.britishart.yale.edu/"},
     E39_Actor: {
       default:  null
     },
@@ -29,6 +31,8 @@ const SEARCH_DATA = [
     name:           "SAAM", 
     endpoint:       "http://edan.si.edu/saam/sparql",
     predicate:      "http://www.cidoc-crm.org/cidoc-crm/",
+    prefix:         {"saam": "http://edan.si.edu/saam/"},
+
     E39_Actor: {
       default:  null
     },
@@ -40,6 +44,8 @@ const SEARCH_DATA = [
     name:           "British Museum", 
     endpoint:       "http://collection.britishmuseum.org/sparql",
     predicate:      "http://erlangen-crm.org/current/",
+    prefix:         {"bm": "http://collection.britishmuseum.org/"},
+
     E39_Actor: {
       default: "http://collection.britishmuseum.org/id/person-institution/70240"
     },
@@ -165,6 +171,7 @@ var App = React.createClass({
         <ContentModal 
             {...this.state.modal}
             onHide= {() => this.setState({ modal: {show: false }})} />
+        <Footer/>
       </main>
     )
   }
