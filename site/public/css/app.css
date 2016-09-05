@@ -5429,7 +5429,8 @@ button.close {
 .page_header {
   padding-top: 10px;
   margin-bottom: 0;
-  background-color: #4095b7; }
+  background-color: #4095b7;
+  border-bottom: 20px solid #fff; }
   .page_header h1, .page_header h2, .page_header h3 {
     font-size: 24px;
     margin: 0;
@@ -5500,12 +5501,11 @@ button.close {
   margin-bottom: 10px; }
 
 .app {
-  padding-top: 30px; }
+  padding-top: 0px; }
   .app h1, .app h2, .app h3, .app h4 {
-    border-bottom: 2px solid #337691;
+    border-bottom: 2px solid #62abc8;
     padding: 3px 0px 5px;
-    color: #691010;
-    box-shadow: 0px 4px 3px -2px #ddd;
+    color: #183946;
     margin-bottom: 10px;
     margin-top: 0;
     background: #fff; }
@@ -5522,6 +5522,8 @@ button.close {
     background: #fafafa;
     page-break-inside: avoid;
     border-radius: 0 5px 5px 0; }
+    .app section:first-child {
+      background-color: inherit; }
     .app section .panel-footer {
       background: #fff; }
 

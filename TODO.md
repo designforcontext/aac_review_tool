@@ -2,7 +2,6 @@
 
 # Improvements
 
-* [ ] Move the object ID into the header
 * [ ] Make a better homepage
 * [ ] Solve the RDFPUML problem
 * [ ] Add a Readme
@@ -45,6 +44,7 @@
 * [X] JSON export
 * [X] Github Issue Link
 * [X] Loading button state for turtle gets
+* [X] Move the object ID into the <header></header>
 
 
 ---
