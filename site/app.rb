@@ -219,7 +219,8 @@ class MyApp < Sinatra::Base
   #                 nested_ttl: A single graph per-object, with blank nodes and sameAs
   #                 json:       A json object containing only the values from the selects 
   #                 report:     A HTML page detailing the JSON
-  #             
+  # 
+  #  TODO: Exctract the report generators into their own module.            
   #----------------------------------------------------------------------------
   post "/full_graph" do
 

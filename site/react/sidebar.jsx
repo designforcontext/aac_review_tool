@@ -49,7 +49,7 @@ var SidebarListItem = React.createClass({
       header = (<h5> {this.props.category} </h5>)
     }
 
-    let badges = this.props.mandatory ? "❗️" : ""
+    let badges = this.props.mandatory ? "🔹️" : ""
 
     return ( 
         <div>

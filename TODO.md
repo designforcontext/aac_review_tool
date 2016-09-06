@@ -16,7 +16,7 @@
 * [ ] bibliography
 * [ ] exhibition history
 * [ ] provenance
-* [ ] Object Rights
+* [ ] nObject Rights
 * [ ] Culture
 * [ ] Inscription
 
@@ -48,12 +48,3 @@
 * [X] Move the object ID into the <header></header>
 * [X] Make the report.
 * [X] Update header for FAQ and homepage
-
-
----
-
-Multiple routes
-
-/ index
-- / object (same thing, just pass in the route and use that to trigger a filter on the data)
-  / full graph - needs to 

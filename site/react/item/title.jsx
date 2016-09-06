@@ -26,14 +26,14 @@ export default  function(props) {
       <div className="row">
         <div className="col-md-12">
           <dl className="dl-horizontal">
-            <dt>Sample Data: </dt>
-            <dd>{props.example}</dd>
             <dt>Mandatory:</dt>
             <dd>{props.mandatory ? "Yes" : "No"}</dd>
             <dt>Multiples:</dt>
             <dd>{props.multiples ? "Yes" : "No"}</dd>
             <dt>{props.lod_type ? "Associated AAC ID:" : ""}</dt>
             <dd><a href={props.lod_type} target="_blank">{props.lod_type}</a></dd>
+            <dt>Sample Data: </dt>
+            <dd>{props.example}</dd>
           </dl>
         </div>
       </div>
