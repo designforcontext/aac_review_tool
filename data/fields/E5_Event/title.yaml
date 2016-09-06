@@ -1,44 +1,44 @@
 # Field Name
-title: Primary Name
+title: Event Name
 
 # Metadata
 mandatory:        true
 multiples:        false
-description:      "Primary name of the party"
-long_description: "This is the primary name associated with an actor."
-example:          "Betsy Ross"
+description:      "Primary name of the event"
+long_description: "This is the primary name associated with the event"
+example:          "1st Carnegie International"
 lod_type:         "http://vocab.getty.edu/aat/300404670"
 
 
 # Sort Data
-applies_to:  "E39_Actor"
+applies_to:  "E5_Event"
 category:    "Names"
 sort_order:  1
 
 #Default Test Values
-test_preferred_name_type_url: "http://vocab.americanartcollaborative.org/types#primary_name_type"
+test_preferred_name_type_url: "http://vocab.getty.edu/aat/300404670"
 
 
 # Sparql
-select:      "?actor_name ?type_label ?actor_class"
+select:      "?event_name ?event_class ?type_label"
 values:      "?entity_uri ?preferred_name_type_url"
 construct: |
-  ?entity_uri a crm:E39_Actor ;
-    crm:P131_is_identified_by _:actor_class .
-  _:actor_class a crm:E82_Actor_Appellation ;
-    owl:sameAs ?actor_class ;
+  ?entity_uri a crm:E5_Event ;
+    crm:P1_is_identified_by _:event_class .
+  _:event_class a crm:E41_Appellation ;
+    owl:sameAs ?event_class ;
     crm:P2_has_type _:preferred_name_type_url;
-    rdfs:label ?actor_name  .
+    rdfs:label ?event_name .
   _:preferred_name_type_url a crm:E55_Type ;
     owl:sameAs ?preferred_name_type_url ;
     skos:broadMatch <http://vocab.getty.edu/aat/300404670> ;
     skos:prefLabel ?type_label.
 
 where: |
-  ?entity_uri a crm:E39_Actor ;
-    crm:P131_is_identified_by ?actor_class .
-  ?actor_class a crm:E82_Actor_Appellation ;
-    rdfs:label ?actor_name ;
+  ?entity_uri a crm:E5_Event ;
+    crm:P1_is_identified_by ?event_class .
+  ?event_class a crm:E41_Appellation ;
+    rdfs:label ?event_name ;
     crm:P2_has_type ?preferred_name_type_url .
   ?preferred_name_type_url a crm:E55_Type .
 

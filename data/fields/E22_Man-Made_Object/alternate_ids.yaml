@@ -38,5 +38,4 @@ where: |
    OPTIONAL {
      ?identifier_type skos:prefLabel ?identifier_type_label .
    } 
-   FILTER (!isBlank(?identifier_type))
   }

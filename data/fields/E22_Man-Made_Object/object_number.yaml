@@ -34,6 +34,5 @@ where: |
    ?object_number_id crm:P2_has_type ?identifier_type .
    ?identifier_type skos:prefLabel ?object_number_label .
   }
-  FILTER (!isBlank(?object_number_id))
 
 

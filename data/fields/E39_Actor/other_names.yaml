@@ -7,7 +7,7 @@ multiples:        true
 description:      "Alternate names for the party"
 long_description: "These are alternate names associated with an actor."
 example:          "Elizabeth Griscom"
-lod_type:         "http://vocab.americanartcollaborative.org/types#primary_name_type"
+lod_type:         "http://vocab.getty.edu/aat/300404670"
 
 # Sort Data
 applies_to:  "E39_Actor"
@@ -15,7 +15,7 @@ category:    "Names"
 sort_order:  20
 
 #Default Test Values
-test_preferred_alt_name_type_uri: "http://vocab.americanartcollaborative.org/types#primary_name_type"
+test_preferred_alt_name_type_uri: "http://vocab.getty.edu/aat/300404670"
 
 
 # Sparql
@@ -46,3 +46,5 @@ where: |
   MINUS{?alt_name_type_uri crm:P2_has_type ?preferred_alt_name_type_uri .}
 
 
+graph_extras: | 
+  aat:300404670 puml:label "preferred terms".

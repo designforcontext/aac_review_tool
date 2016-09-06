@@ -28,6 +28,9 @@ const SEARCH_DATA = [
     },
     "E22_Man-Made_Object": {
       default: "http://collection.britishart.yale.edu/id/object/1000"  
+    },
+    E5_Event: {
+      default: "http://collection.britishart.yale.edu/id/exhibition/851"
     }
   },
   {
@@ -41,6 +44,9 @@ const SEARCH_DATA = [
     },
     "E22_Man-Made_Object": {
       default: "http://edan.si.edu/saam/id/object/1991.189"  
+    },
+    E5_Event: {
+      default: "http://edan.si.edu/saam/id/object/1991.189/production"
     }
   },
   {
@@ -54,6 +60,9 @@ const SEARCH_DATA = [
     },
     "E22_Man-Made_Object": {
       default: "http://collection.britishmuseum.org/id/object/YCA62958"
+    },
+    E5_Event: {
+      default: "http://collection.britishmuseum.org/id/object/PIC134418/production"
     }
   }
 ]

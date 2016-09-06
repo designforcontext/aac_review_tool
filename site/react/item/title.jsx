@@ -30,7 +30,7 @@ export default  function(props) {
             <dd>{props.mandatory ? "Yes" : "No"}</dd>
             <dt>Multiples:</dt>
             <dd>{props.multiples ? "Yes" : "No"}</dd>
-            <dt>{props.lod_type ? "Associated AAC ID:" : ""}</dt>
+            <dt>{props.lod_type ? "Associated LOD Term:" : ""}</dt>
             <dd><a href={props.lod_type} target="_blank">{props.lod_type}</a></dd>
             <dt>Sample Data: </dt>
             <dd>{props.example}</dd>
