@@ -294,6 +294,11 @@ webpackJsonp([0,2],{
 	        'dl',
 	        null,
 	        items
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'sidebar_legend' },
+	        '(🔹 indicates a mandatory field)'
 	      )
 	    );
 	  }
@@ -1136,7 +1141,7 @@ webpackJsonp([0,2],{
 	        _react2.default.createElement(
 	          'h5',
 	          null,
-	          'Query-Specific Fields:'
+	          'Query-Specific URIs:'
 	        ),
 	        _react2.default.createElement(
 	          'form',

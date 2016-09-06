@@ -27,6 +27,7 @@ var Sidebar = React.createClass({
         <dl>
           {items}
         </dl>
+        <div className="sidebar_legend">(🔹 indicates a mandatory field)</div>
       </div>
     )
   }

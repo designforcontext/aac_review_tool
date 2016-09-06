@@ -86,7 +86,7 @@ var SparqlSearch = React.createClass({
     let query_fields = cols.length == 0 ? "" : (
       <div className="row">
         <div className="col-md-12 col-lg-10 col-lg-offset-1">
-          <h5>Query-Specific Fields:</h5>
+          <h5>Query-Specific URIs:</h5>
           <form id="search_form" className="form-horizontal" onSubmit={this.state.isSearching ? null :this.autoSearch}>
             {input_boxes}
           </form>

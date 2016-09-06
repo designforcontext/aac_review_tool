@@ -5507,6 +5507,12 @@ h5 {
   border-radius: 0px 3px 0px 0px;
   border-bottom: 1px solid #ddd;
   padding-bottom: 20px; }
+  .sidebar .sidebar_legend {
+    font-size: 80%;
+    text-align: center;
+    padding: 4px;
+    color: #777;
+    font-weight: bold; }
   .sidebar h5 {
     margin-right: -15px; }
   .sidebar dl {
