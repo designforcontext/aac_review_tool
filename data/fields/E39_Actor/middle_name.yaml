@@ -1,0 +1,55 @@
+# Field Name
+title: Middle Name
+
+# Metadata
+mandatory:        false
+multiples:        true
+description:      "The middle name of a party"
+long_description: "In the context of personal names, particularly in western culture, names that are positioned between a first name and a last name, possibly comprising an additional familiar name or a maternal family name. In other traditions, such as Islamic tradition, the middle name may be the primary personal name (analogous to the first name in western tradition) or another sort of name. (from AAT)."
+example:          "Marie"
+lod_type:         "http://vocab.getty.edu/aat/300404654"
+
+
+# Sort Data
+applies_to:  "E39_Actor"
+category:    "Names"
+sort_order:  4
+
+#Default Test Values
+test_middle_name_type_url: "http://vocab.getty.edu/aat/300404654"
+
+
+# Sparql
+select:      "?middle_name ?middle_name_type ?middle_name_class"
+values:      "?entity_uri ?middle_name_type_url"
+construct: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P131_is_identified_by _:middle_name_class .
+  _:middle_name_class a crm:E82_Actor_Appellation ;
+    owl:sameAs ?middle_name_class ;
+    crm:P2_has_type _:middle_name_type_class;
+    rdfs:label ?middle_name  .
+  _:middle_name_type_class a crm:E55_Type ;
+    owl:sameAs ?middle_name_type_class ;
+    skos:broadMatch <http://vocab.getty.edu/aat/300404654> ;
+    skos:prefLabel ?middle_name_type.
+
+where: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P131_is_identified_by ?middle_name_class .
+  ?middle_name_class a crm:E82_Actor_Appellation ;
+    rdfs:label ?middle_name .
+  {
+    ?middle_name_class crm:P2_has_type <http://vocab.getty.edu/aat/300404654> .
+    <http://vocab.getty.edu/aat/300404654> skos:prefLabel ?middle_name_type.
+  } UNION {
+    ?middle_name_class crm:P2_has_type ?middle_name_type_class .
+    ?middle_name_type_class a crm:E55_Type ;
+      skos:broadMatch <http://vocab.getty.edu/aat/300404654> .
+    OPTIONAL {?middle_name_type_class skos:prefLabel ?middle_name_type. }
+  }
+
+graph_extras: | 
+  aat:300404654 puml:label "middle names".
+
+

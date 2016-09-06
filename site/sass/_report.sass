@@ -1,3 +1,15 @@
+@import constants
+
 .no_values, .no_results
   color: #999
   font-style: italic
+
+.missing_mandatory:before, .too_many_values:before
+  font-style: normal
+  content: "🚫"
+  font-size: 150%
+  vertical-align: middle
+
+h3
+  border-bottom: 1px solid lighten($AAC_BLUE, 10)
+  padding: 0px 10px 3px 0 

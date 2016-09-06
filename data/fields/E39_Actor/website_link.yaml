@@ -1,0 +1,22 @@
+# Field Name
+title: Primary Website
+
+# Metadata
+mandatory:   false
+multiples:   false
+description: "Website about the party"
+long_description: This is the preferred URL for a informational website about the actor.
+example:     "http://art.thewalters.org/detail/9524/a-gentleman-3/"
+
+# Sort Data
+applies_to:  "E39_Actor"
+category:    "Resources"
+sort_order:  220
+
+# Sparql
+select:      "?website_url ?website_label"
+values:      "?entity_uri"
+construct: |
+  ?entity_uri a crm:E39_Actor ;
+    foaf:homepage ?website_url .
+  ?website_url rdfs:label ?website_label.

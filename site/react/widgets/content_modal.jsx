@@ -11,10 +11,15 @@ const ContentModal = React.createClass({
     delete modalProps.content;
     delete modalProps.title;
     delete modalProps.html;
+    delete modalProps.search;
 
     let content = this.props.content || "Nothing to see here..."
     if (this.props.html) {
+    
+      content = content.replace(/<a(.*?)>(.+?)<\/a>/gi,(_,m1,m2) => `<a${m1}>${truncate(m2,50,this.props.search)}</a>`)
       let contentObj = {__html: content};
+
+
       content = <div className="row"><div className="col-sm-12"><div dangerouslySetInnerHTML={contentObj}/></div></div>
     } else {
       content = <pre>{content}</pre>

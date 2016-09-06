@@ -28,8 +28,9 @@ require 'rouge/plugins/redcarpet'
 require "unicode"
 require "babosa"
 
+# Accomodate syntax highlighting in our markdown.
 class HTML < Redcarpet::Render::HTML
-  include Rouge::Plugins::Redcarpet # yep, that's it.
+  include Rouge::Plugins::Redcarpet
 end
 
 class MyApp < Sinatra::Base
@@ -59,7 +60,8 @@ class MyApp < Sinatra::Base
       obj= {
         content: contents,
         metadata: metadata,
-        path: File.basename(file, ".md")
+        path: File.basename(file, ".md"),
+        filepath: file
       }
       recipies[obj[:path]] = obj
     end
@@ -140,7 +142,7 @@ class MyApp < Sinatra::Base
     current_recipie = settings.recipies[params[:page]]
     halt 404 unless current_recipie
 
-    @contents = current_recipie[:content]
+    @contents = settings.development? ? File.read(current_recipie[:filepath]) : current_recipie[:content]
     @metadata = current_recipie[:metadata]
     @path     = current_recipie[:path]
     @markdown = settings.markdown
@@ -211,11 +213,12 @@ class MyApp < Sinatra::Base
   #   :endpoint -> the sparql endpoint to use
   #   :crm      -> what ontology to use for the CRM
   #   :values   -> the list of values to pass into the queries
-  #   :type     -> What format do you want? 
+  #   :type     -> What format to return the results in
   #             options:
   #                 ttl:        Standard Turtle
   #                 nested_ttl: A single graph per-object, with blank nodes and sameAs
   #                 json:       A json object containing only the values from the selects 
+  #                 report:     A HTML page detailing the JSON
   #             
   #----------------------------------------------------------------------------
   post "/full_graph" do
@@ -234,38 +237,50 @@ class MyApp < Sinatra::Base
       test_obj = YAML.load_file(file)
       next unless test_obj["applies_to"] && test_obj["applies_to"].include?(params[:entity_type])
 
-
-      # including default values,
+      # ...including default values,
       default_values = {}
       test_obj.select{|k,v| k.to_s =~ /^test_/}.each{|k,v| default_values[k.gsub("test_","")] = v}
       passed_values = params[:values].merge(default_values)
 
-      # execute a query,
+      # ...execute a query,
       query = AAC::QueryObject.new(test_obj)
       query.prefixes = {crm: params[:crm]}
       result_graph, values = client.test(query, passed_values, false)    
       
-      # and append the resulting values to the list.
+      # ...append the resulting triples to the graph,
       result_graph.each_statement {|s| graph.insert s}
 
-
-
-      # k.gsub(/(#{key}|#{key[0...-1]})[_-]/,"")
+      #..append the tabular results to the object,
       key = test_obj["key"] || camelize(test_obj["title"])
       all_values[key] = values.collect{|obj| obj.map{|k,v| [camelize(k),v]}.to_h}
 
-      # save the fields if we're doing a report
+      # ...and save the fields if we're doing a report
       all_fields[key] = test_obj if params[:return_type] == "report";
-
     end
 
+    # If you'd like a report, generate that report.
     if params[:return_type] == "report"
-      report_sections = all_fields.sort_by{|k,v| v["sort_order"]}.collect do |key,obj|
+
+      validation_errors = {}
+      report_sections = all_fields.sort_by{|k,v| v["sort_order"]}.collect do |key,field|
+        
         values = all_values[key]
+        
         title_classes = []
         title_classes.push("no_values") if values.count == 0
+        if field["mandatory"] && values.count == 0
+          title_classes.push("missing_mandatory") 
+          validation_errors[field["title"]] ||= []
+          validation_errors[field["title"]].push("Mandatory field not present.")
+        end
+        if !field["multiples"] && values.count > 1 
+          title_classes.push("too_many_values") 
+          validation_errors[field["title"]] ||= []
+          validation_errors[field["title"]].push("Multiple values present where only one allowed.")
+        end
+
         str = ""
-        str << "#### <span class='#{title_classes.join(" ")}'>#{obj["title"]}</span>\n\n"
+        str << "#### <span class='#{title_classes.join(" ")}'>#{field["title"]}</span>\n\n"
 
         if values.count > 0
           table_headers = values.first.keys
@@ -285,14 +300,25 @@ class MyApp < Sinatra::Base
         str
       end
 
-      return settings.markdown.render(report_sections.join("\n\n")).gsub("<table>","<table class='table table-striped table-condensed table-bordered'>")
+      validation_bits = validation_errors.collect do |name, errors|
+        error_str = "**#{name}:**\n\n"
+        errors.each{|e| error_str += "* #{e}\n"}
+        error_str + "\n\n"
+      end.join("") + "-------------------------\n\n"
+
+      unless validation_bits.empty?
+        validation_bits = "### Errors\n\n"  + validation_bits
+      end
+
+      return settings.markdown.render(validation_bits + "### Field Listing\n\n" + report_sections.join("\n\n")).gsub("<table>","<table class='table table-striped table-condensed table-bordered'>")
     end
 
+    # if you'd like a JSON file, return that.
     if params[:return_type] == "json"
       return JSON.pretty_generate all_values
     end
 
-
+    # If you like your turtle normalized, let's resolve all of the sameAs statements...
     if params[:return_type] == "ttl"
       sameAs_list = {}
       new_graph = RDF::Graph.new
@@ -323,7 +349,7 @@ class MyApp < Sinatra::Base
       graph = new_graph
     end
 
-
+    # And let's return the graph, exressed in triples.
     val = RDF::Turtle::Writer.buffer( prefixes: AAC::QueryObject::DEFAULT_PREFIXES ) do |writer|
       graph.each_statement do |statement|
         writer << statement

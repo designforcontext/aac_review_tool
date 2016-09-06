@@ -1,0 +1,55 @@
+# Field Name
+title: "Name Prefixes"
+
+# Metadata
+mandatory:        false
+multiples:        true
+description:      "A word or phrase before a name"
+long_description: "Titles of courtesy, professional titles, military rank, adjectives, or other words used before a personal name. Examples are words to indicate gender, marital status, social position, or included for another purpose, such as the following words and abbreviations: Mr., Mrs., Miss, Ms., Dr., Sir, and Rev. (from AAT)"
+example:          "Ms."
+lod_type:         "http://vocab.getty.edu/aat/300404845"
+
+
+# Sort Data
+applies_to:  "E39_Actor"
+category:    "Names"
+sort_order:  10
+
+#Default Test Values
+test_name_prefix_type_url: "http://vocab.getty.edu/aat/300404845"
+
+
+# Sparql
+select:      "?name_prefix ?name_prefix_type ?name_prefix_class"
+values:      "?entity_uri ?name_prefix_type_url"
+construct: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P131_is_identified_by _:name_prefix_class .
+  _:name_prefix_class a crm:E82_Actor_Appellation ;
+    owl:sameAs ?name_prefix_class ;
+    crm:P2_has_type _:name_prefix_type_class;
+    rdfs:label ?name_prefix  .
+  _:name_prefix_type_class a crm:E55_Type ;
+    owl:sameAs ?name_prefix_type_class ;
+    skos:broadMatch <http://vocab.getty.edu/aat/300404845> ;
+    skos:prefLabel ?name_prefix_type.
+
+where: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P131_is_identified_by ?name_prefix_class .
+  ?name_prefix_class a crm:E82_Actor_Appellation ;
+    rdfs:label ?name_prefix .
+  {
+    ?name_prefix_class crm:P2_has_type <http://vocab.getty.edu/aat/300404845> .
+    <http://vocab.getty.edu/aat/300404845> skos:prefLabel ?name_prefix_type.
+  } UNION {
+    ?name_prefix_class crm:P2_has_type ?name_prefix_type_class .
+    ?name_prefix_type_class a crm:E55_Type ;
+      skos:broadMatch <http://vocab.getty.edu/aat/300404845> .
+    OPTIONAL {?name_prefix_type_class skos:prefLabel ?name_prefix_type. }
+  }
+
+graph_extras: | 
+  aat:300404845 puml:label "prefixes (name additions)".
+
+

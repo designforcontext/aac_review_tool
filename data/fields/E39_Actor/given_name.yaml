@@ -1,0 +1,55 @@
+# Field Name
+title: Given Name
+
+# Metadata
+mandatory:        false
+multiples:        true
+description:      "The given name of a party"
+long_description: "In the context of personal names, particularly in western culture, a first name is the name given to a person at birth or an early period of life, historically at baptism and historically chosen to signify or honor a saint, an earlier family member, or a personal characteristic. In modern western usage, a first name is combined with a family name or other names to distinguish between multiple people having the same first name. In other traditions, such as Islamic tradition, the first name may be a religious name or another sort of name. (from AAT)"
+example:          "Betsy"
+lod_type:         "http://vocab.getty.edu/aat/300404651"
+
+
+# Sort Data
+applies_to:  "E39_Actor"
+category:    "Names"
+sort_order:  3
+
+#Default Test Values
+test_given_name_type_url: "http://vocab.getty.edu/aat/300404651"
+
+
+# Sparql
+select:      "?given_name ?given_name_type ?given_name_class"
+values:      "?entity_uri ?given_name_type_url"
+construct: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P131_is_identified_by _:given_name_class .
+  _:given_name_class a crm:E82_Actor_Appellation ;
+    owl:sameAs ?given_name_class ;
+    crm:P2_has_type _:given_name_type_class;
+    rdfs:label ?given_name  .
+  _:given_name_type_class a crm:E55_Type ;
+    owl:sameAs ?given_name_type_class ;
+    skos:broadMatch <http://vocab.getty.edu/aat/300404651> ;
+    skos:prefLabel ?given_name_type.
+
+where: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P131_is_identified_by ?given_name_class .
+  ?given_name_class a crm:E82_Actor_Appellation ;
+    rdfs:label ?given_name .
+  {
+    ?given_name_class crm:P2_has_type <http://vocab.getty.edu/aat/300404651> .
+    <http://vocab.getty.edu/aat/300404651> skos:prefLabel ?given_name_type .
+  } UNION {
+    ?given_name_class crm:P2_has_type ?given_name_type_class .
+    ?given_name_type_class a crm:E55_Type ;
+      skos:broadMatch <http://vocab.getty.edu/aat/300404651> .
+    OPTIONAL {?given_name_type_class skos:prefLabel ?given_name_type. }
+  }
+
+graph_extras: | 
+  aat:300404651 puml:label "first names".
+
+

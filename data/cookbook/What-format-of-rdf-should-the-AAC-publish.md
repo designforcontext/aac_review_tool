@@ -32,7 +32,7 @@ LD Fragments for CRM would be at best mediocre IMO, but would be happy to see a 
 
 *(From Vladimir)*
 
-They're not at all incompatible.  LDF implements SPARQL in the browser, by asking only simple patters out of the server (<s p o> where each position can be unbound). LDF is ok for fetching objects, but not ok for finding complex patterns, especially where filters are involved.
+They're not at all incompatible.  LDF implements SPARQL in the browser, by asking only simple patters out of the server (\<s p o> where each position can be unbound). LDF is ok for fetching objects, but not ok for finding complex patterns, especially where filters are involved.
 
 
 ### Reference:

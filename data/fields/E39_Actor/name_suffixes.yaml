@@ -1,0 +1,55 @@
+# Field Name
+title: "Name Suffixes"
+
+# Metadata
+mandatory:        false
+multiples:        true
+description:      "A word or phrase after a name"
+long_description: "Appellations, words, or phrases that follow a personal name. For example words or numerals denoting family relationships, usually between members having the same first name, such as the senior and junior of two indicated persons. (from AAT)"
+example:          "Junior"
+lod_type:         "http://vocab.getty.edu/aat/300404662"
+
+
+# Sort Data
+applies_to:  "E39_Actor"
+category:    "Names"
+sort_order:  11
+
+#Default Test Values
+test_name_suffix_type_url: "http://vocab.getty.edu/aat/300404662"
+
+
+# Sparql
+select:      "?name_suffix ?name_suffix_type ?name_suffix_class"
+values:      "?entity_uri ?name_suffix_type_url"
+construct: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P131_is_identified_by _:name_suffix_class .
+  _:name_suffix_class a crm:E82_Actor_Appellation ;
+    owl:sameAs ?name_suffix_class ;
+    crm:P2_has_type _:name_suffix_type_class;
+    rdfs:label ?name_suffix  .
+  _:name_suffix_type_class a crm:E55_Type ;
+    owl:sameAs ?name_suffix_type_class ;
+    skos:broadMatch <http://vocab.getty.edu/aat/300404662> ;
+    skos:prefLabel ?name_suffix_type.
+
+where: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P131_is_identified_by ?name_suffix_class .
+  ?name_suffix_class a crm:E82_Actor_Appellation ;
+    rdfs:label ?name_suffix .
+  {
+    ?name_suffix_class crm:P2_has_type <http://vocab.getty.edu/aat/300404662> .
+    <http://vocab.getty.edu/aat/300404662> skos:prefLabel ?name_suffix_type.
+  } UNION {
+    ?name_suffix_class crm:P2_has_type ?name_suffix_type_class .
+    ?name_suffix_type_class a crm:E55_Type ;
+      skos:broadMatch <http://vocab.getty.edu/aat/300404662> .
+    OPTIONAL {?name_suffix_type_class skos:prefLabel ?name_suffix_type. }
+  }
+
+graph_extras: | 
+  aat:300404662 puml:label "suffixes (name additions)".
+
+

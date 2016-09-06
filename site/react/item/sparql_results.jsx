@@ -31,8 +31,7 @@ export default  React.createClass({
 
       // Set up the table values
       // 
-      let predicates = {};
-      Object.assign(predicates, this.props.search.prefix, {"crm": this.props.search.predicate});
+
       let table_rows = null;
       if (this.props.results.values.length > 0) {
         table_rows = this.props.results.values.map((result, i) => {
@@ -42,7 +41,7 @@ export default  React.createClass({
               if(/\.(?:jpg|png|tif|tiff|svg)$/.test(val)) {
                 val = <a href={val} target='_blank'><img className='img-responsive' src={val} /></a>
               }else {
-                val = <a href={val} target='_blank'>{truncate(val,50,predicates)}</a>
+                val = <a href={val} target='_blank'>{truncate(val,50,this.props.search)}</a>
               }
             }
             return (<td key={`${i}_${key}`}> {val}</td>)

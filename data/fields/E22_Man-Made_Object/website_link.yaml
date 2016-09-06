@@ -10,7 +10,7 @@ example:     "http://art.thewalters.org/detail/9524/a-gentleman-3/"
 
 # Sort Data
 applies_to:  "E22_Man-Made_Object"
-category:    "External Resources"
+category:    "Resources"
 sort_order:  350
 
 # Sparql

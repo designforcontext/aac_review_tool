@@ -2,7 +2,7 @@
 title: Object Number
 
 # Metadata
-mandatory:   false
+mandatory:   true
 multiples:   false
 description: "Preferred id for the work."
 example:     "1995.1.1"

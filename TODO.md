@@ -2,33 +2,34 @@
 
 # Improvements
 
-* [ ] Make a better homepage
 * [ ] Solve the RDFPUML problem
 * [ ] Add a Readme
 * [ ] Look into getting rid of the odd WHERE UNION (with the new graph)
 * [ ] Document the SPARQL
 * [ ] Optimize Test Runner for only needed type of query.
-* [ ] Update header for FAQ and homepage
-* [ ] Make the report.
 * [ ] Pre-commit hook for building?
+* [ ] Make a better homepage
+* [ ] Modify cookbook and hopmeage to use React Header.
 
 ### Data Needed for Objects
 
-* [ ] Add bibliography
-* [ ] Add exhibition history
-* [ ] Add Provenance
+* [ ] bibliography
+* [ ] exhibition history
+* [ ] provenance
 * [ ] Object Rights
 * [ ] Culture
+* [ ] Inscription
+
+* [ ] Named Period?
 * [ ] Add qualifier to dates?
 * [ ] Edition?
-* [ ] INscription
-* [ ] Named Period
 * [ ] Keywords?
 * [ ] Conservation?
 
 ### Data Needed for People
 
-* [ ] Fill this out
+* [ ] Role(s)
+* [ ] Current Location
 
 ### Questions
 
@@ -45,6 +46,8 @@
 * [X] Github Issue Link
 * [X] Loading button state for turtle gets
 * [X] Move the object ID into the <header></header>
+* [X] Make the report.
+* [X] Update header for FAQ and homepage
 
 
 ---

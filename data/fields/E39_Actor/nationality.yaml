@@ -1,0 +1,54 @@
+# Field Name
+title: Nationality
+
+# Metadata
+mandatory:        false
+multiples:        false
+description:      "The nationality of a party"
+long_description: Identification of a person with a particular state or nation. In a modern sense, the it is the legal status of being a citizen or subject of a particular state, usually involving mutual obligations of support and protection. (from AAT)
+example:          "Male"
+lod_type:         "http://vocab.getty.edu/aat/300379842"
+
+# Sort Data
+applies_to:  "E39_Actor"
+category:    "Qualities"
+sort_order:  101
+
+#Default Test Values
+test_nationality_type_url: "http://vocab.getty.edu/aat/300379842"
+
+
+# Sparql
+select:      "?nationality ?nationality_type ?nationality_class"
+values:      "?entity_uri ?nationality_type_url"
+construct: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P107i_is_current_or_former_member_of _:nationality_class .
+  _:nationality_class a crm:E74_Group ;
+    owl:sameAs ?nationality_class ;
+    crm:P2_has_type _:nationality_type_class ;
+    skos:prefLabel ?nationality .
+  _:nationality_type_class a crm:E55_Type ;
+    owl:sameAs ?nationality_type_class ;
+    skos:broadMatch <http://vocab.getty.edu/aat/300379842> ;
+    skos:prefLabel ?nationality_type.
+
+where: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P107i_is_current_or_former_member_of ?nationality_class .
+  ?nationality_class a crm:E74_Group ;
+    rdfs:label ?nationality .
+  {
+    ?nationality_class crm:P2_has_type <http://vocab.getty.edu/aat/300379842> .
+    <http://vocab.getty.edu/aat/300379842> skos:prefLabel ?nationality_type.
+  } UNION {
+    ?nationality_class crm:P2_has_type ?nationality_type_class .
+    ?nationality_type_class a crm:E55_Type ;
+      skos:broadMatch <http://vocab.getty.edu/aat/300379842> .
+    OPTIONAL {?nationality_type_class skos:prefLabel ?nationality_type. }
+  }
+
+graph_extras: | 
+  aat:300379842 puml:label "nationality".
+
+

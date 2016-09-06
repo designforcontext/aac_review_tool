@@ -28,7 +28,7 @@ construct: |
       crm:P14_carried_out_by _:author_class .
   _:author_class a crm:E39_Actor ;
       rdfs:label ?author ;
-      skos:exactMatch ?author_lod_id.
+      skos:closeMatch ?author_lod_id.
 where: |
   ?entity_uri a crm:E22_Man-Made_Object ;
     crm:P129i_is_subject_of ?description_class .
@@ -41,6 +41,6 @@ where: |
     ?author_class a crm:E39_Actor;
       rdfs:label ?author .
     OPTIONAL {
-      ?author_class  skos:exactMatch ?author_lod_id.
+      ?author_class  skos:closeMatch ?author_lod_id.
     }
   }

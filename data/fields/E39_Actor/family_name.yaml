@@ -1,0 +1,55 @@
+# Field Name
+title: Family Name
+
+# Metadata
+mandatory:        false
+multiples:        true
+description:      "The family name of a party"
+long_description: "In the context of modern western personal names, the names that are hereditary and common to all members of a family; used with a first name to distinguish an individual from others with the same first name. In other cultural traditions, last names may not be hereditary family names or they may not be used at all. Before last names became common in western tradition, personal names were qualified with the addition of epithets, place names, ancestors' names, or terms for professions; these were added to a first name on an individual basis, not necesssarily hereditary for a family. (from AAT)"
+example:          "Ross"
+lod_type:         "http://vocab.getty.edu/aat/300404652"
+
+
+# Sort Data
+applies_to:  "E39_Actor"
+category:    "Names"
+sort_order:  5
+
+#Default Test Values
+test_family_name_type_url: "http://vocab.getty.edu/aat/300404652"
+
+
+# Sparql
+select:      "?family_name ?family_name_type ?family_name_class"
+values:      "?entity_uri ?family_name_type_url"
+construct: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P131_is_identified_by _:family_name_class .
+  _:family_name_class a crm:E82_Actor_Appellation ;
+    owl:sameAs ?family_name_class ;
+    crm:P2_has_type _:family_name_type_class;
+    rdfs:label ?family_name  .
+  _:family_name_type_class a crm:E55_Type ;
+    owl:sameAs ?family_name_type_class ;
+    skos:broadMatch <http://vocab.getty.edu/aat/300404652> ;
+    skos:prefLabel ?family_name_type.
+
+where: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P131_is_identified_by ?family_name_class .
+  ?family_name_class a crm:E82_Actor_Appellation ;
+    rdfs:label ?family_name .
+  {
+    ?family_name_class crm:P2_has_type <http://vocab.getty.edu/aat/300404652> .
+    <http://vocab.getty.edu/aat/300404652> skos:prefLabel ?family_name_type.
+  } UNION {
+    ?family_name_class crm:P2_has_type ?family_name_type_class .
+    ?family_name_type_class a crm:E55_Type ;
+      skos:broadMatch <http://vocab.getty.edu/aat/300404652> .
+    OPTIONAL {?family_name_type_class skos:prefLabel ?family_name_type. }
+  }
+
+graph_extras: | 
+  aat:300404652 puml:label "last names".
+
+

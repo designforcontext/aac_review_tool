@@ -11,6 +11,7 @@ var Sidebar = React.createClass({
        return <SidebarListItem  
           id={index} 
           name={field.title} 
+          mandatory={field.mandatory}
           desc={field.description}
           key={`${field.category}_${field.title}`} 
           func={_this.props.gotoField}
@@ -48,11 +49,13 @@ var SidebarListItem = React.createClass({
       header = (<h5> {this.props.category} </h5>)
     }
 
+    let badges = this.props.mandatory ? "❗️" : ""
+
     return ( 
         <div>
           {header}
           <div className={classes} onClick={this.handleClick}>
-            <dt> {this.props.name} </dt>
+            <dt> {this.props.name} <span className="">{badges}</span></dt>
             <dd> {this.props.desc} </dd> 
           </div>
         </div>

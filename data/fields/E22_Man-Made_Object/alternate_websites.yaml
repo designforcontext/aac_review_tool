@@ -10,7 +10,7 @@ example:          "https://en.wikipedia.org/wiki/The_Rape_of_Europa_(Titian)"
 
 # Sort Data
 applies_to:  "E22_Man-Made_Object"
-category:    "External Resources"
+category:    "Resources"
 sort_order:  352
 
 # Sparql

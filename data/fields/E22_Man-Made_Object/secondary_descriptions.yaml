@@ -22,8 +22,7 @@ construct: |
     crm:P129i_is_subject_of _:description_class .
   _:description_class a crm:E33_Linguistic_Object ;
     crm:p3_has_note ?alt_description ;
-    crm:P94i_was_created_by _:authorship_event ;
-    crm:P2_has_type <http://vocab.americanartcollaborative.org/types#primary_description> .
+    crm:P94i_was_created_by _:authorship_event .
   _:authorship_event a crm:E65_Creation ;
       crm:P14_carried_out_by _:author_class .
   _:author_class a crm:E39_Actor ;

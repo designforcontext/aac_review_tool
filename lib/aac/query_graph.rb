@@ -2,7 +2,7 @@ module AAC
   class QueryGraph
     def self.generateGraph(data,file_path, uri_path, extras = nil)
       
-      hash = Digest::SHA256.hexdigest data
+      hash = Digest::SHA256.hexdigest(data+extras.to_s)
 
       filename = "#{file_path}#{hash}.svg"
         

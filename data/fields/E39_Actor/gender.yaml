@@ -1,0 +1,54 @@
+# Field Name
+title: Gender
+
+# Metadata
+mandatory:        false
+multiples:        false
+description:      "The gender of a party"
+long_description: Pattern of attitudes and behavior that in any society is deemed appropriate to one sex rather than another. For the concept of physiological traits that distinguish the males and females of a species, use "sex." For the sum of an individual's sexual emotions, ideas, and behavior, use "sexuality." (from AAT)
+example:          "Male"
+lod_type:         "http://vocab.getty.edu/aat/300055147"
+
+# Sort Data
+applies_to:  "E39_Actor"
+category:    "Qualities"
+sort_order:  100
+
+#Default Test Values
+test_gender_type_url: "http://vocab.getty.edu/aat/300055147"
+
+
+# Sparql
+select:      "?gender ?gender_type ?gender_class"
+values:      "?entity_uri ?gender_type_url"
+construct: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P2_has_type _:gender_class .
+  _:gender_class a crm:E55_Type ;
+    owl:sameAs ?gender_class ;
+    crm:P2_has_type _:gender_type_class ;
+    rdfs:label ?gender .
+  _:gender_type_class a crm:E55_Type ;
+    owl:sameAs ?gender_type_class ;
+    skos:broadMatch <http://vocab.getty.edu/aat/300055147> ;
+    skos:prefLabel ?gender_type.
+
+where: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P2_has_type ?gender_class .
+  ?gender_class a crm:E55_Type ;
+    rdfs:label ?gender .
+  {
+    ?gender_class crm:P2_has_type <http://vocab.getty.edu/aat/300055147> .
+    <http://vocab.getty.edu/aat/300055147> skos:prefLabel ?nationality_type.
+  } UNION {
+    ?gender_class crm:P2_has_type ?gender_type_class .
+    ?gender_type_class a crm:E55_Type ;
+      skos:broadMatch <http://vocab.getty.edu/aat/300055147> .
+    OPTIONAL {?gender_type_class skos:prefLabel ?gender_type. }
+  }
+
+graph_extras: | 
+  aat:300055147 puml:label "sex role".
+
+

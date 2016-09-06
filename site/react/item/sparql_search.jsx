@@ -69,7 +69,8 @@ var SparqlSearch = React.createClass({
     let cols = this.props.values.split(" ").filter((val) => val != "?entity_uri")
 
     // Generate the secondary input boxes
-    let input_boxes = cols.map((value) => {  
+    let input_boxes = "";
+    input_boxes = cols.map((value) => {  
       let field_name = value.replace("?","");
       let default_value = this.props[`test_${field_name}`];
       return (

@@ -5,7 +5,7 @@ title: Artist
 mandatory:        true
 multiples:        true
 description:      "Creator of the work"
-long_description: "These are Actors that had a role in the production of the work."
+long_description: "These are people or organizations that had a role in the production of the work."
 example:          "Mary Cassatt"
 
 # Sort Data

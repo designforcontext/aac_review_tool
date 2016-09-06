@@ -1,0 +1,33 @@
+# Field Name
+title: Alternate Websites
+
+# Metadata
+mandatory:        false
+multiples:        true
+description:      "Other related websites"
+long_description: "These are relevant URLs for secondary informational websites about the actor."
+example:          "https://en.wikipedia.org/wiki/Mary_Cassatt"
+
+# Sort Data
+applies_to:  "E39_Actor"
+category:    "Resources"
+sort_order:  252
+
+# Sparql
+select:      "?alt_website_url ?alt_website_label ?alt_website_author"
+values:      "?entity_uri"
+construct: |
+  ?entity_uri a crm:E39_Actor ;
+    foaf:page ?alt_website_url .
+  ?alt_website_url rdfs:label ?alt_website_label ;
+    foaf:maker _:source.
+  _:source foaf:name ?alt_website_author.
+
+where: |
+  ?entity_uri a crm:E39_Actor ;
+    foaf:page ?alt_website_url .
+  ?alt_website_url rdfs:label ?alt_website_label ;
+  OPTIONAL {
+    ?alt_website_url foaf:maker ?source.
+    ?source foaf:name ?alt_website_author.  
+  }

@@ -8,7 +8,7 @@ description:      "Digital image of the work."
 
 # Sort Data
 applies_to:  "E22_Man-Made_Object"
-category:    "External Resources"
+category:    "Resources"
 sort_order:  360
 
 # Sparql

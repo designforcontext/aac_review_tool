@@ -1,0 +1,37 @@
+# Field Name
+title: Preferred Identifier
+
+# Metadata
+mandatory:   true
+multiples:   false
+description: "Preferred ID for the party"
+example:     "5000"
+
+# Sort Data
+applies_to:  "E39_Actor"
+category:    "IDs"
+sort_order:  60
+
+# Sparql
+select:      "?id_number ?id_number_label ?id_number_id"
+values:      "?entity_uri"
+construct: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P48_has_preferred_identifier _:id_number_id .
+  _:id_number_id a crm:E42_Identifier ;
+    rdfs:label ?id_number ;
+    owl:sameAs ?id_number_id ;
+    crm:P2_has_type _:identifier_type .
+  _:identifier_type a crm:E55_Type ;
+    skos:prefLabel ?id_number_label ;
+    owl:sameAs ?identifier_type .
+where: |
+  ?entity_uri a crm:E39_Actor .
+  ?entity_uri crm:P48_has_preferred_identifier ?id_number_id .
+  ?id_number_id a crm:E42_Identifier ;
+    rdfs:label ?id_number ;
+  OPTIONAL {
+   ?id_number_id crm:P2_has_type ?identifier_type .
+   ?identifier_type skos:prefLabel ?id_number_label .
+  }
+

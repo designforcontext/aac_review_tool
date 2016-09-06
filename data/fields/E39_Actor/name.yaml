@@ -3,8 +3,8 @@ title: Primary Name
 
 # Metadata
 mandatory:        true
-multiples:        true
-description:      "Primary name of the actor"
+multiples:        false
+description:      "Primary name of the party"
 long_description: "This is the primary name associated with an actor."
 example:          "Betsy Ross"
 lod_type:         "http://vocab.americanartcollaborative.org/types#primary_name_type"
@@ -12,7 +12,7 @@ lod_type:         "http://vocab.americanartcollaborative.org/types#primary_name_
 
 # Sort Data
 applies_to:  "E39_Actor"
-category:    "Tombstone Info"
+category:    "Names"
 sort_order:  1
 
 #Default Test Values

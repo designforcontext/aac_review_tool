@@ -5426,6 +5426,9 @@ button.close {
   color: #009999; }
 
 /* Literal.Number.Integer.Long */
+.fake-header {
+  padding-bottom: 10px; }
+
 .page_header {
   padding-top: 10px;
   margin-bottom: 0;
@@ -5479,9 +5482,19 @@ footer {
   footer p {
     margin-bottom: 5px; }
 
-.no_values, no_results {
+.no_values, .no_results {
   color: #999;
   font-style: italic; }
+
+.missing_mandatory:before, .too_many_values:before {
+  font-style: normal;
+  content: "🚫";
+  font-size: 150%;
+  vertical-align: middle; }
+
+h3 {
+  border-bottom: 1px solid #62abc8;
+  padding: 0px 10px 3px 0; }
 
 h5 {
   border-bottom: 1px solid #62abc8;
@@ -5543,10 +5556,17 @@ h5 {
     background: #fafafa;
     page-break-inside: avoid;
     border-radius: 0px 0px 3px 3px; }
+    .app section h5 {
+      color: #777; }
     .app section:first-child {
       background-color: inherit; }
     .app section .panel-footer {
       background: #fff; }
+
+#search_form label {
+  color: #777;
+  font-weight: 400;
+  padding-top: 8px; }
 
 .search_link {
   margin-left: -27px;

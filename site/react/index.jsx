@@ -23,6 +23,9 @@ const SEARCH_DATA = [
     E39_Actor: {
       default:  null
     },
+    E39_Actor: {
+      default:  "http://collection.britishart.yale.edu/id/page/person/institution/1281"
+    },
     "E22_Man-Made_Object": {
       default: "http://collection.britishart.yale.edu/id/object/1000"  
     }
@@ -34,7 +37,7 @@ const SEARCH_DATA = [
     prefix:         {"saam": "http://edan.si.edu/saam/"},
 
     E39_Actor: {
-      default:  null
+      default:  "http://edan.si.edu/saam/id/person-institution/5880"
     },
     "E22_Man-Made_Object": {
       default: "http://edan.si.edu/saam/id/object/1991.189"  
@@ -170,6 +173,7 @@ var App = React.createClass({
         </div>
         <ContentModal 
             {...this.state.modal}
+            search= {currentSearchEndpoint}
             onHide= {() => this.setState({ modal: {show: false }})} />
         <Footer/>
       </main>

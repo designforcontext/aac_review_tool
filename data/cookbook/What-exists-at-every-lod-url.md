@@ -29,9 +29,7 @@ Resolution of institution URLs is desirable but not absolutely necessary: the re
 
 Overall, I vote for institution-branded URLs, it's the better future-proof decision.
 
-
 If we're going to use americanartcollaborative.org URLs, there's another systemic error in the URLs: they all start http://americanartcollaborative.org/.  Does that mean the current website will be destroyed and replaced with an RDF app (like pubby)? Doubt it.  So they should start with http:/data.americanartcollaborative.org/ (notice "data").
-
 
 ### Reference:
 

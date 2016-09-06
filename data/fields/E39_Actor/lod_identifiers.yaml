@@ -1,0 +1,38 @@
+# Field Name
+title: LOD Identifiers
+
+# Metadata
+mandatory:        false
+multiples:        false
+description:      "Authority records for the party"
+example:          "ulan:50001"
+
+# Sort Data
+applies_to:  "E39_Actor"
+category:    "IDs"
+sort_order:  65
+
+# Sparql
+select:      "?lod_identifier ?lod_label ?lod_source"
+values:      "?entity_uri"
+construct: |
+  ?entity_uri a crm:E39_Actor ;
+    skos:closeMatch _:lod_identifier.
+  _:lod_identifier skos:preflabel ?lod_label;
+    owl:sameAs ?lod_identifier ;
+    skos:inScheme ?lod_source.
+
+where: |
+  ?entity_uri a crm:E39_Actor ;
+    skos:closeMatch ?lod_identifier.
+  OPTIONAL {
+    ?lod_identifier skos:preflabel ?lod_label.
+  }
+  OPTIONAL {
+    ?lod_identifier skos:inScheme ?lod_source.
+  }
+
+
+graph_extras: | 
+  skos:preflabel puml:arrow puml:dashed .
+  skos:inScheme puml:arrow puml:dashed .

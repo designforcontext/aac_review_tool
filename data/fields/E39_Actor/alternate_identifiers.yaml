@@ -1,0 +1,43 @@
+# Field Name
+title: Alternate IDs
+
+# Metadata
+mandatory:   false
+multiples:   true
+description: "Secondary IDs for the party"
+long_description: "These are identifiers for the party that are not either LOD URIs or the Preferred identifier."
+example:     "1230123i123, 39049ddc-288d-4516-aca3-bfca8608bfc5"
+
+# Sort Data
+applies_to:  "E39_Actor"
+category:    "IDs"
+sort_order:  62
+
+# Sparql
+select:      "?identifier ?identifier_type_label ?identifier_url"
+values:      "?entity_uri"
+construct: |
+  ?entity_uri a crm:E39_Actor ;
+    crm:P1_is_identified_by _:identifier_url .
+  _:identifier_url a crm:E42_Identifier ;
+    rdfs:label ?identifier ;
+    crm:P2_has_type _:identifier_type ;
+    owl:sameAs ?identifier_url .
+  _:identifier_type a crm:E55_Type ;
+    skos:prefLabel ?identifier_type_label ;
+    owl:sameAs ?identifier_type .
+
+where: |
+  ?entity_uri a crm:E39_Actor .
+  ?entity_uri crm:P1_is_identified_by ?identifier_url .
+  ?identifier_url a crm:E42_Identifier ;
+    rdfs:label ?identifier ;
+  MINUS {?entity_uri crm:P48_has_preferred_identifier ?identifier_url}
+  MINUS {?identifier_url a crm:E82_Actor_Appellation}
+  OPTIONAL {
+   ?identifier_url crm:P2_has_type ?identifier_type .
+   OPTIONAL {
+     ?identifier_type skos:prefLabel ?identifier_type_label .
+   } 
+  }
+ 
