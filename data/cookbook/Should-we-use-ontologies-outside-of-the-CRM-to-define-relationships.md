@@ -1,3 +1,9 @@
+---
+title: How do we distinguish between knowledge representation and APIs?
+priority: 1
+category: modeling
+todo: true
+---
 ### Problem Statement:
 
 The CIDOC-CRM defines a specific way to model many relationships between entities.  However, other ontologies also define conceptually-similar relationships, often in much simpler ways.  For example, take the first name of an actor:

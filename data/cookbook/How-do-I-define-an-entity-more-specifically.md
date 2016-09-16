@@ -1,3 +1,11 @@
+---
+title: How do we specify types for entities and predicates?
+priority: 1
+october: true
+category: types
+todo: true
+---
+
 ### Problem Statement:
 
 Often the browse application we need to treat entities with the same CRM class differently.  For instance, there are many man-made objects, but only some of them are works of art.

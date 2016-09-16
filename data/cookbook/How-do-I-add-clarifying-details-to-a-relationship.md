@@ -1,5 +1,8 @@
 ---
 title: How do I add Clarifying Details to a Relationship?
+priority: 1
+october: true
+category: property_types
 ---
 
 ### Problem Statement:

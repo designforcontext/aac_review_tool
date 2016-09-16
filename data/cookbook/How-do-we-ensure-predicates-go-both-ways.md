@@ -1,3 +1,9 @@
+---
+priority: 3
+october: true
+category: triplestore
+todo: true
+---
 ### Problem Statement:
 
 The CIDOC-CRM defines many of its properties to work both directions: using `P1: Is identified by` to link a object to an name also means that the name is linked to the object.

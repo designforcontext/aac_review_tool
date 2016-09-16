@@ -1,3 +1,8 @@
+---
+title: Do we have a generic relationship for undefined entity relationships?
+priority: 3
+category: modeling
+---
 ### Problem Statement:
 
 When mapping relationships between entities, often there are relationships that exis, but the semantic nature of the relationship is either poorly defined, extremely variable, or an semantically accurate predicate is not known.  

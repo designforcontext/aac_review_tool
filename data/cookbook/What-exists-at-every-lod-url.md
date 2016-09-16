@@ -1,6 +1,11 @@
+---
+priority: 3
+category: triplestore
+todo: true
+---
 ### Problem Statement:
 
-
+Who is spinning up the pubby instance?
 
 ### Best Practice:
 

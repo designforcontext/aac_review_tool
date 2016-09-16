@@ -1,8 +1,24 @@
+---
+title: How do I record ordered lists of things?
+priority: 2
+category: modeling
+todo: true
+---
 ### Problem Statement:
+
+COMBINE ME
 
 ### Best Practice:
 
-*To Be Determined*
+Recommendation is:  
+
+The best best practice is that the meaning is semantic, and should be encoded semantically.
+
+The best practice is that in the interest of data round-trip-ability, we should encode the data even if it isn't semantically valid.
+
+THe browse app will use `preferred_types` and `alternate_types` (which are typically untyped).
+
+The encoding of the information is up for discussion.
 
 ### Discussion:
 
@@ -75,4 +91,67 @@ The question is whether this is *required*. I don’t see the need for ordering 
 
 * <https://github.com/american-art/npg/issues/34>
 * <https://www.w3.org/TR/sparql11-query/#collections>
+
+
+------
+
+
+`---
+title: Do we have any mapped relationships between sets of objects?
+priority: 3
+october: false
+category: modeling
+todo: true
+---
+### Problem Statement
+Do we have any mapped relationships between multiples of objects? (Sets, Triptycs, etc.)
+
+
+### Best Practice:
+
+*To Be Determined*
+
+### Discussion:
+
+We have three types of sets of things:
+
+Parts - crm:P46_is_composed_of
+Multiples: must be semantically modeled, or use P15_was_influenced_by for the creation event, or dcterms:related 
+Collections - E78 Collection if curated, E19 Physical Object if not.
+
+### Reference
+
+
+-----
+
+### Problem Statement:
+
+### Best Practice:
+
+*To Be Determined*
+
+### Discussion:
+
+*(From Rob)*
+
+I think that would be valuable, especially for exhibitions (including multiple stops), as they would serve multiple purposes:
+  — provide links between resources from different institutions that otherwise might not be connected
+  — provide a discovery mechanism across institutions
+  — exercise both CRM and IIIF
+  — hopefully expose some of the work done for the exhibition in terms of curation
+
+*(From Vladimir)*
+
+From my experience with Archiving (we're in the EHRI project), these above are very different animals.
+There's no good semantic model of EAD (the XML archival standard). I know about two, but each has its problems.
+
+It would definitely be great to discover Exhibitions that showed objects from the different museums. But first we'd need to coreference exhibitions across museums. I'm not aware of any work in that direction, or a global register of exhibitions.
+
+Overall on the above question, I think it should be addressed from the "browse app requirements" point of view.
+
+*(From Rob)*
+
+Agreed.  Let’s not derail the discussion by looking at archival practices and RDF! Maybe over beer in October? :)
+
+### Reference:
 

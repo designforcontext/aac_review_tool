@@ -2,6 +2,7 @@
 
 # Improvements
 
+* [ ] Add github link to the bottom of the mapping diagram
 * [ ] Solve the RDFPUML problem
 * [ ] Add a Readme
 * [ ] Look into getting rid of the odd WHERE UNION (with the new graph)

@@ -2,7 +2,10 @@ module AAC
   class QueryGraph
     def self.generateGraph(data,file_path, uri_path, extras = nil)
       
+      data = data.each_line.reject{|a| /^\s*?\#/.match(a)}.join("\n")
       hash = Digest::SHA256.hexdigest(data+extras.to_s)
+
+      puts data
 
       filename = "#{file_path}#{hash}.svg"
         
@@ -15,8 +18,10 @@ module AAC
         results = `perl ./rdfpuml/rdfpuml.pl #{file.path}`
         file.unlink
 
-        # puts "results of the graph: #{results} from #{file.path}"
+        puts "results of the graph: #{results} from #{file.path}"
         encoded_data = PlantUmlEncode64.encode(results)
+
+        
         url =  "http://www.plantuml.com/plantuml/svg/#{encoded_data}"
         response = Typhoeus.get(url, followlocation: true)
         File.open(filename, "wb") {|f| f.write response.body}

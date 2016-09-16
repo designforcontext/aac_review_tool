@@ -1,3 +1,8 @@
+---
+priority: 4
+category: modeling
+todo: true
+---
 ### Problem Statement:
 
 One major contributor to usefulness of LOD is the use of consistent, machine-readable definitions of rights.  This applies both to the content, to linked images, and to the LOD itself. How are we mapping these rights, and what vocabularies will we use?

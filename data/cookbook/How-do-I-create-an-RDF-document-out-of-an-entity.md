@@ -1,10 +1,18 @@
+---
+title: What existing extensions to the CIDOC-CRM should we use?
+priority: 3
+october: true
+category: browse
+todo: true
+---
+
 ### Problem Statement:
 
 How to take this series of searches and concatenate the resulting triples into a document that describes the browse app's view of the graph, something that's more useful than the Pubby view of the data that just returns all triples where the ID is either the subject or object; that works well for shallow graphs, but the CRM is so deeply linked that I think the document has to travel a couple hops.
 
 ### Best Practice:
 
-*To Be Determined*
+See http://aac-mappings.herokuapp.com
 
 ### Discussion:
 

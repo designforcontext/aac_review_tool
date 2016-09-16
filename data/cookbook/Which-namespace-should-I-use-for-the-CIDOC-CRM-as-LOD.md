@@ -1,3 +1,8 @@
+---
+priority: 1
+category: triplestore
+todo: true
+---
 ### Problem Statement
 
 Because the CRM is a conceptual reference model, the official definition does not include a mapping to RDF.  Several of these have sprung up, most notably the [Erlagen OWL model](http://erlangen-crm.org) and the official [CIDOC mapping](http://www.cidoc-crm.org/rdfs/cidoc_crm_v6.2.1-draft-b-2015October.rdfs)

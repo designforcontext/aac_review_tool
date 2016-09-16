@@ -1,3 +1,11 @@
+---
+title: How do I maintain the provenance of statements in Linked Open Data?
+priority: 3
+october: true
+category: modeling
+todo: true
+---
+
 ### Problem Statement:
 
 When the AAC begins to generate a graph of all of the partner's information, many entities that reference the same entity will exist and be reconciled.
@@ -45,18 +53,6 @@ I think PROV-O is over-engineering for singly-mastered data (e.g. about objects)
 *(From Rob)*
 
 I’ve run afoul of the PROV-O constraints so many times over the past few years that I would recommend either extreme caution and checking any use with real experts, or avoiding it entirely.  (e.g. <https://www.w3.org/TR/prov-constraints/#generation-generation-ordering> )
-
----
-
-> How do we know the source of an external reference (ULAN vs VIAF) using only RDF, and not by parsing the URLs?
-
-If someone just gives you a URL, you'll have to parse the URL.
-- ULAN has such links, e.g.
-  ulan:nnnn skos:inScheme ulan:
-  But to get them, you need to load the full ULAN.
-- VIAF doesn't have such links. But you can add them to you repo e.g. like
-  viaf:nnnn void:inDataset viaf:
-
 
 
 ### Reference:

@@ -25,7 +25,7 @@
 
         %h4 Linked Open Data FAQs
         %div.list-group
-          - @recipies.sort.each do |key, obj|
+          - @recipies.sort_by{|key, obj| [obj[:metadata]["category"],obj[:metadata]["priority"]]}.each do |key, obj|
             %a.list-group-item{href: "/cookbook/#{obj[:path]}"}
               = obj[:metadata]["title"]
               - if obj[:metadata]["answered"]

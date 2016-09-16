@@ -1,10 +1,14 @@
+---
+title: How do I model a link and its label text to an external website?
+priority: 2
+category: modeling
+---
+
 ### Problem Statement:
 
 Within the AAC data there are links to existing websites, such as the institution's collections site, wikipedia article about the party, or other human-readable resources that exist at URLs. 
 
-What is the RDF pattern that indicates this website?
-
-Is there a way to include not only a link to the website, but metadata about that link, such as a title?
+What is the RDF pattern that indicates a link to the website as well as metadata about that link, such as a title?
 
 ### Best Practice:
 

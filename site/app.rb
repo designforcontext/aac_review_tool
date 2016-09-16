@@ -33,6 +33,32 @@ class HTML < Redcarpet::Render::HTML
   include Rouge::Plugins::Redcarpet
 end
 
+def process_recipies
+    recipies = {}
+    Dir.glob('./data/cookbook/**/*.md').each do |file|
+      contents = File.read(file)
+      metadata = {}
+      if (md = contents.match(/\A(?<metadata>---\s*\n.*?\n?)^(---\s*$\n?)/m))
+        contents = md.post_match
+        metadata = YAML.load(md[:metadata])
+      end
+      metadata["title"] ||= File.basename(file, ".md").gsub("-"," ") << "?"
+      metadata["answered"] ||= !contents.include?("### Best Practice:\n\n*To Be Determined*")
+
+      puts metadata
+
+      obj= {
+        content: contents,
+        metadata: metadata,
+        path: File.basename(file, ".md"),
+        filepath: file
+      }
+      recipies[obj[:path]] = obj
+    end
+    recipies
+end
+
+
 class MyApp < Sinatra::Base
 
   configure :development do
@@ -46,26 +72,8 @@ class MyApp < Sinatra::Base
     # Load the cookbook (FAQ) data files into memory
     # and store them at `settings.recipies`
     #------------------------------------------------
-    recipies = {}
-    Dir.glob('./data/cookbook/**/*.md').each do |file|
-      contents = File.read(file)
-      metadata = {}
-      if (md = contents.match(/\A(?<metadata>---\s*\n.*?\n?)^(---\s*$\n?)/m))
-        contents = md.post_match
-        metadata = YAML.load(md[:metadata])
-      end
-      metadata["title"] ||= File.basename(file, ".md").gsub("-"," ") << "?"
-      metadata["answered"] ||= !contents.include?("### Best Practice:\n\n*To Be Determined*")
 
-      obj= {
-        content: contents,
-        metadata: metadata,
-        path: File.basename(file, ".md"),
-        filepath: file
-      }
-      recipies[obj[:path]] = obj
-    end
-    set :recipies, recipies
+    set :recipies, process_recipies
 
     # Search the field YAML files and add the names
     # of the entities that they apply to into
@@ -118,7 +126,7 @@ class MyApp < Sinatra::Base
   #----------------------------------------------------------------------------
   get "/" do
     @available_types = settings.available_types
-    @recipies = settings.recipies
+    @recipies =  settings.development? ? process_recipies : settings.recipies
     haml :index
   end
 
@@ -138,8 +146,10 @@ class MyApp < Sinatra::Base
   # Cookbook Route
   #----------------------------------------------------------------------------
   get "/cookbook/:page" do
-    
-    current_recipie = settings.recipies[params[:page]]
+
+    @recipies =  settings.development? ? process_recipies : settings.recipies
+
+    current_recipie = @recipies[params[:page]]
     halt 404 unless current_recipie
 
     @contents = settings.development? ? File.read(current_recipie[:filepath]) : current_recipie[:content]

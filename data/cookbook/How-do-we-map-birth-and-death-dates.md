@@ -1,3 +1,10 @@
+---
+title: "Consistency of Dates and Date Ranges"
+priority: 3
+category: modeling
+todo: true
+---
+
 ### Problem Statement:
 
 ### Best Practice:

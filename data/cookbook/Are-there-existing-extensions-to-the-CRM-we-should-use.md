@@ -1,10 +1,32 @@
+---
+title: What existing extensions to the CIDOC-CRM should we use?
+priority: 2
+october: true
+category: types
+todo: true
+---
+
 ### Problem Statement:
 
 Previous projects have developed CIDOC-CRM mappings of museum data, including the [British Museum](http://collection.britishmuseum.org), [SAAM](http://americanart.si.edu/collections/search/lod/about/), and [YCBA](http://britishart.yale.edu/collections/using-collections/technology/linked-open-data).  To complete these mappings, many of the institutions have defined custom concepts, classes, and properties that extend the CIDOC-CRM.  Should the AAC use any of these extensions?  If so, which ones?
 
 ### Best Practice:
 
-*To Be Determined*
+The best practice is to use the CRM whenever possible, which can include modeling each data point as a complex chain of entities, and typing those entities with P2_has_type.
+
+TODO: (Example: Vladimir and Watches)
+
+The next best practice is to use the CRM, typing predicates using reification from an established vocab.
+
+TODO: (Example:  David and creator types)
+
+The next best practice is to use the CRM with predicates from broadly adopted ontologies like Qunt, SKOS, or FOAF.
+
+TODO: (Example:  Dimensions with QUIT)
+
+The last practice is to define our own ontology.
+
+TODO: (BM mappings) 
 
 ### Discussion:
 

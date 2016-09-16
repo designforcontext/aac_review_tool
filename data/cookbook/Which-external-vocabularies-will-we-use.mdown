@@ -1,8 +1,16 @@
+---
+title: What external ontologies will we use?
+priority: 4
+october: false
+category: reconciliation
+todo: true
+---
+
 ### Problem Statement:
 
 While the CIDOC-CRM has many predicates and classes, they are not entirely sufficient to cover all our needs Which ontologies or vocabulaties will we support beyond the CIDOC-CRM?
 
-*([see this question about simplifications](Should-we-use-ontologies-outside-of-the-CRM-to-define-relationships) for a related question.)*
+What external ontologies are recommended as best practices from the AAC?
 
 ### Best Practice:
 
@@ -10,5 +18,10 @@ While the CIDOC-CRM has many predicates and classes, they are not entirely suffi
 
 ### Discussion:
 
+For the browse application, we will need to know which vocabularies and ontologies ISI has used, for what domains, and why.
+
+At the end of the AAC practice, we should create a list of recommendations.
 
 ### Reference:
+
+*([see this question about simplifications](Should-we-use-ontologies-outside-of-the-CRM-to-define-relationships) for a related question.)*

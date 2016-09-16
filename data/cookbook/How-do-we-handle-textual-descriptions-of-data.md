@@ -1,4 +1,11 @@
+---
+priority: 2
+category: modeling
+todo: true
+---
 ### Problem Statement:
+
+linguistic ovejct, p3_has-note, skos:preflable, etc
 
 ### Best Practice:
 

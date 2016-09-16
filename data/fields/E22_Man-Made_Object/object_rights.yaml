@@ -1,0 +1,35 @@
+# Field Name
+title: Object Rights
+
+# Metadata
+mandatory:        false
+multiples:        true
+description:      "Rights for the object."
+
+# Sort Data
+applies_to:  "E22_Man-Made_Object"
+category:    "Physical Object"
+sort_order:  55
+
+# Sparql
+select:      "?right ?description"
+values:      "?entity_uri"
+construct: |
+  ?entity_uri a crm:E22_Man-Made_Object ;
+    crm:P104_is_subject_to _:right .
+  _:right a crm:E30_Right ;
+    crm:P3_has_note ?description ;
+    owl:sameAs ?right .
+
+
+where: |
+  ?entity_uri a crm:E22_Man-Made_Object ;
+    crm:P104_is_subject_to ?right .
+  ?right a crm:E30_Right.
+  OPTIONAL { ?right crm:P3_has_note ?description .}
+
+     
+
+# TODO:  IS DOCUMENTED IN
+
+

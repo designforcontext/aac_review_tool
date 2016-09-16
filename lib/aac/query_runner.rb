@@ -52,6 +52,7 @@ module AAC
     def get_graph(query, engine = @server) 
       graph = RDF::Graph.new
       results = engine.query(query)
+      
       results.each_statement {|s| graph.insert s}
       graph
     end
