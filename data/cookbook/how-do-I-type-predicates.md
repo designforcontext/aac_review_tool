@@ -16,9 +16,11 @@ Particularly when `Wooden Bench` also participated in `Intl. Furniture Expo` as 
 
 ### Best Practice:
 
-Within the CRM, there is a technique for this using the ".1" properties, which let you assign types to properties.  However, RDF does not support directly assigning properties to instances of predicates.  However, there are several techniques for managing this.  In order of preference:
+Within the CRM, there is a technique for this using the ".1" properties, which let you assign types to properties.  RDF does not support directly assigning properties to instances of predicates; however, there are several techniques for managing this.  
 
-One best practice is to use the full complexity of the CRM, which can often avoid the need to explicitly type predicates.  This can include modeling each data point as a complex chain of entities, and typing those entities with `P2 has type`.
+In order of preference:
+
+**(1).** Best practice is to use the full complexity of the CRM, which can often avoid the need to explicitly type predicates.  This can include modeling each data point as a complex chain of entities, and typing those entities with `P2 has type`.
 
 For example, when modeling the creation of a watch, rather than using the predicate `PX.watch_pendant_made_in`, you could explicitly model the parts and their specific parts.
 
@@ -28,7 +30,7 @@ For example, when modeling the creation of a watch, rather than using the predic
         P108i_was_produced_by <object/123/pendant/production>.
         <object/123/pendant/production> P7_took_place_at <place>.
 
-When an explicit specification of a predicate is needed, our best practice is to use the CRMpc ontology to reify the statement.  
+**(2).** When an explicit specification of a predicate is needed, our best practice is to use the CRMpc ontology to reify the statement.  
 
 For example, when specifying that Michelangelo created David in the role of "sculptor", rather than say 
 
@@ -41,11 +43,11 @@ you would say
         crmpc:P02_has_range _:michelangelo; 
         crmpc:P14.1_in_the_role_of aat:1293823.  #sculptor
 
-Another best practice is to use the CRM with predicates from broadly adopted ontologies like Qunt, SKOS, or FOAF.  
+**(3).** Another best practice is to use the CRM with predicates from broadly adopted ontologies like Qunt, SKOS, or FOAF.  
 
 For instance, when referencing the primary homepage of an institution, it is a best practice to use `foaf:homepage` rather reify a CRM identifier.  It is important, however, when doing this, to make sure that no semantic information is lost.
 
-If none of these techniques will work, our last recommendation is to extend the CRM and define a new predicate using `rdfs:subPropertyOf`.
+**(4).** If none of these techniques will work, our last recommendation is to extend the CRM and define a new predicate using `rdfs:subPropertyOf`.
 
     _:production_of_david crmx:P14_carried_out_as_scupltor_by _:michelangelo.
 
@@ -73,7 +75,7 @@ but then we have do define a sub property for every possible relationship, which
     "1904 Carnegie International Artwork" has_type "Artwork Installation"
 
     "Wooden Bench" participated_in "1904 Carnegie International Furniture"
-     "1904 Carnegie International Furniture" forms_part_of  "1904 Carnegie International"
+    "1904 Carnegie International Furniture" forms_part_of  "1904 Carnegie International"
     "1904 Carnegie International Furniture" has_type "Furniture Installation"
 
 This is simple, but probably not valid CRM.  It's basically saying that an event was made up of many sub events, each dictated by the type of object that participated. 

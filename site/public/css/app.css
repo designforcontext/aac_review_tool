@@ -5501,6 +5501,8 @@ h3 {
   font-size: 15px; }
   .cookbook_content blockquote {
     font-size: 14px; }
+  .cookbook_content code {
+    white-space: nowrap; }
 
 .cookbook_index h4.list-group-item {
   background: #62abc8;

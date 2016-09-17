@@ -30,4 +30,4 @@ You could make statements about it (e.g. names coming from local data) in your r
 ### Reference:
 
 * <http://lexvo.org/ontology#isFocusOf>
-* TODO: Link to the Getty discussion of Entity/Concepts
+* <http://www.getty.edu/research/tools/vocabularies/Linked_Data_Getty_Vocabularies.pdf>

@@ -7,7 +7,7 @@
     .col-md-5.col-md-offset-1
 
       .markdown-body.cookbook_content
-        = @markdown.render(@contents)
+        = find_and_preserve(@markdown.render(@contents))
       .footer.hidden-print
         %a.btn.btn-primary{href: "https://github.com/workergnome/aac_mappings/edit/master/data/cookbook/#{@path}.md"}
           Edit this page

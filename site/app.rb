@@ -33,6 +33,7 @@ class HTML < Redcarpet::Render::HTML
   include Rouge::Plugins::Redcarpet
 end
 
+
 def process_recipies
     recipies = {}
     Dir.glob('./data/cookbook/**/*.md').each do |file|
@@ -71,6 +72,7 @@ class MyApp < Sinatra::Base
   end
 
   configure do 
+
 
     # Load the cookbook (FAQ) data files into memory
     # and store them at `settings.recipies`
