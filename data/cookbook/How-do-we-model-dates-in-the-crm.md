@@ -30,4 +30,6 @@ And if the data describes a period (frbroo:F51_Pursuit aka "active" or "floruit"
 
 ### Reference:
 
-
+* https://github.com/american-art/npg/issues/41
+* https://github.com/american-art/npg/issues/42
+* Types: https://github.com/american-art/npg/issues/38

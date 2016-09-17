@@ -121,6 +121,7 @@ Agreed.  Let’s not derail the discussion by looking at archival practices and 
 ### Reference:
 
 * <https://github.com/american-art/npg/issues/34>
+* <https://github.com/american-art/autry/issues/37>
 * <https://www.w3.org/TR/sparql11-query/#collections>
 
 

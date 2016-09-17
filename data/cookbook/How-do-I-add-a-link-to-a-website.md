@@ -36,6 +36,21 @@ Also, I'm happy to foaf:page it up here, but that only handles the link, not the
 
 Use case?  That said, the foaf or schema equivalents seem much better to me than the very very loose p1 and p48
 
+*(David)* 
+
+The pattern I'm seeing emitted from the AAC mappings is:
+
+    _:entity crm:P1_is_identified_by _:url.
+    _:url a crm:E42_Identifier;
+        crm:p3_has_note "url as a string".
+
+See <https://github.com/american-art/autry/issues/28> for an example.  
+If we're going to do this, I would strongly recommend typing these with
+
+    _:url crm:p3_has_type <http://vocab.getty.edu/aat/300404630>.
+
+It does seem odd to treat a URL as a string, though.    Additionally, just saying it's a identifier and typing it does not provide the context that it's the a URL that represents a human-readable description of the entity—it just says that it's something with a specific form.  This means that it would show up in the list of identifiers, but that the browse application would not have the ability to present those URLs to a viewer with any specific semantic value.
+
 
 ### Reference:
 

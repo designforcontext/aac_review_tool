@@ -3,23 +3,32 @@
   .container-fluid
     .row
       .col-lg-5.col-lg-offset-1  
-        %h2 AAC Browse Application Testbed
+        %h3 AAC Browse Application Testbed
 
-        %p 
-          This page contains reference material for the AAC Mappings for the browse application.  
-          These mappings are slightly different than the mappings that ISI is doing—those are mappings from institutional data to RDF, using the CIDOC-CRM ontology.   
         %p
-          These mappings are for the RDF to the browse application, or to other applications.  We are interested in verifying that the information that was entered is retrievable in a consistent, regular fashion.
+          This page contains reference material for the AAC Mappings for the browse application. These mappings reflect outputs, not inputs; they are not the same as the mappings that ISI is doing—those are mappings from institutional data to RDF, using the CIDOC-CRM ontology.
+
         %p
-          Below are mapping for the fields of each of our core entities. There is also a series of FAQs displayed, describing common questions about LOD and our mappings, and when possible recording our consensus of AAC 'good practices'.
+          These mappings are for the RDF to be queried from the triplestore to external application (the browse application, but also others). We need to verify that the information that was put into the triplestore is retrievable in a consistent, regular fashion. Below are mapping for the fields of each of our core entities. On each field’s display page is a link to comment on questions, discrepancies or modeling considerations.
 
-
-        %h3 Field-Level Mappings
+        %h4 Field-Level Mappings
         %div.list-group
           - @available_types.each do |key, val|
             %a.list-group-item{href: "/entity/#{key}"}
               %span.badge="#{val.count} fields"
               = "<strong>#{key}</strong>"
+
+
+        %p
+          The series of questions on this page capture discussions for common questions about LOD and our AAC mappings. When possible, we record our consensus of AAC 'good practices’. The questions are tagged with Priorities, which are:
+        %ul
+          %li <b>Priority 1</b> — Must-have for the data to be modeled and queried.
+          
+          %li <b>Priority 2</b> — Decisions that will impact the ISI team’s mappings of the original data into RDF, so should be addressed in a timely manner to avoid rework.
+          
+          %li <b>Priority 3</b> — Affect the browse app and other applications that use data from the triplestore. The browse app anticipates creating query patterns that are entity-focused and can be represented as JSON for easy use by applications. The Priority 3 items will need decisions for active browse app development this autumn, and may require some discussion at the Oct 2016 partner meeting.
+          
+          %li <b>Priority 4</b> — Probably not in scope for the current mapping effort or browse app, but should be considered for inclusion in good practices documentation.
 
       .col-lg-4.col-lg-offset-1 
 

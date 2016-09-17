@@ -37,4 +37,4 @@ I was referring to the display strings that concatinate them for human readabili
 
 ### Reference:
 
-* TODO:  Link github discussion of this
+* <https://github.com/american-art/npg/issues/54>

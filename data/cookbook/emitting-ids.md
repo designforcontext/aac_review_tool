@@ -37,3 +37,4 @@ I would answer the first question as no, if the semantics are actually the same 
 ### Reference:
 
 * NPG 40
+* <https://github.com/american-art/npg/issues/10>
