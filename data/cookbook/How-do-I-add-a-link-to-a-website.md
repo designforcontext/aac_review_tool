@@ -1,7 +1,7 @@
 ---
 title: How do I model a link and its label text to an external website?
 priority: 2
-category: modeling
+category: Modeling
 ---
 
 ### Problem Statement:
@@ -12,7 +12,18 @@ What is the RDF pattern that indicates a link to the website as well as metadata
 
 ### Best Practice:
 
-*To Be Determined*
+AAC best practice for this is to use the `foaf` ontology to model these links.  If the link is to the *primary* website associated with an entity, it should be modeled using `foaf:homepage`, and given an explicit label:
+
+    _:art_object foaf:homepage <www.institution.org/objects/art_object>.
+    <www.institution.org/objects/art_object> rdfs:label "Homepage for Art Object".
+
+If it is merely a page *about* an object, use `foaf:page`:
+
+    _:art_object foaf:page <www.institution.org/objects/art_object>.
+    <www.institution.org/objects/art_object> rdfs:label "Homepage for Art Object".
+
+If you wish to make explicit statements about the page itself, including the creator of the page, why it is linked, or anything else, model the webpage as a `E31 Document` and type it with the appropriate AAT type. 
+
 
 ### Discussion:
 

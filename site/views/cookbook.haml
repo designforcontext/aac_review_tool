@@ -3,12 +3,29 @@
 </h2></div></div></header>
 
 .container-fluid
+  .row
+    .col-md-5.col-md-offset-1
 
-  .row
-    .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
-      .markdown-body
+      .markdown-body.cookbook_content
         = @markdown.render(@contents)
-  .row
-    .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
-      %a.btn.btn-primary{href: "https://github.com/workergnome/aac_mappings/edit/master/data/cookbook/#{@path}.md"}
-        Edit this page
+      .footer.hidden-print
+        %a.btn.btn-primary{href: "https://github.com/workergnome/aac_mappings/edit/master/data/cookbook/#{@path}.md"}
+          Edit this page
+    .col-md-4.col-md-offset-1.hidden-print
+      %h4 Linked Open Data FAQs
+
+      %div.list-group.cookbook_index
+        - current_category = ""
+        - @recipies.each do |key, obj|
+          - cat = obj[:metadata]["category"]
+          -if current_category != cat
+            %h4.list-group-item= cat
+            -current_category = cat
+          .list-group-item{ class: "#{obj[:path] == @page ? "active" : ""} #{obj[:metadata]["classes"]}"}
+            %a{href: "/cookbook/#{obj[:path]}"}
+              = obj[:metadata]["title"]
+            .badge_holder.clearfix
+              .badge= "Priority #{ obj[:metadata]["priority"]}"
+              - if obj[:metadata]["answered"]
+                .badge ✔ Best Practice Established 
+              .badge.pull-right= "Fix Me" if obj[:metadata]["todo"]

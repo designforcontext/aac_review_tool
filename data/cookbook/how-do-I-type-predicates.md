@@ -1,8 +1,7 @@
 ---
-title: How do I add Clarifying Details to a Relationship?
+title: How do I specify types for predicates?
 priority: 1
-october: true
-category: property_types
+category: Defining Types
 ---
 
 ### Problem Statement:
@@ -13,11 +12,48 @@ For instance if, `Young Woman Picking Fruit` participated in `1904 Carnegie Inte
 
 Particularly when `Wooden Bench` also participated in `Intl. Furniture Expo` as an artwork?
 
+
+
 ### Best Practice:
 
-*To Be Determined*
+Within the CRM, there is a technique for this using the ".1" properties, which let you assign types to properties.  However, RDF does not support directly assigning properties to instances of predicates.  However, there are several techniques for managing this.  In order of preference:
+
+One best practice is to use the full complexity of the CRM, which can often avoid the need to explicitly type predicates.  This can include modeling each data point as a complex chain of entities, and typing those entities with `P2 has type`.
+
+For example, when modeling the creation of a watch, rather than using the predicate `PX.watch_pendant_made_in`, you could explicitly model the parts and their specific parts.
+
+    <object/123> p2_has_type <watch>; 
+        P42_is_composed_of  <object/123/pendant>.
+        <object/123/pendant> p2_has_type <pendant>;
+        P108i_was_produced_by <object/123/pendant/production>.
+        <object/123/pendant/production> P7_took_place_at <place>.
+
+When an explicit specification of a predicate is needed, our best practice is to use the CRMpc ontology to reify the statement.  
+
+For example, when specifying that Michelangelo created David in the role of "sculptor", rather than say 
+
+    _:production_of_david crm:P14_carried_out_by _:michelangelo
+
+you would say
+
+    _:sculpting a crmpc:PC14_carried_out_by;
+        crmpc:P01_has_domain _:production_of_david;
+        crmpc:P02_has_range _:michelangelo; 
+        crmpc:P14.1_in_the_role_of aat:1293823.  #sculptor
+
+Another best practice is to use the CRM with predicates from broadly adopted ontologies like Qunt, SKOS, or FOAF.  
+
+For instance, when referencing the primary homepage of an institution, it is a best practice to use `foaf:homepage` rather reify a CRM identifier.  It is important, however, when doing this, to make sure that no semantic information is lost.
+
+If none of these techniques will work, our last recommendation is to extend the CRM and define a new predicate using `rdfs:subPropertyOf`.
+
+    _:production_of_david crmx:P14_carried_out_as_scupltor_by _:michelangelo.
+
+    crmx:P14_carried_out_as_scupltor_by rdfs:subPropertyOf crm:P14_carried_out_by;
+      rdfs:label "carried out in the role of sculptor".
 
 ### Discussion:
+
 
 (*From David Newbury*
 

@@ -44,8 +44,11 @@ def process_recipies
       end
       metadata["title"] ||= File.basename(file, ".md").gsub("-"," ") << "?"
       metadata["answered"] ||= !contents.include?("### Best Practice:\n\n*To Be Determined*")
+      metadata["priority"] ||= "5"
 
-      puts metadata
+      classes = metadata["classes"] ? metadata["classes"].split(" ") : []
+
+      metadata["classes"]  = classes.uniq.join(" ")
 
       obj= {
         content: contents,
@@ -55,7 +58,7 @@ def process_recipies
       }
       recipies[obj[:path]] = obj
     end
-    recipies
+    recipies.sort_by{|key,obj| [obj[:metadata]["category"],obj[:metadata]["priority"]]}.to_h
 end
 
 
@@ -147,12 +150,13 @@ class MyApp < Sinatra::Base
   #----------------------------------------------------------------------------
   get "/cookbook/:page" do
 
-    @recipies =  settings.development? ? process_recipies : settings.recipies
+    @recipies = settings.development? ? process_recipies : settings.recipies
 
-    current_recipie = @recipies[params[:page]]
+    @page = params[:page]
+    current_recipie = @recipies[@page]
     halt 404 unless current_recipie
 
-    @contents = settings.development? ? File.read(current_recipie[:filepath]) : current_recipie[:content]
+    @contents = current_recipie[:content]
     @metadata = current_recipie[:metadata]
     @path     = current_recipie[:path]
     @markdown = settings.markdown

@@ -2,8 +2,7 @@
 title: How do I maintain the provenance of statements in Linked Open Data?
 priority: 3
 october: true
-category: modeling
-todo: true
+category: Triplestores, RDF, and Inferencing
 ---
 
 ### Problem Statement:
@@ -15,6 +14,8 @@ We would like to be able to connect statements made about the entities to the in
 For example, given an person named  Maria von Trapp, I'd like to know that Princeton thinks that Maria von Trapp's middle name is "von" and the last name is "Trapp", but that Harvard thinks that "von Trapp" is the last name.
 
 If the information is reconciled without provenance, we will only know that "Trapp" and "von Trapp" are two possible last names.
+
+How do we maintain this information?
 
 ### Best Practice:
 

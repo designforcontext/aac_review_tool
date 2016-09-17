@@ -1,9 +1,8 @@
 ---
-priority: 3
-october: true
-category: triplestore
-todo: true
+priority: 1
+category: Triplestores, RDF, and Inferencing
 ---
+
 ### Problem Statement:
 
 The CIDOC-CRM defines many of its properties to work both directions: using `P1: Is identified by` to link a object to an name also means that the name is linked to the object.
@@ -53,6 +52,6 @@ That, and where the inverse-ness should be declared.
 
 ### Reference:
 
-
+* See also the discussion of [class and property traversal](inferencing)
 
 

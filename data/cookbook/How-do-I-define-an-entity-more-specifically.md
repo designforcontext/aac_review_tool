@@ -1,9 +1,7 @@
 ---
-title: How do we specify types for entities and predicates?
+title: How do I specify types for entities?
 priority: 1
-october: true
-category: types
-todo: true
+category: Defining Types
 ---
 
 ### Problem Statement:
@@ -15,10 +13,20 @@ Often the browse application we need to treat entities with the same CRM class d
 The AAC's best practice is to use P2_has_type to add clarifying details.
 
     aac:young_women_picking_fruit a crm:E22_Man-Made_Object;
-        crm:P2_has_type aac:work_of_art.
+      crm:P2_has_type aac:work_of_art.
     
     aac:work_of_art a E55_Type; 
-        rdfs:label "Work of Art".
+      skos:prefLabel "Work of Art".
+
+When linking to an external vocabulary as a type, also include `skos:inScheme` to indicate the source of the term.
+
+    aac:young_women_picking_fruit a crm:E22_Man-Made_Object;
+      crm:P2_has_type aat:112111.
+    
+    aat:112111 skos:inScheme aat: ;
+      skos:preLabel "Painting".
+
+It is not necessary to explicitly type the external vocabulary as an `E55_Type`.  If needed, this can be inferred through the use of the `crm:P2_has_type` predicate.
 
 
 ### Discussion:

@@ -1,7 +1,7 @@
 ---
 title: "Consistency of Dates and Date Ranges"
 priority: 3
-category: modeling
+category: Modeling
 todo: true
 ---
 

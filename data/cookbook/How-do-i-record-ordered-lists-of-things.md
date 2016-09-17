@@ -1,24 +1,32 @@
 ---
-title: How do I record ordered lists of things?
+title: How do I model lists of entities or multiple values?
 priority: 2
-category: modeling
-todo: true
+category: Modeling
+answered: false
 ---
 ### Problem Statement:
 
-COMBINE ME
+Often the boundary between an entity and and a collection of entities is somewhat fuzzy.  Items are made up of parts, entities are collected into collections, or people have many names.  
+
+Additionally, oftentimes we care about the order of these items—by which we mean that the order in which these entities are listed has some sort of meaning.
+
+What are our best practices around collections, parts, and lists?
 
 ### Best Practice:
 
-Recommendation is:  
+There are three typical types of collections:
 
-The best best practice is that the meaning is semantic, and should be encoded semantically.
+If an entity consists of a collection of parts, there are CRM predicates that allow you to compile a collection of parts: `P46 is composed of`, `P106 is composed of`, `P5 consists of`, and several others.  These allow you to specify the specific parts of an entity.
 
-The best practice is that in the interest of data round-trip-ability, we should encode the data even if it isn't semantically valid.
+Collections of entities (For instance, a group of objects) are best modeled as a `E19 Physical Object`.  For the specific case of a curated holding of objects, `E78 Collection` is applicable, but pay close attention to the scope note when deciding to use this structure.
 
-THe browse app will use `preferred_types` and `alternate_types` (which are typically untyped).
+Multiples of an object must be semantically modeled in some way. Worst case, use `P15 was influenced by` as a way to link the creation events, or `dcterms:related` to specify a completely non-semantic relationship, but know that this is not a recommended practice.
 
-The encoding of the information is up for discussion.
+When lists are ordered, the best practice is to determine the specific semantic meaning encoded in that order, and model that semantic meaning.
+
+Another common use case is when the first item of the list is the preferred type, and all others are alternates.  In this case, indicating a preferred value by typing it with `aat:300404670` is a good practice.
+
+However, if either of those prove to be difficult, a good practice is to encode the ordering data in some way in the interest of data fidelity.  The encoding of the information is up for discussion.
 
 ### Discussion:
 
@@ -35,17 +43,17 @@ Read [the specific requirement/discussion on github](https://github.com/american
 
 But the major statement is that someone is a sitter:
 
-   <object> P62_depicts <sitter1>, <sitter2>.
+    <object> P62_depicts <sitter1>, <sitter2>.
 
 If we do a list, the expanded triples are like this:
 
-  <object> P62_depicts <object/sitters/1>.
-  <object/sitters/1> a rdf:List; 
-      rdf:first <sitter1>; 
-      rdf:next <object/sitters/2>.
-  <object/sitters/2> a rdf:List; 
-      rdf:first <sitter2>; 
-      rdf:next rdf:nil.
+    <object> P62_depicts <object/sitters/1>.
+    <object/sitters/1> a rdf:List; 
+        rdf:first <sitter1>; 
+        rdf:next <object/sitters/2>.
+    <object/sitters/2> a rdf:List; 
+        rdf:first <sitter2>; 
+        rdf:next rdf:nil.
 
 How can one easily find all objects where <sitter/2> appears?
 
@@ -85,52 +93,9 @@ Right. You can always assign identity to the object-in-context-of-other-object t
 
 The question is whether this is *required*. I don’t see the need for ordering sitters in a painting… again … what are the use cases where the complexity of ordering outweighs the lack of descriptive fidelity of unordered properties.  Importantly, how will applications make use of that information?
 
+*(From David)*
 
-
-### Reference:
-
-* <https://github.com/american-art/npg/issues/34>
-* <https://www.w3.org/TR/sparql11-query/#collections>
-
-
-------
-
-
-`---
-title: Do we have any mapped relationships between sets of objects?
-priority: 3
-october: false
-category: modeling
-todo: true
----
-### Problem Statement
 Do we have any mapped relationships between multiples of objects? (Sets, Triptycs, etc.)
-
-
-### Best Practice:
-
-*To Be Determined*
-
-### Discussion:
-
-We have three types of sets of things:
-
-Parts - crm:P46_is_composed_of
-Multiples: must be semantically modeled, or use P15_was_influenced_by for the creation event, or dcterms:related 
-Collections - E78 Collection if curated, E19 Physical Object if not.
-
-### Reference
-
-
------
-
-### Problem Statement:
-
-### Best Practice:
-
-*To Be Determined*
-
-### Discussion:
 
 *(From Rob)*
 
@@ -154,4 +119,8 @@ Overall on the above question, I think it should be addressed from the "browse a
 Agreed.  Let’s not derail the discussion by looking at archival practices and RDF! Maybe over beer in October? :)
 
 ### Reference:
+
+* <https://github.com/american-art/npg/issues/34>
+* <https://www.w3.org/TR/sparql11-query/#collections>
+
 

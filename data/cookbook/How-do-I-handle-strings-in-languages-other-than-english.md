@@ -1,7 +1,6 @@
 ---
 priority: 4
-category: labeling
-todo: true
+category: Labeling
 ---
 ### Problem Statement:
 
@@ -18,5 +17,9 @@ How do we represent these multiple strings in RDF?
 *(From Rob)*
 
 Do we have the data to do it? If we do, we should.
+
+*(From David)*
+
+Does the browse App need to handle defaulting to the english language string if multiple labels exist?
 
 ### Reference:

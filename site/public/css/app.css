@@ -5496,6 +5496,38 @@ h3 {
   border-bottom: 1px solid #62abc8;
   padding: 0px 10px 3px 0; }
 
+.cookbook_content {
+  font-size: inherit;
+  font-size: 15px; }
+  .cookbook_content blockquote {
+    font-size: 14px; }
+
+.cookbook_index h4.list-group-item {
+  background: #62abc8;
+  padding: 5px 0 10px;
+  text-align: center;
+  color: #fff; }
+.cookbook_index .list-group-item.active {
+  background: #aed3e2;
+  border-color: #aed3e2; }
+.cookbook_index h4 {
+  margin-top: 0; }
+.cookbook_index .active a, .cookbook_index .active a:hover {
+  color: #26576b; }
+.cookbook_index .active .badge {
+  margin: 3px 15px;
+  color: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.2); }
+.cookbook_index .badge_holder {
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-bottom: -10px; }
+.cookbook_index .badge {
+  margin: 3px 15px;
+  background: rgba(0, 0, 0, 0.1);
+  color: #999;
+  font-weight: 500; }
+
 h5 {
   border-bottom: 1px solid #62abc8;
   padding-bottom: 2px;

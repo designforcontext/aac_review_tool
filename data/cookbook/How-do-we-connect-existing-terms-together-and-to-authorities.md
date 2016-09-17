@@ -1,26 +1,37 @@
 ---
+title: How do I reconcile intitutional thesauri to external thesauri?
 priority: 2
-category: modeling
-todo: true
+category: Reconciliation
 ---
 
 ### Problem Statement:
 
-THIS APPEARS SOMEWHERE ELSE
+Museum practice tends to involve a significant amount of categorization and term creation.  Many of these terms are pulled from institutional vocabularies that share many concepts with external or peer vocabularies, but without a reconciliation process it is impossible to determine these relationships.
+
+Also, often individual entities are implicitly typed, but this typing is made explicit as part of the mapping process by connecting the entity through `crm:P2_has_type` to an external vocabulary.
+
+What is the appropriate RDF predicates to use to connect these internal vocabularies to external thesauri? 
 
 ### Best Practice:
 
-    skos:prefLabel "Name of Term".
+When the term does not exist but is created in the mapping process, or if the instituion internally uses the external vocabulary, use `P2 has type` directly with the URI, and import the source and a preferred label into your graph.
+
+    _:entity crm:P2_has_type aat:123456;
+      dcterms:source aat:aat_itself;
+      skos:prefLabel "AAT Term".
+
+If the institution has a internal term that they have reconciled with the AAT or other vocabularies, preserve that term, and use `skos:broadMatch` to indicate the connection between that term and the external term.  Also, import the source of the term and a preferred label into your graph.
+
+    _:entity crm:P2_has_type _:institution_type.
+
+    _:institution_type a E55_Type;
+      skos:prefLabel "Institution Term";
+      dcterms:source institution:their_id;
+      skos:broadMatch aat:123456.
+    aat:123456 dcterms:source aat:aat_itself;
+      skos:prefLabel "AAT Term".
 
 ### Discussion:
-
-*(From David)*
-
- Do we need to distinguish between different institutional terminology for things when labeling fields? (Object ID vs Accession Number)
-
-*(From Rob)*
-
-I would answer the first question as no, if the semantics are actually the same and thus the data is comparable.  We should maintain some degree of separation between the semantic data and the way that’s rendered to users by different applications.  If (e.g.) Princeton wishes to use Object ID in their application, and Colby prefer Accession Number, no problem.  On the other hand, if there is a real semantic difference between those two, we should model them that way.
 
 *(From Vladimir)*
 
@@ -41,60 +52,7 @@ A month ago I wrote about the LIDO Terminology group, and sent links to their st
 
 ### Reference:
 
--------
-
-
----
-oct: true
----
-
-### Problem Statement
-
-What is the strategy around linking AAT terms to the institution vocabs
-
-### Best Practice:
-
-### FOR ENTITIES
-
-When the term does not exist, but is created in the mapping process OR if the instituion directly uses AAT
-
-    _:entity crm:P2_has_type aat:123456;
-      dcterms:source aat:aat_itself;
-      skos:prefLabel "AAT Term".
-
-If the institution has a term that they have reconciled with the AAT or other vocabularies
-
-    _:entity crm:P2_has_type _:institution_type.
-
-    _:institution_type a E55_Type;
-      skos:prefLabel "Institution Term";
-      dcterms:source institution:their_id;
-      skos:broadMatch aat:123456.
-    aat:123456 dcterms:source aat:aat_itself;
-      skos:prefLabel "AAT Term".
-
-(See Kate's spreadsheets for many of these mappings)
-
-### FOR PREDICATES
-
-*to be determined at the October meeting*
-
-### Discussion:
-
-
-> How do we know the source of an external reference (ULAN vs VIAF) using only RDF, and not by parsing the URLs?
-
-If someone just gives you a URL, you'll have to parse the URL.
-- ULAN has such links, e.g.
-  ulan:nnnn skos:inScheme ulan:
-  But to get them, you need to load the full ULAN.
-- VIAF doesn't have such links. But you can add them to you repo e.g. like
-  viaf:nnnn void:inDataset viaf:
-  
-
-### Reference:
-
-
+* (See Kate's spreadsheets for many of these mappings)
 
 
 

@@ -24,10 +24,18 @@
       .col-lg-4.col-lg-offset-1 
 
         %h4 Linked Open Data FAQs
-        %div.list-group
-          - @recipies.sort_by{|key, obj| [obj[:metadata]["category"],obj[:metadata]["priority"]]}.each do |key, obj|
-            %a.list-group-item{href: "/cookbook/#{obj[:path]}"}
-              = obj[:metadata]["title"]
-              - if obj[:metadata]["answered"]
-                %span.badge ✔
-
+        .list-group.cookbook_index
+          - current_category = ""
+          - @recipies.each do |key, obj|
+            - cat = obj[:metadata]["category"]
+            -if current_category != cat
+              %h4.list-group-item= cat
+              -current_category = cat
+            .list-group-item{ class: "#{obj[:path] == @page ? "active" : ""} #{obj[:metadata]["classes"]}"}
+              %a{href: "/cookbook/#{obj[:path]}"}
+                = obj[:metadata]["title"]
+              .badge_holder.clearfix
+                .badge= "Priority #{ obj[:metadata]["priority"]}"
+                - if obj[:metadata]["answered"]
+                  .badge ✔ Best Practice Established 
+                .badge.pull-right= "Fix Me" if obj[:metadata]["todo"]

@@ -1,7 +1,7 @@
 ---
-title: Do we have a generic relationship for undefined entity relationships?
+title: Is there a generic relationship for undefined entity relationships?
 priority: 3
-category: modeling
+category: Modeling
 ---
 ### Problem Statement:
 

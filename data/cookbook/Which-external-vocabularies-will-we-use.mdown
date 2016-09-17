@@ -1,5 +1,5 @@
 ---
-title: What external ontologies will we use?
+title: What external ontologies will the AAC use?
 priority: 4
 october: false
 category: reconciliation

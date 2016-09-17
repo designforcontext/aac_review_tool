@@ -1,20 +1,29 @@
 ---
-title: What existing extensions to the CIDOC-CRM should we use?
+title: How do I create an RDF representation of an entity?
 priority: 3
-october: true
-category: browse
-todo: true
+category: Triplestores, RDF, and Inferencing
 ---
 
 ### Problem Statement:
 
-How to take this series of searches and concatenate the resulting triples into a document that describes the browse app's view of the graph, something that's more useful than the Pubby view of the data that just returns all triples where the ID is either the subject or object; that works well for shallow graphs, but the CRM is so deeply linked that I think the document has to travel a couple hops.
+*(This is about graph representations of entities within the Browse Application.  For information on best practices for dereferencing LOD URIs, [see this question](What-exists-at-every-lod-url).)*
+
+When the AAC Browse app queries the full AAC graph structure to compile information about an entity, how will that information be recorded in RDF form? 
 
 ### Best Practice:
 
-See http://aac-mappings.herokuapp.com
+For the AAC Browse Application, we will generate RDF documents that represent specific subsets of the full graph.  For each core entity within the AAC graph, we will generate up with a document, hosted at a browse application-specific URL, that describes that entity.  This document will contain the **denormalized, aggregated** data from the AAC graph. 
+
+This graph representation is currently demoed by the export links in the header of each entity described at http://aac-mappings.herokuapp.com.
 
 ### Discussion:
+
+
+*(From David)*
+
+The browse app is going to build a subgraph of each entity, made up by combining a series of queries and their results
+
+How do I take a series of searches and concatenate the resulting triples into a document that describes the browse app's view of the graph, something that's more useful than the Pubby view of the data that just returns all triples where the ID is either the subject or object; that works well for shallow graphs, but the CRM is so deeply linked that I think the document has to travel a couple hops.
 
 *(From Vladimir)*
 
