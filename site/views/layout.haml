@@ -6,7 +6,9 @@
     <meta charset="utf-8">
     <meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
 
-    <title>AAC Object Mapping Demo</title>
+    <title>
+    = yield_content(:title).empty? ? "AAC Object Mapping Demo" : yield_content(:title)
+    </title>
     <link rel="stylesheet" type="text/css" href="/css/app.css">
 
   %body

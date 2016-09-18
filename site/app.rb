@@ -10,6 +10,7 @@ require 'typhoeus'
 require 'sinatra/base'
 require "sinatra/reloader" 
 require "sinatra/json"
+require "sinatra/content_for"
 
 # Rendering Libraries
 require 'haml'
@@ -64,6 +65,9 @@ end
 
 
 class MyApp < Sinatra::Base
+
+  helpers Sinatra::ContentFor
+
 
   configure :development do
     register Sinatra::Reloader
