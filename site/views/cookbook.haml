@@ -5,6 +5,9 @@
 .container-fluid
   .row
     .col-md-5.col-md-offset-1
+      .visible-print-block
+        %h2= @metadata["title"]
+        %h4= "Priority #{@metadata['priority']}#{', Best Practice Established' if @metadata["answered"]}"
 
       .markdown-body.cookbook_content
         = find_and_preserve(@markdown.render(@contents))
