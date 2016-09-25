@@ -38,5 +38,13 @@ Overall, I vote for institution-branded URLs, it's the better future-proof decis
 
 If we're going to use americanartcollaborative.org URLs, there's another systemic error in the URLs: they all start http://americanartcollaborative.org/.  Does that mean the current website will be destroyed and replaced with an RDF app (like pubby)? Doubt it.  So they should start with http:/data.americanartcollaborative.org/ (notice "data").
 
+*(From Rob, via email, 9/19/2016)*
+
+You know my preference for JSON-LD as default, with other representations via conneg.
+
+*(From David, via email, 9/19/2016)*
+
+I think what we're looking here is that /something/ needs to be returned here.  It's not obvious whose responsibility it is to make sure the URLs dereference to something.   My preference would be a pubby-style HTML and a RDF in at least one form—I don't care at all what it is.
+
 ### Reference:
 

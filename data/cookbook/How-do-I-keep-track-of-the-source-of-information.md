@@ -19,7 +19,7 @@ How do we maintain this information?
 
 ### Best Practice:
 
-*To Be Determined*
+A best practice for this problem is still outstanding in the larger Linked Open Data community, and so this question has been determined to be out of scope for the AAC.  
 
 ### Discussion:
 

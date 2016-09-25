@@ -35,6 +35,7 @@ Not sure why you call them Linguistic.  E.g. see the following 2 diagrams showin
 
 I was referring to the display strings that concatinate them for human readability.  I agree that we should explicitly model dimensions.
 
+
 ### Reference:
 
 * <https://github.com/american-art/npg/issues/54>

@@ -136,6 +136,10 @@ My proposal is to map this to:
     <exhibition/456> a crm:E7_Activity;
       crm:P2_has_type aat:300054766; # exhibition
 
+*(From Rob, via email, 9/19/2016)*
+
+Can we flip 2 and 3 around?  Surely reuse of existing terms outside of CRM is better than full on reification?
+
 
 ### References
 

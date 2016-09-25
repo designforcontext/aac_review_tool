@@ -23,6 +23,10 @@ Additionally, the existing common practice for mapping this information is to us
 
 TODO:  Include references to the github discussion of this issue here.
 
+*(From Rob, via email, 9/19/2016)*
+
+I prefer the much simpler pattern of predicates, as established for many years by foaf and practically every other ontology and model out there.  has_type to an AAT entry on a class with a note for the string ... see complexity and why everyone hates CRM.
+
 ### Reference:
 
 * See also the [related question on how to connect the parts of names to their full form](map-names-to-variants).

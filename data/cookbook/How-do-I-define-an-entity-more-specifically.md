@@ -64,6 +64,10 @@ As opposed to a huge, badly-defined and ever-changing concept hierarchy that’s
 
 Otherwise all we need is E1_Entity and just point at the AAT concept for Man Made Object. The current approach says CRM is the only ground truth, and everything else is a local idea with some relationship to a concept in a big old pool of stuff. A not unreasonable and pretty well known big old pool of stuff, of course :)
 
+*(From Rob)*
+
+I'll let the subclassing point go, even though I think it's terrible practice to reimplement classes as concepts.
+
 
 ---
 

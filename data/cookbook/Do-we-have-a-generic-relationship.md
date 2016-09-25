@@ -13,7 +13,7 @@ Is there a catch-all predicate that can be used in this situation, or should the
 
 ### Best Practice:
 
-*To Be Determined*
+For two entities that are related, but where the nature of that relationship is not specified, use `dcterms:related`.
 
 ### Discussion:
 

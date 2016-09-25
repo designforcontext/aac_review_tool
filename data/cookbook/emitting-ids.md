@@ -33,6 +33,15 @@ Both object ID and accession number should be emitted as identifiers in the Link
 
 I would answer the first question as no, if the semantics are actually the same and thus the data is comparable.  We should maintain some degree of separation between the semantic data and the way that’s rendered to users by different applications.  If (e.g.) Princeton wishes to use Object ID in their application, and Colby prefer Accession Number, no problem.  On the other hand, if there is a real semantic difference between those two, we should model them that way.
 
+*(From Rob, via email, 9/19/2016)*
+
+P48 seems pointless in RDF.  The preferred identifier in Linked Open Data is surely the URI?
+
+Otherwise agree with the discussion that identifiers are important to map.
+
+*(From David, via email, 9/19/2016)*
+
+I could argue that it's good to have a preferred human-readable ID, but I don't know that it's that big a deal, so I'm not going to.
 
 ### Reference:
 

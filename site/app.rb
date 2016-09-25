@@ -60,7 +60,7 @@ def process_recipies
       }
       recipies[obj[:path]] = obj
     end
-    recipies.sort_by{|key,obj| [obj[:metadata]["category"],obj[:metadata]["priority"]]}.to_h
+    recipies.sort_by{|key,obj| [obj[:metadata]["category"],obj[:metadata]["priority"],obj[:metadata]["title"]]}.to_h
 end
 
 

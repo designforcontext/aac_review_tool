@@ -25,6 +25,9 @@ If this knowledge is present, it should be represented in the graph.
 
 ### Discussion:
 
+*(From David, via email, 9/19/2016)*
+
+I don't think Schema or FOAF handles this problem at all...they both just have predicates that link to strings, so you can't differentiate at all between, say, multiple first names.
 
 ### Reference:
 

@@ -6,7 +6,7 @@ category: Labeling
 
 ### Problem Statement
 
-When modeling and mapping Linked Open Data, terms are often imported from other ontologies to provide types.  A common example of this practice would be the use of the AAT to provide type information for entities within CIDOC-CRM data.  
+When modeling and mapping Linked Open Data, terms are often referenced from other URIs on the web that are controlled by an external source.  A common example of this practice would be the use of the AAT to provide type information for entities within CIDOC-CRM data.  
 
 To semantically map this, all that is *required* is the URL of that type.  However, to minimize network traffic, increase performance, and assist applications in determining what ontology you are using, it is often a good practice to include some subset of that ontology's graph within your local graph to help users understand your use of that ontology.
 
@@ -43,6 +43,14 @@ For external nodes, you want at least the label.
 Which also means for every AAT concept we use, we should state a prefLabel
 *in our repo*. For efficiency, but also because GVP's pref label is different (e.g. we want
 the simpler "exhibition" not the fully unambiguous "exhibitions (events)")
+
+*(From Rob, via email, 9/19/2016)*
+
+I think the description is wrong -- we're not importing from an *ontology*, but just referencing other resources on the web that happen to be controlled by someone else.  To me, it's simply the same recommendation of "When linking to any resource, include its label" regardless of who manages the resource.
+
+*(From David, 9/22/2016)*
+
+I agree.  Updated the description to more closely match Rob's suggestion.
 
 ### Reference:
 

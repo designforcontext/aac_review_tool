@@ -12,7 +12,7 @@ For a consistent user experience, it is beneficial to choose one or more consist
 
 ### Best Practice:
 
-*To Be Determined*
+For the AAC project, the primary serialization will be JSON-LD.  Additional serializations may be made available as resources permit.
 
 ### Discussion:
 
@@ -47,6 +47,14 @@ They're not at all incompatible.  LDF implements SPARQL in the browser, by askin
 *(From David)*
 
 Are we generating a JSON-LD framing for CIDOC?  Does one exist we can steal?
+
+*(From Rob, via email, 9/19/2016)*
+
+JSON-LD, Though the context is a pain, as there's no good way to handle the predicates with the same human readable name and different URIs :(
+
+*(From David, via email, 9/19/2016)*
+
+I'm fine with that, but if it's actually going to be /nice/ JSON-LD, then someone needs to write a very nice context, as well as a frame for each institution's model (or one for the super-model of all the institutions, which doesn't exist, despite Vlad and I wanting one).   
 
 ### Reference:
 

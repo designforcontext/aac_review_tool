@@ -14,7 +14,7 @@ When we are reconciling the Actors or other entities represented in our data, wh
 
 ### Best Practice:
 
-*To Be Determined*
+When linking to an external URI that provides both a Concept and a Real World Object, you should link to the Real World Object.  Additionally, it is a good practive to use <http://lexvo.org/ontology#isFocusOf> to link to the Concept, much like you would link to the `skos:prefLabel` and `skos:inScheme`, to provide additional context for users.
 
 ### Discussion:
 

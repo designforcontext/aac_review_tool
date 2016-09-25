@@ -116,7 +116,11 @@ Overall on the above question, I think it should be addressed from the "browse a
 
 *(From Rob)*
 
-Agreed.  Let’s not derail the discussion by looking at archival practices and RDF! Maybe over beer in October? :)
+Agreed.  Let’s not derail the discussion by looking at archival practices and RDF!
+
+*(From Duane, via email, 9/19/2016)*
+
+Ordering will be useful, and hopefully it is provided explicitly in the data provided by institutions, rather than implicitly based on the row sequence in data exports. I will try to find some good use cases with partner museum data. I believe there will be some around subjects, and certainly where there are sets of works (like triptychs, series, etc.). Also, where institutions start getting into scholarly content, as you know the author order matters. I have some clients teeing up who want to combine museum and archive materials, or scholarly OSCI-like materials that are associated with collections and archives. They want to leverage patterns from AAC for their collection work, but then combine it with other types of things.
 
 ### Reference:
 

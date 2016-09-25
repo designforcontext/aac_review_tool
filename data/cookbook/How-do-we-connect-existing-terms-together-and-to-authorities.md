@@ -16,8 +16,8 @@ What is the appropriate RDF predicates to use to connect these internal vocabula
 
 When the term does not exist but is created in the mapping process, or if the instituion internally uses the external vocabulary, use `P2 has type` directly with the URI, and import the source and a preferred label into your graph.
 
-    _:entity crm:P2_has_type aat:123456;
-      dcterms:source aat:aat_itself;
+    _:entity crm:P2_has_type aat:123456.
+    aat:123456 skos:inScheme aat: ;
       skos:prefLabel "AAT Term".
 
 If the institution has a internal term that they have reconciled with the AAT or other vocabularies, preserve that term, and use `skos:broadMatch` to indicate the connection between that term and the external term.  Also, import the source of the term and a preferred label into your graph.
@@ -26,9 +26,9 @@ If the institution has a internal term that they have reconciled with the AAT or
 
     _:institution_type a E55_Type;
       skos:prefLabel "Institution Term";
-      dcterms:source institution:their_id;
+      skos:inScheme institution: ;
       skos:broadMatch aat:123456.
-    aat:123456 dcterms:source aat:aat_itself;
+    aat:123456 skos:inScheme aat: ;
       skos:prefLabel "AAT Term".
 
 ### Discussion:

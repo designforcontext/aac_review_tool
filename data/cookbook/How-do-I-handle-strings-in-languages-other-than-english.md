@@ -10,7 +10,7 @@ How do we represent these multiple strings in RDF?
 
 ### Best Practice:
 
-*To Be Determined*
+We will use RDF Language tags to model text strings in multiple languages.  
 
 ### Discussion:
 
@@ -21,5 +21,10 @@ Do we have the data to do it? If we do, we should.
 *(From David)*
 
 Does the browse App need to handle defaulting to the english language string if multiple labels exist?
+
+*(From Rob, via email, 9/19/2016)*
+
+We should use the proper RDF way of language tags.
+
 
 ### Reference:
