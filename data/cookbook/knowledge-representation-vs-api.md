@@ -28,7 +28,9 @@ When and how is it appropriate to simplify the graph, and at what stage in the p
 
 ### Best Practice:
 
-*To Be Determined*
+There is a long and ongoing discussion about the benefits and trade-offs of modeling for the most effective API vs. modeling for the most comprehensive knowledge representation, and there is may not be a best practice for every application.
+
+For the AAC, due to the decisions that have been made over the course of the project, we will continue to lean towards the side of knowledge representation, but we will follow closely the work that the Getty Museum is doing as they perform a similar task with a stronger focus on effective API design.   Our hope is that through comparing these two projects, we will be able to extract recommendations and lessons learned.
 
 ### Discussion:
 
@@ -136,7 +138,48 @@ This does mean that you can't have your API and your model be the same thing, be
 
 I realize there are no tools to do this in the museum world.  This is the problem I'm seeing, and the one that I'm interested in helping to solve.  
 
+*(From conference call, 9/28/2016)*
+
+**JSON-LD is an issue**
+
+* Two options
+    * Build triples, then just map a flat JSON-LD version — not as useful
+    * Create a Frame, map the model into it, then apply all the data into the Frame — very complex, and takes a lot more time
+        * Creates a “best form” for it — create a Frame, a Context
+        * Contains the explicit structure inherent in the RDF, which makes it most useful
+* Can we just do it with the N3 data?
+* RS: Linked Data as internal data model or as an API in consistent/usable way?
+    * JSON-LD is best for external use of the data by others
+    * Interoperability is Rob’s goal
+* DN: Best way to provide an API for the browse app is JSON-LD
+    * Best way to maintain flexible interoperability is to have an RDF graph
+    * SO
+        * Create the simplest graph possible? (RS view)
+        * Create a rich set and then transformations to make the data simple? (DN view)
+* RS: Semantic Web didn’t take off until it simplified to use HTTP and JSON-LD, so accessible to others now
+* CK: Don’t disagree with RS. It’s a resources issue.
+    * Complexity of data
+        * NPG — number of files (from 7 to 17), lots of comments, 50+ modeling discussions, etc.
+        * Number of people in the project is large, and there will be a lot of discussions about how to model/create the Frames for JSON-LD
+        * Rob has committed the Getty to doing this 
+        * Happy to share this for AAC
+* RS: Framing specification is already written (but don’t ever read it! it is messy!)
+* DN: Concern — it means taking the Getty target data model, so every institution’s data has to be modeled the same way?
+    * Concerns of shortcut properties and long-form properties
+    * Data will not appear if the paths don’t match the Getty’s model?
+    * RS: Won’t change the structure of the graph, so it may not appear the same but the data should be there
+* RS: Challenge: Which resources should not be embedded, in the context of the entire graph? As long as the Frame does not set a default, 
+    * DN: In the case of birthdate, only one would have a label and be visible in the context, whereas the other would be available but would not be represented in a way that people can understand.
+* DN: How do we query?
+    * SPARQL query to extract a subset of the data, and then build Frames for the specific subset that is extracted. Can also do CONSTRUCT queries, UNIONS, etc.
+* CK: Going forward?
+    * RS: Send the Getty target models for ISI and DN to review.
+    * ISI: Continue to model for N3 / SPARQL.
+    * DN: Build smaller, more targeted frames.
+    * Agree that doing a full, large, Frame-focused model is a huge amount of work.
+* DN: Aim for capturing as much knowledge as possible, then when we achieve some consensus (and experience), we can review how that aligns with a more general model
+
 ### References:
 
-* See Github Issue NPG #49
+* <https://github.com/american-art/npg/issues/49>
 

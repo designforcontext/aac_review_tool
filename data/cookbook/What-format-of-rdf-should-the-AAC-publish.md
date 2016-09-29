@@ -12,7 +12,11 @@ For a consistent user experience, it is beneficial to choose one or more consist
 
 ### Best Practice:
 
-For the AAC project, the primary serialization will be JSON-LD.  Additional serializations may be made available as resources permit.
+For the AAC project, the primary serialization will be N-Triples. 
+
+Additionally, the Getty Museum is working on a set of contexts and frames for JSON-LD.  Currently generating an AAC context and frame is out of scope, but we will evaluate the Getty's version and see if it is applicable to the project.
+
+Additional serializations may be made available as resources permit.
 
 ### Discussion:
 

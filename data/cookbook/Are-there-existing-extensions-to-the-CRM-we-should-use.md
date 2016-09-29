@@ -12,7 +12,9 @@ Additionally, the CRM has published a series of extensions, including the CRMpc 
 
 ### Best Practice:
 
-*To Be Determined*
+Our current practice is to use the CRM when possible, and to choose from extensions as needed to fill gaps.  In particular, we are using the CRMpc extension to allow for CRM N.1 properties and the http://www.qudt.org ontology for computable dimensions. 
+
+In general, we prefer existing, widely used extensions over creating new ones.
 
 ### Discussion:
 
@@ -36,6 +38,25 @@ E.g. the above would be modeled like this (rdf:type skipped for brevity):
     <object/123/pendant> p2_has_type <pendant>;
         P108i_was_produced_by <object/123/pendant/production>.
     <object/123/pendant/production> P7_took_place_at <place>.
+
+*(From conference call, 9/28/2016)*
+
+* How frequent or infrequent will this issue be?
+    * Within a couple months, as we build browse app, we will identify whether the CRM allows for sufficient specificity, or we need something additional beyond CRM
+    * Possible issues like distinguishing between first/middle names or the artist vs painting of the artist
+    * We will see examples over the next couple months and can make decisions from that
+
+* RS: Concern that we conform to the CRM but not to what the rest of the world does for common data entities (like names)
+    * DN: Back to the knowledge representation vs usability discussion
+    * CK: This ship has sailed, there is a lot of legacy modeling, so making a big change would delay things even further
+    * EF: Doubts about CRM is growing — “hinders progress” — so tempted to go with Getty approach, but it may not be able to afford this within this project at this time
+    * CK: Building to the model that DN has been establishing would have been a better start, but coming a little late
+    * Good news — the differences will be much fewer than the areas where AAC agrees with Getty and also things like ArtTracks and others
+
+**DECISION:** 
+
+* Continue on as we are, review when we have sufficient examples
+* Don’t publish the current modeling in these areas as “Good Practices” but make sure they are described as “Lessons Learned"
 
 
 ### Reference:

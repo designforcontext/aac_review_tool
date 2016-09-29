@@ -3,7 +3,6 @@ ruby "2.3.1"
 source 'https://rubygems.org'
 
 ## Linked Data Gems
-
 gem "linkeddata"
 gem "diffy"
 

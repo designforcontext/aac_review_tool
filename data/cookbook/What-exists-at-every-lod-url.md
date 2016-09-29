@@ -11,10 +11,13 @@ However, neither of these are strictly required for Linked Data. Within the cont
 
 ### Best Practice:
 
-*To Be Determined*
+When a Linked Data URI is dereferenced using a web browser, a human-readable version of the entity that exists at that URI is returned as HTML.  AAC will be using [Pubby](http://wifo5-03.informatik.uni-mannheim.de/pubby/) as the software used to provide that functionality. 
+
+AAC will also use content negotiation to allow a semantic web crawler to ask for that entity as RDF; this functionality is also included in Pubby.
+
+AAC's use of Pubby is optional; institutions that already have infrastructure to handle dereferencing URIs as both HTML and RDF will continue to use their own solutions.
 
 ### Discussion:
-
 
 *(From Rob)*
 
@@ -46,5 +49,20 @@ You know my preference for JSON-LD as default, with other representations via co
 
 I think what we're looking here is that /something/ needs to be returned here.  It's not obvious whose responsibility it is to make sure the URLs dereference to something.   My preference would be a pubby-style HTML and a RDF in at least one form—I don't care at all what it is.
 
+*(From David, following meeting on 9/28/2016)*
+
+The discussion we had today was around what is returned when a AAC partner LOD URL is dereferenced.  In (slightly clearer) english, if "Young Women Picking Fruit" has the AAC URI http://records.cmoa.org/objects/555-1212, when I put that URI in a web browser, what comes back?  
+
+Our consensus agreement was:
+
+ISI is willing to host, for a period of time, a Pubby instance that returns a human-readable version of that linked data. if you put it directly in a web browser, I, it will return a website that should look similar to what comes back from YCBA or SAAM's linked data right now.  Also, if you use content negotiation (don't ask) and ask for it as RDF, you can get a N-triples version. 
+
+For institutions that have the capability and desire to host their own RDF immediately (which might include YCBA and SAAM) we can skip this step and point directly to your existing domain.  ISI will provide you the RDF via Github, and you can do what you will with it.
+
+For institutions that can quickly set up a DNS redirect that points their preferred domain to ISI's server, their preferred URIs will resolve against ISI's pubby.  (In the future, ISI can work with the partners to take over hosting of their own RDF, or institutions can do it on their own, or TBD.)
+
+For institutions that require a slightly longer time to establish a DNS redirect, ISI will assign a placeholder root domain (something like http://data.americanartcollaborative.org/saam/object/12345) so we can begin testing against that URL immediately.  Once the redirect is in place, we'll add that fix to a list of fixes that ISI will make to the model just before the AAC project is complete, so the final published data will reflect the institution's desired URLs.
+
 ### Reference:
 
+* [Pubby](http://wifo5-03.informatik.uni-mannheim.de/pubby/)

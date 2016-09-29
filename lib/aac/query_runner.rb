@@ -1,5 +1,4 @@
 require 'linkeddata'
-require 'linkeddata'
 require 'json/ld'
 require 'rdf/isomorphic'
 require "diffy"
