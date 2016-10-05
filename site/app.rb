@@ -256,6 +256,7 @@ class MyApp < Sinatra::Base
     # For every relevant data file,
     Dir.glob('./data/fields/**/*.yaml').each do |file|
       test_obj = YAML.load_file(file)
+      # puts test_obj["title"]
       next unless test_obj["applies_to"] && test_obj["applies_to"].include?(params[:entity_type])
 
       # ...including default values,
@@ -266,7 +267,9 @@ class MyApp < Sinatra::Base
       # ...execute a query,
       query = AAC::QueryObject.new(test_obj)
       query.prefixes = {crm: params[:crm]}
-      result_graph, values = client.test(query, passed_values, false)    
+      debug = false# test_obj["title"] == "Alternate Titles"
+      puts query.construct_query(passed_values) if debug
+      result_graph, values = client.test(query, passed_values, debug)    
       
       # ...append the resulting triples to the graph,
       result_graph.each_statement {|s| graph.insert s}
@@ -350,7 +353,11 @@ class MyApp < Sinatra::Base
             sameAs_list[statement.subject] = statement.object
           end
           if statement.object.node?
-            sameAs_list[statement.object] = statement.statement
+            begin
+              sameAs_list[statement.object] = statement.statement            
+            rescue Exception => e
+              puts statement.to_s  
+            end
           end
         end
       end    

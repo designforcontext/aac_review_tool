@@ -21,7 +21,7 @@ module AAC
       q2 = obj.select_query(params)
     
       # puts "SELECT QUERY: \n\n\n#{q2}\n\n\n"
-      # puts "CONSTRUCT QUERY: \n\n\n#{q1}\n\n\n"
+       # puts "CONSTRUCT QUERY: \n\n\n#{q1}\n\n\n"
 
       graph =  get_graph(q1)
       values = get_values(q2)
@@ -51,8 +51,10 @@ module AAC
     def get_graph(query, engine = @server) 
       graph = RDF::Graph.new
       results = engine.query(query)
+      # puts engine.response(query).body
+      # puts "\n\n------\n#{results}\n\n-----\n"
       
-      results.each_statement {|s| graph.insert s}
+      results.each_statement {|s| graph.insert s unless s.incomplete?}
       graph
     end
 
