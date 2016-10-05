@@ -32,8 +32,8 @@ export default  function(props) {
             <dd>{props.multiples ? "Yes" : "No"}</dd>
             <dt>{props.lod_type ? "Associated LOD Term:" : ""}</dt>
             <dd><a href={props.lod_type} target="_blank">{props.lod_type}</a></dd>
-            <dt>Sample Data: </dt>
-            <dd>{props.example}</dd>
+            <dt className="hidden">Sample Data: </dt>
+            <dd className="hidden">{props.example}</dd>
           </dl>
         </div>
       </div>
