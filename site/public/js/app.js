@@ -1004,12 +1004,12 @@ webpackJsonp([0,2],{
 	          ),
 	          _react2.default.createElement(
 	            "dt",
-	            null,
+	            { className: "hidden" },
 	            "Sample Data: "
 	          ),
 	          _react2.default.createElement(
 	            "dd",
-	            null,
+	            { className: "hidden" },
 	            props.example
 	          )
 	        )
@@ -1453,7 +1453,7 @@ webpackJsonp([0,2],{
 	exports.default = function (props) {
 	  var issueTitle = encodeURIComponent("Problem with mapping of " + props.title);
 	  var issueBody = encodeURIComponent("I expected to see:\n\n*[WHAT I EXPECTED]*\n\nbut instead I saw:\n\n*[WHAT I SAW]*\n\nThe current query was:\n\n```ttl\n" + props.query + "\n```");
-	  var issueLinkUrl = "https://github.com/workergnome/aac_mappings/issues/new?title=" + issueTitle + "&body=" + issueBody;
+	  var issueLinkUrl = "https://github.com/american-art/aac_mappings/issues/new?title=" + issueTitle + "&body=" + issueBody;
 	
 	  return _react2.default.createElement(
 	    "div",
