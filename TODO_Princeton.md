@@ -72,13 +72,6 @@ Person a E39 Actor
     rdfs:value "Anderson, Laurie"
 
 
-Nationality:
-Person a E39
-  p107i is current or former memer of [
-    a E74 Group ;
-    rdfs:label "American" ;
-    p2 has type aat:300379842 # nationality
-  ]
 
 
 Biography:
@@ -107,7 +100,6 @@ Plus shortcuts:
   dc:description "..." ;
   schema:familyName "Anderson" ;
   schema:givenName "Laurie" ;
-  skos:exactMatch ulan:500070794 
   schema:birthDate ...
     ...
 
