@@ -17,14 +17,14 @@ select:      "?lod_identifier ?lod_label ?lod_source"
 values:      "?entity_uri"
 construct: |
   ?entity_uri a crm:E39_Actor ;
-    skos:closeMatch _:lod_identifier.
+    skos:exactMatch _:lod_identifier.
   _:lod_identifier skos:preflabel ?lod_label;
     owl:sameAs ?lod_identifier ;
     skos:inScheme ?lod_source.
 
 where: |
   ?entity_uri a crm:E39_Actor ;
-    skos:closeMatch ?lod_identifier.
+    skos:exactMatch ?lod_identifier.
   OPTIONAL {
     ?lod_identifier skos:preflabel ?lod_label.
   }

@@ -11,7 +11,7 @@ example:          "Not on View, Gallery 6, Mezzanine"
 # Sort Data
 applies_to:  "E22_Man-Made_Object"
 category:    "Physical Object"
-sort_order:  50
+sort_order:  51
 
 # Sparql
 select:      "?location_name ?lod_location_term ?location_webpage ?location_class"

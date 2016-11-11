@@ -13,25 +13,23 @@ category:    "IDs"
 sort_order:  60
 
 # Sparql
-select:      "?id_number ?id_number_label ?id_number_id"
+select:      "?identifier ?identifier_url"
 values:      "?entity_uri"
 construct: |
   ?entity_uri a crm:E39_Actor ;
-    crm:P48_has_preferred_identifier _:id_number_id .
-  _:id_number_id a crm:E42_Identifier ;
-    rdfs:label ?id_number ;
-    owl:sameAs ?id_number_id ;
-    crm:P2_has_type _:identifier_type .
-  _:identifier_type a crm:E55_Type ;
-    skos:prefLabel ?id_number_label ;
-    owl:sameAs ?identifier_type .
+    crm:P1_is_identified_by _:identifier_url .
+  _:identifier_url a crm:E42_Identifier ;
+    rdfs:label ?identifier ;
+    rdf:value  ?identifier ;
+    crm:P2_has_type <http://vocab.getty.edu/aat/300404670> .
+
 where: |
   ?entity_uri a crm:E39_Actor .
-  ?entity_uri crm:P48_has_preferred_identifier ?id_number_id .
-  ?id_number_id a crm:E42_Identifier ;
-    rdfs:label ?id_number ;
-  OPTIONAL {
-   ?id_number_id crm:P2_has_type ?identifier_type .
-   ?identifier_type skos:prefLabel ?id_number_label .
-  }
+  ?entity_uri crm:P1_is_identified_by ?identifier_url .
+  ?identifier_url a crm:E42_Identifier ;
+    rdfs:value ?identifier ;
+    crm:P2_has_type <http://vocab.getty.edu/aat/300404670> .
+
+graph_extras: | 
+  aat:300404670 puml:label "preferred terms".
 

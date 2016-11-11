@@ -1,5 +1,5 @@
 # Field Name
-title: Material
+title: Materials
 
 # Metadata
 mandatory:        false
@@ -10,7 +10,7 @@ example:          "Silver gelatin; steel; oil paint, canvas"
 # Sort Data
 applies_to:  "E22_Man-Made_Object"
 category:    "Aboutness"
-sort_order:  23
+sort_order:  24
 
 # Sparql
 select:      "?material_name ?lod_material_term ?material_class"

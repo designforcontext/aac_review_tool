@@ -13,45 +13,37 @@ category:    "Qualities"
 sort_order:  103
 
 # Sparql
-select:      "?display_date ?death_date ?death_location_uri ?death_location"
+select:      "?death_class ?display_deathdate ?earliest_deathdate ?latest_deathdate ?death_location ?death_location_class"
 values:      "?entity_uri"
 construct: |
     ?entity_uri a crm:E39_Actor ;
-        crm:P100i_died_in _:death_event.
-    _:death_event a crm:E69_Death;
+        crm:P93i_was_taken_out_of_existence_by _:death_event.
+    _:death_event a crm:E64_End_of_Existence;
         crm:P4_has_time-span _:death_timespan ;
         crm:P7_took_place_at _:death_location_class ;
         owl:sameAs ?death_event .
     _:death_timespan a crm:E52_Time-Span;
-        crm:P3_has_note ?display_date;
-        crm:P82_at_some_time_within ?death_date;
+        crm:p82a_begin_of_the_begin ?earliest_deathdate;
+        crm:p82b_end_of_the_end ?latest_deathdate;
+        rdfs:label ?display_deathdate;   
         owl:sameAs ?death_timespan.
     _:death_location_class a crm:E53_Place;
-        crm:P87_is_identified_by _:location_name;
-        skos:closeMatch ?death_location_uri;
+        rdfs:label ?death_location;
         owl:sameAs ?death_location_class.
-    _:location_name a crm:E44_Place_Appellation;
-        skos:prefLabel ?death_location;
-        owl:sameAs ?location_name.
 
 where: |
   ?entity_uri a crm:E39_Actor ;
-      crm:P100i_died_in ?death_event.
-  ?death_event a crm:E69_Death;
+      crm:P93i_was_taken_out_of_existence_by ?death_event.
+  ?death_event a crm:E64_End_of_Existence;
       crm:P4_has_time-span ?death_timespan.
   ?death_timespan a crm:E52_Time-Span;
-      crm:P82_at_some_time_within ?death_date .
-  OPTIONAL { ?death_timespan crm:P3_has_note ?display_date.}
+        crm:p82a_begin_of_the_begin ?earliest_deathdate;
+        crm:p82b_end_of_the_end ?latest_deathdate;
+  OPTIONAL { ?death_timespan rdfs:label ?display_deathdate.}
   OPTIONAL {
     ?death_event crm:P7_took_place_at ?death_location_class .
-    ?death_location_class a crm:E53_Place .
-    OPTIONAL {?death_location_class skos:closeMatch ?death_location_uri.}
     OPTIONAL {
-      ?death_location_class crm:P87_is_identified_by ?location_name.
-      ?location_name a crm:E44_Place_Appellation;
-        skos:prefLabel ?death_location.
+      ?death_location_class a crm:E53_Place;
+                rdfs:label ?death_location.
     }
   }
-
-
-

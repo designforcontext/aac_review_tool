@@ -13,43 +13,38 @@ category:    "Qualities"
 sort_order:  102
 
 # Sparql
-select:      "?display_date ?birth_date ?birth_location_uri ?birth_location"
+select:      "?display_birthdate ?earliest_birthdate ?latest_birthdate ?birth_location_class ?birth_location"
 values:      "?entity_uri"
 construct: |
     ?entity_uri a crm:E39_Actor ;
-        crm:P98i_was_born _:birth_event.
-    _:birth_event a crm:E67_Birth;
+        crm:P92i_was_brought_into_existence_by _:birth_event.
+    _:birth_event a crm:E63_Beginning_of_Existence;
         crm:P4_has_time-span _:birth_timespan ;
         crm:P7_took_place_at _:birth_location_class ;
         owl:sameAs ?birth_event .
     _:birth_timespan a crm:E52_Time-Span;
-        crm:P3_has_note ?display_date;
-        crm:P82_at_some_time_within ?birth_date;
+        crm:p82a_begin_of_the_begin ?earliest_birthdate;
+        crm:p82b_end_of_the_end ?latest_birthdate;
+        rdfs:label ?display_birthdate;   
         owl:sameAs ?birth_timespan.
     _:birth_location_class a crm:E53_Place;
-        crm:P87_is_identified_by _:location_name;
-        skos:closeMatch ?birth_location_uri;
+        rdfs:label ?birth_location;
         owl:sameAs ?birth_location_class.
-    _:location_name a crm:E44_Place_Appellation;
-        skos:prefLabel ?birth_location;
-        owl:sameAs ?location_name.
 
 where: |
   ?entity_uri a crm:E39_Actor ;
-      crm:P98i_was_born ?birth_event.
-  ?birth_event a crm:E67_Birth;
+      crm:P92i_was_brought_into_existence_by ?birth_event.
+  ?birth_event a crm:E63_Beginning_of_Existence;
       crm:P4_has_time-span ?birth_timespan.
   ?birth_timespan a crm:E52_Time-Span;
-      crm:P82_at_some_time_within ?birth_date .
-  OPTIONAL { ?birth_timespan crm:P3_has_note ?display_date.}
+        crm:p82a_begin_of_the_begin ?earliest_birthdate;
+        crm:p82b_end_of_the_end ?latest_birthdate;
+  OPTIONAL { ?birth_timespan rdfs:label ?display_birthdate.}
   OPTIONAL {
     ?birth_event crm:P7_took_place_at ?birth_location_class .
-    ?birth_location_class a crm:E53_Place .
-    OPTIONAL {?birth_location_class skos:closeMatch ?birth_location_uri.}
     OPTIONAL {
-      ?birth_location_class crm:P87_is_identified_by ?location_name.
-      ?location_name a crm:E44_Place_Appellation;
-        skos:prefLabel ?birth_location.
+      ?birth_location_class a crm:E53_Place;
+                rdfs:label ?birth_location.
     }
   }
 

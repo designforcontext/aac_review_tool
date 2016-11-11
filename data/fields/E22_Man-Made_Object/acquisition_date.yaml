@@ -11,7 +11,7 @@ example:          "12/12/1920; April 16th, 1921"
 # Sort Data
 applies_to:  "E22_Man-Made_Object"
 category:    "Tombstone Info"
-sort_order:  8
+sort_order:  9
 
 # Sparql
 select:      "?owner ?display_date ?earliest_date ?latest_date ?acquisition_event"

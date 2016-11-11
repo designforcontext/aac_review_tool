@@ -8,6 +8,14 @@
 import React from 'react';
 
 export default  function(props) {
+
+  let lod_terms = null;
+  if (props.lod_type && props.lod_type.count){
+    lod_terms = props.lod_type.map((obj,i) => (<a href={obj} key={i} target="_blank">{obj} </a>))
+  } else {
+    lod_terms = props.lod_type
+  }
+
   return (
     <section className="field_info">
 
@@ -31,7 +39,7 @@ export default  function(props) {
             <dt>Multiples:</dt>
             <dd>{props.multiples ? "Yes" : "No"}</dd>
             <dt>{props.lod_type ? "Associated LOD Term:" : ""}</dt>
-            <dd><a href={props.lod_type} target="_blank">{props.lod_type}</a></dd>
+            <dd>{lod_terms}</dd>
             <dt className="hidden">Sample Data: </dt>
             <dd className="hidden">{props.example}</dd>
           </dl>

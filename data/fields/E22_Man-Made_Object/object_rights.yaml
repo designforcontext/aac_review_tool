@@ -9,7 +9,7 @@ description:      "Rights for the object."
 # Sort Data
 applies_to:  "E22_Man-Made_Object"
 category:    "Physical Object"
-sort_order:  55
+sort_order:  60
 
 # Sparql
 select:      "?right ?description"

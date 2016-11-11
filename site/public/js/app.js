@@ -938,6 +938,21 @@ webpackJsonp([0,2],{
 	});
 	
 	exports.default = function (props) {
+	
+	  var lod_terms = null;
+	  if (props.lod_type && props.lod_type.count) {
+	    lod_terms = props.lod_type.map(function (obj, i) {
+	      return _react2.default.createElement(
+	        "a",
+	        { href: obj, key: i, target: "_blank" },
+	        obj,
+	        " "
+	      );
+	    });
+	  } else {
+	    lod_terms = props.lod_type;
+	  }
+	
 	  return _react2.default.createElement(
 	    "section",
 	    { className: "field_info" },
@@ -996,11 +1011,7 @@ webpackJsonp([0,2],{
 	          _react2.default.createElement(
 	            "dd",
 	            null,
-	            _react2.default.createElement(
-	              "a",
-	              { href: props.lod_type, target: "_blank" },
-	              props.lod_type
-	            )
+	            lod_terms
 	          ),
 	          _react2.default.createElement(
 	            "dt",

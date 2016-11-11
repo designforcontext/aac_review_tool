@@ -1,0 +1,43 @@
+# Field Name
+title: Style
+
+# Metadata
+mandatory:        false
+multiples:        true
+description:      "The style or period of the work."
+example:          "German, Impressionist"
+lod_type:         "http://vocab.getty.edu/aat/300015646"
+
+# Sort Data
+applies_to:  "E22_Man-Made_Object"
+category:    "Aboutness"
+sort_order:  20
+
+# Sparql
+select:      "?style_name ?style_class"
+values:      "?entity_uri"
+construct: |
+  ?entity_uri a crm:E22_Man-Made_Object ;
+    crm:P41i_was_classified_by _:style_event;
+    schema:genre ?style_class .
+  _:style_event a crm:E17_Type_Assignment;
+    crm:P21_had_general_purpose <http://vocab.getty.edu/aat/300015646> ;
+    crm:P42_assigned _:style_class;
+    owl:sameAs ?style_event.
+  _:style_class a crm:E55_Type;
+    rdfs:label ?style_name ;
+    owl:sameAs ?style_class . 
+
+where: |
+  ?entity_uri a crm:E22_Man-Made_Object ;
+    crm:P41i_was_classified_by ?style_event.
+  ?style_event a crm:E17_Type_Assignment;
+    crm:P21_had_general_purpose <http://vocab.getty.edu/aat/300015646> ;
+    crm:P42_assigned ?style_class.
+  OPTIONAL {
+    ?style_class rdfs:label ?style_name.
+  }
+
+graph_extras: | 
+  aat:300015646 puml:label "Styles and Periods (hierarchy name)".
+  schema:genre puml:arrow puml:dashed .

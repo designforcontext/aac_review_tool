@@ -10,37 +10,31 @@ example:          "Truth, Suffering, George Washington"
 # Sort Data
 applies_to:  "E22_Man-Made_Object"
 category:    "Aboutness"
-sort_order:  20
+sort_order:  22
 
 # Sparql
-select:      "?concept_name ?lod_concept_term ?concept_class"
+select:      "?concept_name ?information_object ?concept_class"
 values:      "?entity_uri"
 construct: |
   ?entity_uri a crm:E22_Man-Made_Object ;
-    crm:P128_carries _:concept_class .
-  _:concept_class a ?concept_type ;
-    owl:sameAs ?concept_class ;
-    skos:broadMatch ?lod_concept_term ;
-    skos:prefLabel ?concept_name .
+    crm:P128_carries _:information_object ;
+    dct:subject ?concept_class.
+  _:information_object a crm:E73_Information_Object ;
+    owl:sameAs ?information_object ;
+    crm:P129_is_about _:concept_class .
+  _:concept_class rdfs:label ?concept_name ;
+    owl:sameAs ?concept_class .
+
 
 where: |
   ?entity_uri a crm:E22_Man-Made_Object ;
-    crm:P128_carries ?concept_class .
-  {
-    ?concept_class a ?concept_type;
-       crm:P129_is_about ?topic.
-    ?topic skos:prefLabel ?concept_name.
-  } UNION {
-    ?concept_class a ?concept_type ;
-      skos:prefLabel ?concept_name .
-  }
-  OPTIONAL {
-    ?concept_class skos:broadMatch ?lod_concept_term.
-  }
-  FILTER (!isBlank(?concept_class))
-  FILTER (?concept_type = crm:E73_Information_Object || ?concept_type = crm:E90_Symbolic_Object )
-
-     
+    crm:P128_carries ?information_object .
+  ?information_object a crm:E73_Information_Object;
+     crm:P129_is_about ?concept_class.
+  ?concept_class rdfs:label ?concept_name.
+  
+graph_extras: |      
+  dct:subject puml:arrow puml:dashed .
 
     
 

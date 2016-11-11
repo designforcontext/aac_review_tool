@@ -10,7 +10,7 @@ example:          "1.2cm high; 200 lbs; 16 pages"
 # Sort Data
 applies_to:  "E22_Man-Made_Object"
 category:    "Physical Object"
-sort_order:  52
+sort_order:  55
 
 # Sparql
 select:      "?value ?unit ?dimension_name ?dimension_class"

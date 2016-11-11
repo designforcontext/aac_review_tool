@@ -5,13 +5,14 @@ title: Alternate IDs
 mandatory:   false
 multiples:   true
 description: "Secondary identifiers for the work."
-long_description: "These are identifiers for the work that are not either the LOD URI or the Accession Number"
+long_description: "These are identifiers for the work that are not otherwise defined."
 example:     "1230123i123, 39049ddc-288d-4516-aca3-bfca8608bfc5"
+
 
 # Sort Data
 applies_to:  "E22_Man-Made_Object"
 category:    "IDs"
-sort_order:  101
+sort_order:  104
 
 # Sparql
 select:      "?identifier ?identifier_type_label ?identifier_url"
@@ -21,6 +22,7 @@ construct: |
     crm:P1_is_identified_by _:identifier_url .
   _:identifier_url a crm:E42_Identifier ;
     rdfs:label ?identifier ;
+    rdf:value  ?identifier ;
     crm:P2_has_type _:identifier_type ;
     owl:sameAs ?identifier_url .
   _:identifier_type a crm:E55_Type ;
@@ -32,7 +34,11 @@ where: |
   ?entity_uri crm:P1_is_identified_by ?identifier_url .
   ?identifier_url a crm:E42_Identifier ;
     rdfs:label ?identifier ;
-  MINUS {?entity_uri crm:P48_has_preferred_identifier ?identifier_url}
+  
+  MINUS { ?entity_uri crm:P2_has_type <http://vocab.getty.edu/aat/300404621>}
+  MINUS { ?entity_uri crm:P2_has_type <http://vocab.getty.edu/aat/300312355>}
+  MINUS { ?entity_uri crm:P2_has_type <http://vocab.getty.edu/aat/300404670>}
+
   OPTIONAL {
    ?identifier_url crm:P2_has_type ?identifier_type .
    OPTIONAL {

@@ -40,7 +40,7 @@ my @RE =
    [qw( crm:E15_Identifier_Assignment crm:P140_assigned_attribute_to crmx:property                    crm:P37_assigned           )],
    [qw( crm:E15_Identifier_Assignment crm:P140_assigned_attribute_to crmx:property                    crm:P38_deassigned         )],
    [qw( crm:E16_Measurement           crm:P39_measured               crmx:property                    crm:P40_observed_dimension )],
-   [qw( crm:E17_Type_Assignment       crm:P41_classified             crmx:property                    crm:P42_assigned           )],
+   # [qw( crm:E17_Type_Assignment       crm:P41_classified             crmx:property                    crm:P42_assigned           )],
    [qw( frbroo:F52_Name_Use_Activity  frbroo:R63_named               crmx:property                    frbroo:R64_used_name       )],
    [qw( crmsci:S4_Observation         crmsci:O8_observed             crmsci:O9_observed_property_type crmsci:O16_observed_value  )],
   );

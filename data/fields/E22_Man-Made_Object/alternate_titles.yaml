@@ -23,7 +23,7 @@ construct: |
   ?entity_uri a crm:E22_Man-Made_Object .
   ?entity_uri crm:P102_has_title _:alternate_title_uri .
   _:alternate_title_uri a crm:E35_Title ;
-    rdfs:label ?title_text ;
+    rdf:value ?title_text ;
     owl:sameAs ?alternate_title_uri ;
     crm:P2_has_type _:title_class .
   _:title_class a crm:E55_Type ;
@@ -33,7 +33,7 @@ where: |
   ?entity_uri a crm:E22_Man-Made_Object .
   ?entity_uri crm:P102_has_title ?alternate_title_uri .
   ?alternate_title_uri a crm:E35_Title ;
-    rdfs:label ?title_text .
+    rdf:value  ?title_text .
   OPTIONAL {
    ?alternate_title_uri crm:P2_has_type ?title_text_class . 
    ?title_text_class a crm:E55_Type ;
