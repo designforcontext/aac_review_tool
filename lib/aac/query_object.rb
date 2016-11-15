@@ -9,6 +9,7 @@ module AAC
         xsd:    "http://www.w3.org/2001/XMLSchema#",
         foaf:   "http://xmlns.com/foaf/0.1/",
         dct:    "http://purl.org/dc/terms/",
+        dc:     "http://purl.org/dc/elements/1.1/",
         schema: "http://schema.org/"
     }
 

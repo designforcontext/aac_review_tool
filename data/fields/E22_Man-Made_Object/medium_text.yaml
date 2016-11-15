@@ -23,14 +23,14 @@ construct: |
   _:material_string_class a crm:E33_Linguistic_Object ;
     crm:P2_has_type <http://vocab.getty.edu/aat/300264237> ;
     owl:sameAs ?material_string_class ;
-    rdfs:value ?material_string .
+    rdf:value ?material_string .
 
 where: |
   ?entity_uri a crm:E22_Man-Made_Object ;
     crm:P67i_is_referred_to_by ?material_string_class .
   ?material_string_class a crm:E57_Material ;
     crm:P2_has_type <http://vocab.getty.edu/aat/300264237> ;
-    rdfs:value ?material_string .
+    rdf:value ?material_string .
   FILTER (!isBlank(?material_string_class))
 
 graph_extras: | 

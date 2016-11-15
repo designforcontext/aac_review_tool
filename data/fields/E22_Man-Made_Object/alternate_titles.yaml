@@ -13,12 +13,9 @@ applies_to:  "E22_Man-Made_Object"
 category:    "Tombstone Info"
 sort_order:  2
 
-#Default Test Values
-test_preferred_title_type_url: "http://collection.britishart.yale.edu/id/thesaurus/title/preferred"
-
 # Sparql
 select:      "?title_text ?title_type ?title_uri"
-values:      "?entity_uri ?preferred_title_type_url"
+values:      "?entity_uri"
 construct: |
   ?entity_uri a crm:E22_Man-Made_Object .
   ?entity_uri crm:P102_has_title _:alternate_title_uri .
@@ -39,4 +36,4 @@ where: |
    ?title_text_class a crm:E55_Type ;
      skos:prefLabel ?title_type .
   }
-  MINUS{?alternate_title_uri crm:P2_has_type ?preferred_title_type_url .}
+  MINUS{?alternate_title_uri crm:P2_has_type <http://vocab.getty.edu/aat/300404012> .}

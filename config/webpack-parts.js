@@ -1,8 +1,6 @@
 const webpack = require('webpack');
 
-exports.devServer = function(options) {
-
-}
+exports.devServer = function(options) {}
 
 exports.minify = function() {
   return {

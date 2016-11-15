@@ -24,6 +24,7 @@ select:      "?actor_name ?type_label ?actor_class"
 values:      "?entity_uri ?preferred_name_type_url"
 construct: |
   ?entity_uri a crm:E39_Actor ;
+    rdfs:label ?actor_name ;
     crm:P131_is_identified_by _:actor_class .
   _:actor_class a crm:E82_Actor_Appellation ;
     owl:sameAs ?actor_class ;

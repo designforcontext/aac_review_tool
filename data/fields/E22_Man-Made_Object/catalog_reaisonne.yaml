@@ -1,10 +1,10 @@
 # Field Name
-title: Catalog Reaisonné
+title: Catalogue Raisonné
 
 # Metadata
 mandatory:         false
 multiples:         true
-description:       "Catalog Reaisonné for the work."
+description:       "Catalogue Raisonné for the work."
 lod_type:          http://vocab.getty.edu/aat/300026061
 
 # Sort Data

@@ -21,6 +21,7 @@ construct: |
   _:dimension_class a crm:E54_Dimension ;
     owl:sameAs ?dimension_class ;
     crm:P90_has_value ?value ;
+    rdf:value ?value ;
     crm:P90_has_unit ?unit ;
     crm:P2_has_type _:dimension_type.
   _:dimension_type owl:sameAs ?dimension_type ;
