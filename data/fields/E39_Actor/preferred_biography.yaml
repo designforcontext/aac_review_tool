@@ -1,13 +1,13 @@
 # Field Name
-title: Primary Description
+title: Biography
 
 # Metadata
 mandatory:        false
 multiples:        true
-description:      "A note about the party"
+description:      "A bio about the party"
 long_description: "This is the preferred human-readable description of the actor in English."
 example:          "Betsy Ross was most famous for her chocolate-chip cookies, but..."
-lod_type:         "http://vocab.americanartcollaborative.org/types#primary_description"
+lod_type:         ["http://vocab.getty.edu/aat/300404670", "http://vocab.getty.edu/aat/300080102"]
 
 # Sort Data
 applies_to:  "E39_Actor"
@@ -19,21 +19,25 @@ select:      "?description ?author ?description_class ?author_lod_id"
 values:      "?entity_uri"
 construct: |
   ?entity_uri a crm:E39_Actor ;
+    dc:description ?description ;
     crm:P129i_is_subject_of _:description_class .
   _:description_class a crm:E33_Linguistic_Object ;
-    crm:p3_has_note ?description ;
+    rdf:value ?description ;
     crm:P94i_was_created_by _:authorship_event ;
-    crm:P2_has_type <http://vocab.americanartcollaborative.org/types#primary_description> .
+    crm:P2_has_type <http://vocab.getty.edu/aat/300404670> ;
+    crm:P2_has_type <http://vocab.getty.edu/aat/300080102> .
   _:authorship_event a crm:E65_Creation ;
       crm:P14_carried_out_by _:author_class .
   _:author_class a crm:E39_Actor ;
       rdfs:label ?author ;
-      skos:closeMatch ?author_lod_id.
+      skos:exactMatch ?author_lod_id.
 where: |
   ?entity_uri a crm:E39_Actor ;
     crm:P129i_is_subject_of ?description_class .
   ?description_class a crm:E33_Linguistic_Object ;
-    crm:p3_has_note ?description .
+    crm:P2_has_type <http://vocab.getty.edu/aat/300404670> ;
+    crm:P2_has_type <http://vocab.getty.edu/aat/300080102> ;
+    rdf:value ?description .
   OPTIONAL {
     ?description_class crm:P94i_was_created_by ?authorship_event .
     ?authorship_event a crm:E65_Creation ;
@@ -41,6 +45,11 @@ where: |
     ?author_class a crm:E39_Actor;
       rdfs:label ?author .
     OPTIONAL {
-      ?author_class  skos:closeMatch ?author_lod_id.
+      ?author_class  skos:exactMatch ?author_lod_id.
     }
   }
+
+graph_extras: | 
+  dc:description puml:arrow puml:dashed .
+  aat:300404670 puml:label "preferred terms".
+  aat:300080102 puml:label "biographies (documents)".

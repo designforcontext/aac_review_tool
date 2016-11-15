@@ -28,7 +28,7 @@ construct: |
   _:event_class a crm:E41_Appellation ;
     owl:sameAs ?event_class ;
     crm:P2_has_type _:preferred_name_type_url;
-    rdfs:label ?event_name .
+    rdf:value ?event_name .
   _:preferred_name_type_url a crm:E55_Type ;
     owl:sameAs ?preferred_name_type_url ;
     skos:broadMatch <http://vocab.getty.edu/aat/300404670> ;
@@ -38,7 +38,7 @@ where: |
   ?entity_uri a crm:E5_Event ;
     crm:P1_is_identified_by ?event_class .
   ?event_class a crm:E41_Appellation ;
-    rdfs:label ?event_name ;
+    rdf:value ?event_name ;
     crm:P2_has_type ?preferred_name_type_url .
   ?preferred_name_type_url a crm:E55_Type .
 

@@ -1,27 +1,28 @@
 # Field Name
-title: Other Descriptions
+title: Other Biographies
 
 # Metadata
 mandatory:        false
 multiples:        false
-description:      "Alt. description of the work."
-long_description: "These are alternate human-readable descriptions of the work."
+description:      "Alt. biog. of the party"
+long_description: "These are alternate human-readable descriptions of the actor."
 example:          "Tiu artaĵoj, fama por lia reprezento de la homa korpo en sufero, ..."
 lod_type:         "http://vocab.americanartcollaborative.org/types#primary_description"
 
 # Sort Data
-applies_to:  "E22_Man-Made_Object"
-category:    "Aboutness"
-sort_order:  11
+applies_to:  "E39_Actor"
+category:    "Resources"
+sort_order:  199
 
 # Sparql
 select:      "?alt_description ?alt_desc_author ?alt_description_class ?alt_desc_author_lod_id"
 values:      "?entity_uri"
 construct: |
-  ?entity_uri a crm:E22_Man-Made_Object ;
+  ?entity_uri a crm:E39_Actor ;
     crm:P129i_is_subject_of _:description_class .
   _:description_class a crm:E33_Linguistic_Object ;
-    crm:p3_has_note ?alt_description ;
+    rdf:value ?alt_description ;
+    crm:P2_has_type <http://vocab.getty.edu/aat/300080102> ;
     crm:P94i_was_created_by _:authorship_event .
   _:authorship_event a crm:E65_Creation ;
       crm:P14_carried_out_by _:author_class .
@@ -29,10 +30,11 @@ construct: |
       rdfs:label ?alt_desc_author ;
       skos:exactMatch ?alt_desc_author_lod_id.
 where: |
-  ?entity_uri a crm:E22_Man-Made_Object ;
+  ?entity_uri a crm:E39_Actor ;
     crm:P129i_is_subject_of ?alt_description_class .
   ?alt_description_class a crm:E33_Linguistic_Object ;
-    crm:p3_has_note ?alt_description .
+    crm:P2_has_type <http://vocab.getty.edu/aat/300080102> ;
+    rdf:value ?alt_description .
   OPTIONAL {
     ?alt_description_class crm:P94i_was_created_by ?alt_desc_authorship_event .
     ?alt_desc_authorship_event a crm:E65_Creation ;
@@ -43,4 +45,7 @@ where: |
       ?alt_desc_author_class  skos:exactMatch ?alt_desc_author_lod_id.
     }
   }
-  MINUS{?alt_description_class crm:P2_has_type <http://vocab.americanartcollaborative.org/types#primary_description> .}
+  MINUS{?alt_description_class crm:P2_has_type <http://vocab.getty.edu/aat/300404670> .}
+
+graph_extras: | 
+  aat:300080102 puml:label "biographies (documents)".
