@@ -20,7 +20,7 @@ construct: |
   ?entity_uri a crm:E39_Actor ;
     crm:P1_is_identified_by _:identifier_url .
   _:identifier_url a crm:E42_Identifier ;
-    rdfs:label ?identifier ;
+    rdf:value ?identifier ;
     crm:P2_has_type _:identifier_type ;
     owl:sameAs ?identifier_url .
   _:identifier_type a crm:E55_Type ;
@@ -31,7 +31,7 @@ where: |
   ?entity_uri a crm:E39_Actor .
   ?entity_uri crm:P1_is_identified_by ?identifier_url .
   ?identifier_url a crm:E42_Identifier ;
-    rdfs:label ?identifier ;
+    rdf:value ?identifier ;
   MINUS {?entity_uri crm:P48_has_preferred_identifier ?identifier_url}
   MINUS {?identifier_url a crm:E82_Actor_Appellation}
   OPTIONAL {

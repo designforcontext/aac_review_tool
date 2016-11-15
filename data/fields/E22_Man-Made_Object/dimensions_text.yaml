@@ -10,7 +10,7 @@ lod_type:          http://vocab.getty.edu/aat/300266036
 # Sort Data
 applies_to:  "E22_Man-Made_Object"
 category:    "Physical Object"
-sort_order:  56
+sort_order:  57
 
 # Sparql
 select:      "?dimension_reference ?dimension_class"

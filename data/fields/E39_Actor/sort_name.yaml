@@ -20,31 +20,28 @@ test_sort_name_type_class: "http://vocab.americanartcollaborative.org/types#sort
 
 
 # Sparql
-select:      "?sort_name ?sort_type ?sort_name_class"
+select:      "?sort_name ?sort_type ?name_class"
 values:      "?entity_uri ?sort_name_type_url"
 construct: |
   ?entity_uri a crm:E39_Actor ;
     crm:P131_is_identified_by _:sort_name_class .
   _:sort_name_class a crm:E82_Actor_Appellation ;
     owl:sameAs ?sort_name_class ;
-    crm:P2_has_type _:sort_name_type_class;
-    rdfs:label ?sort_name  .
-  _:sort_name_type_class a crm:E55_Type ;
-    owl:sameAs ?sort_name_type_class ;
-    skos:broadMatch <http://vocab.americanartcollaborative.org/types#sort_name_type> ;
-    skos:prefLabel ?sort_type.
-
+    crm:P139_has_alternative_form ?name_class ;
+    crm:P2_has_type <http://vocab.getty.edu/aat/300404672> ;
+    rdf:value ?sort_name  .
+ 
 where: |
   ?entity_uri a crm:E39_Actor ;
     crm:P131_is_identified_by ?sort_name_class .
   ?sort_name_class a crm:E82_Actor_Appellation ;
-    rdfs:label ?sort_name .
-  {
-    ?sort_name_class crm:P2_has_type <http://vocab.americanartcollaborative.org/types#sort_name_type> .
-  } UNION {
-    ?sort_name_class crm:P2_has_type ?sort_name_type_class .
-    ?sort_name_type_class a crm:E55_Type ;
-      skos:broadMatch <http://vocab.americanartcollaborative.org/types#sort_name_type> .
-    OPTIONAL {?sort_name_type_class skos:prefLabel ?sort_name_type. }
+    rdf:value ?sort_name ;
+    crm:P2_has_type  <http://vocab.getty.edu/aat/300404672> .
+  OPTIONAL {
+    ?sort_name_class crm:P139_has_alternative_form ?name_class.
   }
 
+
+
+graph_extras: | 
+  aat:300404672 puml:label "inverted term".   

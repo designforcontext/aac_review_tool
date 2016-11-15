@@ -15,38 +15,27 @@ applies_to:  "E39_Actor"
 category:    "Names"
 sort_order:  1
 
-#Default Test Values
-test_preferred_name_type_url: "http://vocab.americanartcollaborative.org/types#primary_name_type"
 
 
 # Sparql
 select:      "?actor_name ?type_label ?actor_class"
-values:      "?entity_uri ?preferred_name_type_url"
+values:      "?entity_uri"
 construct: |
   ?entity_uri a crm:E39_Actor ;
     rdfs:label ?actor_name ;
     crm:P131_is_identified_by _:actor_class .
   _:actor_class a crm:E82_Actor_Appellation ;
     owl:sameAs ?actor_class ;
-    crm:P2_has_type _:preferred_name_type_url;
-    rdfs:label ?actor_name  .
-  _:preferred_name_type_url a crm:E55_Type ;
-    owl:sameAs ?preferred_name_type_url ;
-    skos:broadMatch <http://vocab.getty.edu/aat/300404670> ;
-    skos:prefLabel ?type_label.
+    crm:P2_has_type <http://vocab.getty.edu/aat/300404670>;
+    rdf:value ?actor_name  .
 
 where: |
   ?entity_uri a crm:E39_Actor ;
     crm:P131_is_identified_by ?actor_class .
   ?actor_class a crm:E82_Actor_Appellation ;
-    rdfs:label ?actor_name ;
-    crm:P2_has_type ?preferred_name_type_url .
-  ?preferred_name_type_url a crm:E55_Type .
-
-  OPTIONAL {
-    OPTIONAL {?preferred_name_type_url skos:broadMatch <http://vocab.getty.edu/aat/300404670> .}
-    OPTIONAL {?preferred_name_type_url skos:prefLabel ?type_label. }
-  }
+    rdf:value ?actor_name ;
+    crm:P2_has_type <http://vocab.getty.edu/aat/300404670> .
 
 graph_extras: | 
   aat:300404670 puml:label "preferred terms".
+  rdfs:label  puml:arrow puml:dashed .

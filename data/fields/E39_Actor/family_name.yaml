@@ -24,11 +24,14 @@ select:      "?family_name ?family_name_type ?family_name_class"
 values:      "?entity_uri ?family_name_type_url"
 construct: |
   ?entity_uri a crm:E39_Actor ;
-    crm:P131_is_identified_by _:family_name_class .
+    crm:P131_is_identified_by _:name.
+  _:name a crm:E82_Actor_Appellation ;
+    owl:sameAs ?name;
+    crm:P106_is_composed_of _:family_name_class .
   _:family_name_class a crm:E82_Actor_Appellation ;
     owl:sameAs ?family_name_class ;
     crm:P2_has_type _:family_name_type_class;
-    rdfs:label ?family_name  .
+    rdf:value ?family_name  .
   _:family_name_type_class a crm:E55_Type ;
     owl:sameAs ?family_name_type_class ;
     skos:broadMatch <http://vocab.getty.edu/aat/300404652> ;
@@ -36,9 +39,11 @@ construct: |
 
 where: |
   ?entity_uri a crm:E39_Actor ;
-    crm:P131_is_identified_by ?family_name_class .
+    crm:P131_is_identified_by ?name.
+  ?name a crm:E82_Actor_Appellation ;
+    crm:P106_is_composed_of ?family_name_class .
   ?family_name_class a crm:E82_Actor_Appellation ;
-    rdfs:label ?family_name .
+    rdf:value ?family_name .
   {
     ?family_name_class crm:P2_has_type <http://vocab.getty.edu/aat/300404652> .
     <http://vocab.getty.edu/aat/300404652> skos:prefLabel ?family_name_type.

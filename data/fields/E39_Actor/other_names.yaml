@@ -14,9 +14,6 @@ applies_to:  "E39_Actor"
 category:    "Names"
 sort_order:  20
 
-#Default Test Values
-test_preferred_alt_name_type_uri: "http://vocab.getty.edu/aat/300404670"
-
 
 # Sparql
 select:      "?actor_name ?type_label ?actor_class"
@@ -27,7 +24,7 @@ construct: |
   _:actor_class a crm:E82_Actor_Appellation ;
     owl:sameAs ?actor_class ;
     crm:P2_has_type _:alt_name_type_uri;
-    rdfs:label ?actor_name  .
+    rdf:value ?actor_name  .
   _:alt_name_type_uri a crm:E55_Type ;
     owl:sameAs ?alt_name_type_uri ;
     skos:prefLabel ?type_label .
@@ -36,15 +33,13 @@ where: |
   ?entity_uri a crm:E39_Actor ;
     crm:P131_is_identified_by ?actor_class .
   ?actor_class a crm:E82_Actor_Appellation ;
-    rdfs:label ?actor_name .
+    rdf:value ?actor_name .
 
   OPTIONAL {
     ?actor_class crm:P2_has_type ?alt_name_type_uri .
     ?alt_name_type_uri a crm:E55_Type .
     OPTIONAL {?alt_name_type_uri skos:prefLabel ?type_label. }
   }
-  MINUS{?alt_name_type_uri crm:P2_has_type ?preferred_alt_name_type_uri .}
+  MINUS{?alt_name_type_uri crm:P2_has_type <http://vocab.getty.edu/aat/300404670> .}
 
 
-graph_extras: | 
-  aat:300404670 puml:label "preferred terms".

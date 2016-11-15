@@ -16,21 +16,6 @@ MMO rdfs:label "Sestiere..." ;
       E56 rdfs:label "English"  ### if it was
 
 
-# Dimension Parts are not modeled yet
-MMO p46 is composed of E18    
-  p2 has type [  ] ;
-  rdfs:label "sheet"
-  has dimension 
-    p2 has type aat:width
-    has value 17.7
-    has unit cm
-  has dimension
-    p2 has type aat:height
-    has value 23
-    has unit cm
-  has material aat:paper
-
-
 # Place excavated/collected
   MMO p24i changed ownership through E8 ;
       p7 took place at geonames:...
@@ -39,37 +24,6 @@ MMO p46 is composed of E18
 
 ---
 
-DisplayName:
-Person a E39 Actor
-  rdfs:label "Laurie Anderson" ;
-    p1 identified by [
-      a E41 Appellation 
-      p2 aat:300404670
-      rdfs:value "Laurie Anderson"
-      p139 has alternative form <alpha-sort-uri>
-      p106 is composed of [
-        a E41 Appellation ;
-        p2 aat:300404651 # given name
-        rdfs:value "Laurie"
-      ], [
-        a E41 Appellation ;
-        p2 aat:300404652 # family name
-        rdfs:value "Anderson"
-      ], [
-        // and other name parts per mapping
-      ]
-    ]
-
-middle name: 300404654
-prefix / name title:  300404845
-suffix:  300404662
-
-AlphaSort:
-Person a E39 Actor 
-  p1 identified by [
-    a E41 Appellation 
-    p2 type:  aat:300404672  # inverted term
-    rdfs:value "Anderson, Laurie"
 
 
 
@@ -102,9 +56,6 @@ Plus shortcuts:
   schema:givenName "Laurie" ;
   schema:birthDate ...
     ...
-
-
-
 
 
 Exhibitions

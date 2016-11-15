@@ -1,0 +1,60 @@
+# Field Name
+title: Dimensions (Part)
+
+# Metadata
+mandatory:        false
+multiples:        true
+description:      "Size of a part of the work."
+example:          "1.2cm high; 200 lbs; 16 pages"
+
+# Sort Data
+applies_to:  "E22_Man-Made_Object"
+category:    "Physical Object"
+sort_order:  55
+
+# Sparql
+select:      "?value ?part ?part_class ?part_type ?unit ?dimension_name ?dimension_class"
+values:      "?entity_uri"
+construct: |
+  ?entity_uri a crm:E22_Man-Made_Object ;
+    crm:p46_is_composed_of _:part_class.
+  _:part_class a crm:E18_Physical_Thing ;
+    owl:sameAs ?part_class;
+    rdfs:label ?part;
+    crm:P2_has_type ?part_type;
+    crm:P43_has_dimension _:dimension_class .
+  _:dimension_class a crm:E54_Dimension ;
+    owl:sameAs ?dimension_class ;
+    crm:P90_has_value ?value ;
+    rdf:value ?value ;
+    crm:P90_has_unit ?unit ;
+    crm:P2_has_type _:dimension_type.
+  _:dimension_type owl:sameAs ?dimension_type ;
+    skos:prefLabel ?dimension_name.
+
+
+where: |
+  ?entity_uri a crm:E22_Man-Made_Object ;
+      crm:p46_is_composed_of ?part_class.
+  ?part_class a crm:E18_Physical_Thing ;
+    crm:P43_has_dimension ?dimension_class .
+  ?dimension_class a crm:E54_Dimension ;
+    crm:P90_has_value ?value ;
+    crm:P91_has_unit ?unit ;
+    crm:P2_has_type ?dimension_type .
+  OPTIONAL {
+    ?dimension_type skos:prefLabel ?dimension_name.
+  }
+  OPTIONAL {
+    ?part_class crm:P2_has_type ?part_type.
+  }
+  OPTIONAL {
+    ?part_class rdfs:label ?part.
+  }
+
+
+     
+
+    
+
+

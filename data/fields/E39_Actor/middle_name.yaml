@@ -24,11 +24,14 @@ select:      "?middle_name ?middle_name_type ?middle_name_class"
 values:      "?entity_uri ?middle_name_type_url"
 construct: |
   ?entity_uri a crm:E39_Actor ;
-    crm:P131_is_identified_by _:middle_name_class .
+    crm:P131_is_identified_by  _:name.
+  _:name a crm:E82_Actor_Appellation ;
+    owl:sameAs ?name;
+    crm:P106_is_composed_of _:middle_name_class .
   _:middle_name_class a crm:E82_Actor_Appellation ;
     owl:sameAs ?middle_name_class ;
     crm:P2_has_type _:middle_name_type_class;
-    rdfs:label ?middle_name  .
+    rdf:value ?middle_name  .
   _:middle_name_type_class a crm:E55_Type ;
     owl:sameAs ?middle_name_type_class ;
     skos:broadMatch <http://vocab.getty.edu/aat/300404654> ;
@@ -36,9 +39,11 @@ construct: |
 
 where: |
   ?entity_uri a crm:E39_Actor ;
-    crm:P131_is_identified_by ?middle_name_class .
+    crm:P131_is_identified_by ?name.
+  ?name a crm:E82_Actor_Appellation ;
+    crm:P106_is_composed_of ?middle_name_class .
   ?middle_name_class a crm:E82_Actor_Appellation ;
-    rdfs:label ?middle_name .
+    rdf:value ?middle_name .
   {
     ?middle_name_class crm:P2_has_type <http://vocab.getty.edu/aat/300404654> .
     <http://vocab.getty.edu/aat/300404654> skos:prefLabel ?middle_name_type.
