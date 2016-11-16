@@ -21,7 +21,7 @@ construct: |
   _:dimension_class a crm:E33_Linguistic_Object ;
     owl:sameAs ?dimension_class ;
     crm:P2_has_type <http://vocab.getty.edu/aat/300266036> ;  
-    rdfs:label ?dimension_reference .
+    rdf:value ?dimension_reference .
 
 where: |
   {
@@ -29,9 +29,10 @@ where: |
       crm:p67i_is_referred_to_by ?dimension_class .
     ?dimension_class a crm:E33_Linguistic_Object;
       crm:P2_has_type <http://vocab.getty.edu/aat/300266036> ;
-      rdfs:label ?dimension_reference .
+      rdf:value ?dimension_reference .
   }
    
 graph_extras: | 
   aat:300266036 puml:label "dimensions".
+  _:dimension_reference puml:label "dimension string goes here".
 
