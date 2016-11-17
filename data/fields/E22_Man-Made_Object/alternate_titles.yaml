@@ -14,7 +14,7 @@ category:    "Tombstone Info"
 sort_order:  2
 
 # Sparql
-select:      "?title_text ?title_type ?title_uri"
+select:      "?title_text ?title_type ?title_uri ?alternate_title_id"
 values:      "?entity_uri"
 construct: |
   ?entity_uri a crm:E22_Man-Made_Object .
@@ -22,10 +22,19 @@ construct: |
   _:alternate_title_uri a crm:E35_Title ;
     rdf:value ?title_text ;
     owl:sameAs ?alternate_title_uri ;
+    crm:p1_is_identified_by _:alternate_title_id_class;
+
     crm:P2_has_type _:title_class .
   _:title_class a crm:E55_Type ;
     owl:sameAs ?title_class ;
     skos:prefLabel ?title_type .
+
+  _:alternate_title_id_class a crm:E42_Identifier ;
+    crm:P2_has_type <http://vocab.getty.edu/aat/300404012> ;
+    owl:sameAs ?alternate_title_id_class ;
+    rdf:value ?alternate_title_id .
+
+
 where: |
   ?entity_uri a crm:E22_Man-Made_Object .
   ?entity_uri crm:P102_has_title ?alternate_title_uri .
@@ -36,4 +45,15 @@ where: |
    ?title_text_class a crm:E55_Type ;
      skos:prefLabel ?title_type .
   }
+  OPTIONAL {
+    ?alternate_title_uri crm:p1_is_identified_by ?alternate_title_id_class.
+    ?alternate_title_id_class a crm:E42_Identifier ;
+      crm:P2_has_type <http://vocab.getty.edu/aat/300404012> ;
+      rdf:value ?alternate_title_id .
+  }
+
   MINUS{?alternate_title_uri crm:P2_has_type <http://vocab.getty.edu/aat/300404012> .}
+
+
+graph_extras: | 
+  aat:300404012 puml:label "unique ids" .

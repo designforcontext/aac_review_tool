@@ -36,6 +36,21 @@
 
 * [ ] Ask about better graph optimization techniques?
 
+skos:prefLabel
+mmo id?
+ Note that owner needs to be hard coded per institution
+Need term for sub-collection (Fine arts, etc)
+aat needs to map to E55_Type?
+parts are still an issue
+BUG:  add dem. type to dimention
+lingvo for languages
+
+----
+
+Bubble up p9s and parts of
+pc reification replaed
+Add shortcuts from full path
+
 ---
 
 * [X] "Warning: Unknown prop `turtle` on <div> tag." on modal display
