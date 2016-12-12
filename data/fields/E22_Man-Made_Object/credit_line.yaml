@@ -32,6 +32,7 @@ where: |
     ?credit_line_class a crm:E33_Linguistic_Object;
       crm:P2_has_type <http://vocab.getty.edu/aat/300026687> ;
       rdf:value ?credit_line .
+  }
    
 graph_extras: | 
   aat:300026687 puml:label "acknowledgments".

@@ -53,7 +53,22 @@ webpackJsonp([0,2],{
 	//-----------------------------------------------------------------------------
 	// This is the known set of RDF endpoints that we can search against.   
 	
-	var SEARCH_DATA = [(_ref = {
+	var SEARCH_DATA = [{
+	  name: "AAC",
+	  endpoint: "http://lodstories.isi.edu:3030/american-art/query",
+	  predicate: "http://www.cidoc-crm.org/cidoc-crm/",
+	  prefix: { "npg": "http://americanartcollaborative.org/npg/" },
+	
+	  E39_Actor: {
+	    default: "http://collection.britishmuseum.org/id/person-institution/70240"
+	  },
+	  "E22_Man-Made_Object": {
+	    default: "http://americanartcollaborative.org/puam/object/102991"
+	  },
+	  E5_Event: {
+	    default: "http://collection.britishmuseum.org/id/object/PIC134418/production"
+	  }
+	}, (_ref = {
 	  name: "YCBA",
 	  endpoint: "http://collection.britishart.yale.edu/openrdf-sesame/repositories/ycba",
 	  predicate: "http://erlangen-crm.org/current/",
@@ -81,21 +96,6 @@ webpackJsonp([0,2],{
 	  },
 	  E5_Event: {
 	    default: "http://edan.si.edu/saam/id/object/1991.189/production"
-	  }
-	}, {
-	  name: "AAC",
-	  endpoint: "http://lodstories.isi.edu:3030/american-art/query",
-	  predicate: "http://www.cidoc-crm.org/cidoc-crm/",
-	  prefix: { "npg": "http://americanartcollaborative.org/npg/" },
-	
-	  E39_Actor: {
-	    default: "http://collection.britishmuseum.org/id/person-institution/70240"
-	  },
-	  "E22_Man-Made_Object": {
-	    default: "http://americanartcollaborative.org/puam/object/102991"
-	  },
-	  E5_Event: {
-	    default: "http://collection.britishmuseum.org/id/object/PIC134418/production"
 	  }
 	}, {
 	  name: "British Museum",
