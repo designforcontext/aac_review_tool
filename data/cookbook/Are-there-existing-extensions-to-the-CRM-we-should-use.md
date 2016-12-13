@@ -58,6 +58,10 @@ E.g. the above would be modeled like this (rdf:type skipped for brevity):
 * Continue on as we are, review when we have sufficient examples
 * Don’t publish the current modeling in these areas as “Good Practices” but make sure they are described as “Lessons Learned"
 
+*(From Vladimir 12/13/2016)*
+
+For Getty CONA mapping I've defined some simple extensions like crmx:preferred, crmx:sort_order, crmx:property
+(the missing piece of crm:E13_Attribute_Assignment). See [CRMX](https://share.getty.edu/display/ITSLODV/CRM+Extensions#CRMExtensions-CRMX) at Getty (Rob has access). There are a few more to cover CCO, eg crmx:P2_extent "art of object or work contributed by an agent, measured in a dimension, or described by a subject"
 
 ### Reference:
 
