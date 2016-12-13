@@ -125,6 +125,13 @@ To deal with this problem, we have a couple options:
 
 5).  Define explicitly what we will use, and enforce consistency at the lowest possible denominator.  If we say that we will only use `crm:E39_Actor` and `crm:P1_is_identified_by`, we can avoid this problem on both ends.  But at that point, we might as well use dublin core, or foaf, or a CSV file.  We have lost all the expressive power of Linked Data, and we're just making our lives complicated for no good reason.
 
+### But Why?
+
+Vladimir 12/13/2016: for all that inferencing, use a proper triplestore like GraphDB.
+See "Large-scale Reasoning with a Complex Cultural Heritage Ontology (CIDOC CRM)" at my [pubs](http://vladimiralexiev.github.io/pubs/): it inferred 4.7x more statements, for a total of 916M, without a hitch.
+
+But David, you should also ask yourself, do we need all of that inference? Who's going to query by class Propositional Object or Symbolic Object (I can never remember the difference). Or look at slide 14: given 2.5M museum objects, we had 17M Legal Objects (Lawyers of the world, rejoice!), and BM did't even have any Rights statements. 37% of all statements were type statements
+
 ### Reference:
 
-* See also the discussion of [inferencing](How-do-we-ensure-predicates-go-both-ways).
+* See also the discussion of [inferencing](How-do-I-ensure-predicates-go-both-ways).
