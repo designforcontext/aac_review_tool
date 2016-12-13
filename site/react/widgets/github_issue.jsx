@@ -7,7 +7,7 @@ export default function(props) {
 
   return (
     <div className="github_issue_link">
-      <a href={issueLinkUrl}>Do you see a problem with this?  Submit an issue.</a>
+      <a href={issueLinkUrl} target='_blank'>Do you see a problem with this?  Submit an issue.</a>
     </div>
   )
 }
