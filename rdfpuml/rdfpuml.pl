@@ -1,9 +1,21 @@
 #!perl -w
+# Author: vladimir.alexiev@ontotext.com
+# 20160210 1.0
+# - support blank nodes
+# - support the new puml "hidden" links that can sometimes help the layout: http://plantuml.com/class-diagram#layout
+
+# #!/bin/sh
+# #! -*-perl-*-
+# eval 'exec perl -x -wS "$( cygpath -w "$0" )" ${1+"$@"}'
+#     if 0;
+
 # https://share.getty.edu/confluence/display/ITSLODV/rdfpuml
 # https://share.getty.edu/confluence/pages/editpage.action?pageId=72024672
 
 use strict;
-use lib "./rdfpuml/lib";
+use Carp::Always; # http://search.cpan.org/~ferreira/Carp-Always-0.13/lib/Carp/Always.pm
+  # stronger than $Carp::Verbose = 1;
+use lib "c:/prog/perl/lib";
 use Slurp; # https://metacpan.org/pod/Slurp
 use RDF::Trine;
 use RDF::Query;
@@ -12,13 +24,14 @@ use Smart::Comments;
 
 my %PREFIXES =
   (
-   crm => 'http://www.cidoc-crm.org/cidoc-crm/',
-   crmx => 'http://purl.org/NET/cidoc-crm/ext#',
+   crm    => 'http://www.cidoc-crm.org/cidoc-crm/',
+   crmx   => 'http://purl.org/NET/cidoc-crm/ext#',
    frbroo => 'http://example.com/frbroo/',
    crmdig => 'http://www.ics.forth.gr/isl/CRMdig/',
    crmsci => 'http://www.ics.forth.gr/isl/crmsci/',
-   puml => 'http://plantuml.com/ontology#',
-   rdf => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+   puml   => 'http://plantuml.com/ontology#',
+   rdf    => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+   leak   => 'http://data.ontotext.com/resource/leak/',
   );
 my $PREFIXES_TURTLE = join "\n", map "\@prefix $_: <$PREFIXES{$_}>.", sort keys(%PREFIXES);
 my $PREFIXES_SPARQL = join "\n", map "prefix $_: <$PREFIXES{$_}>", sort keys(%PREFIXES);;
@@ -34,15 +47,16 @@ my %predicate_arrow;
 use constant {RE_CLASS=>0, RE_SUBJ_PROP=>1, RE_SHORTCUT_PROP=>2, RE_OBJ_PROP=>3};
 my @RE =
   (
-   [qw( rdf:Statement                 rdf:subject                    rdf:predicate                    rdf:object                 )],
-   [qw( crm:E13_Attribute_Assignment  crm:P140_assigned_attribute_to crmx:property                    crm:P141_assigned          )],
-   [qw( crm:E14_Condition_Assessment  crm:P34_concerned              crmx:property                    crm:P35_has_identified     )],
-   [qw( crm:E15_Identifier_Assignment crm:P140_assigned_attribute_to crmx:property                    crm:P37_assigned           )],
-   [qw( crm:E15_Identifier_Assignment crm:P140_assigned_attribute_to crmx:property                    crm:P38_deassigned         )],
-   [qw( crm:E16_Measurement           crm:P39_measured               crmx:property                    crm:P40_observed_dimension )],
-   # [qw( crm:E17_Type_Assignment       crm:P41_classified             crmx:property                    crm:P42_assigned           )],
-   [qw( frbroo:F52_Name_Use_Activity  frbroo:R63_named               crmx:property                    frbroo:R64_used_name       )],
-   [qw( crmsci:S4_Observation         crmsci:O8_observed             crmsci:O9_observed_property_type crmsci:O16_observed_value  )],
+   [qw(rdf:Statement                 rdf:subject                    rdf:predicate                    rdf:object                )],
+   [qw(crm:E13_Attribute_Assignment  crm:P140_assigned_attribute_to crmx:property                    crm:P141_assigned         )],
+   [qw(crm:E14_Condition_Assessment  crm:P34_concerned              crmx:property                    crm:P35_has_identified    )],
+   [qw(crm:E15_Identifier_Assignment crm:P140_assigned_attribute_to crmx:property                    crm:P37_assigned          )],
+   [qw(crm:E15_Identifier_Assignment crm:P140_assigned_attribute_to crmx:property                    crm:P38_deassigned        )],
+   [qw(crm:E16_Measurement           crm:P39_measured               crmx:property                    crm:P40_observed_dimension)],
+   [qw(crm:E17_Type_Assignment       crm:P41_classified             crmx:property                    crm:P42_assigned          )],
+   [qw(frbroo:F52_Name_Use_Activity  frbroo:R63_named               crmx:property                    frbroo:R64_used_name      )],
+   [qw(crmsci:S4_Observation         crmsci:O8_observed             crmsci:O9_observed_property_type crmsci:O16_observed_value )],
+   [qw(leak:Edge                     leak:hasSource                 rdf:nil                          leak:hasTarget            )],
   );
 
 my $NOREL = # predicates that are not emitted as relations
@@ -74,15 +88,15 @@ $fname =~ s{\.ttl$}{};
 
 # Interesting, I don't need to worry about encoding. binmode(STDIN,":encoding(utf-8)");
 my $file = slurp("$fname.ttl");
-my $prefixes = slurp("./rdfpuml/prefixes.ttl");
+my $prefixes = slurp("prefixes.ttl");
 
 my $store = RDF::Trine::Store::Memory->new();
-my $model = RDF::Trine::Model->new($store);
+my $model = RDF::Trine::Model->new($store) or die "can't create model: $!\n";
 my $parser = RDF::Trine::Parser->new('turtle');
 $parser->parse_into_model (undef, "$PREFIXES_TURTLE\n$prefixes\n$file", $model);
 my $map = RDF::Prefixes::Curie->new ("$PREFIXES_TURTLE\n$prefixes");
 
-# open (STDOUT, ">:encoding(utf-8)", "$fname.puml") or die "can't create $fname.puml: $!\n";
+open (STDOUT, ">:encoding(utf-8)", "$fname.puml") or die "can't create $fname.puml: $!\n";
 print <<'EOF';
 @startuml
 hide empty methods
@@ -94,49 +108,34 @@ EOF
 stereotypes();
 replace_inlines();
 collect_predicate_arrows();
-# print STDERR $model->as_string; die;
 
 for my $s ($model->subjects(undef,undef)) {
   my $s1 = puml_node($s);
 
   # types come first
-  my @types = map puml_resource($_), $model->objects ($s, U("rdf:type"));
+  my @types = map puml_node2($_), $model->objects ($s, U("rdf:type"));
   my $noReify = grep m{puml:NoReify}, @types;
   my $types = join ", ", grep !m{puml:NoReify}, @types;
   print qq{$s1 : a $types\n} if $types;
 
   # relations
-  for my $o ($model->objects ($s, undef, undef, type=>'resource')) {
+  for my $o ($model->objects ($s, undef, undef, type=>'resource'),
+             $model->objects ($s, undef, undef, type=>'blank')) {
     # collect all relations between the two nodes.
     # TODO: also collect inverse relations? Then be careful for reifications!
     my @predicates = grep !m{rdf:type}, map puml_predicate($_), $model->predicates ($s, $o);
+    # TODO: remove actually reified predicates (see reification()), not potentially reifiable ($NOREL)
     @predicates = grep !m{$NOREL}o, @predicates if !$noReify;
     next unless @predicates;
     my $arrow = find_predicate_arrow(@predicates);
-    @predicates = grep !m{puml:}, @predicates;
+    my @pred1 = grep !m{puml:}, @predicates;
+    @pred1 = ("") if !@pred1; # allow a decorative arrow alone
     my $o1 = puml_node($o);
     $arrow = puml_arrow ($arrow, $s1, $o1);
-    my $predicates = join '\n', @predicates; # each predicate label on new line, centered
-    next if $s1 eq $o1;
-    print qq{$s1 $arrow $o1 : $predicates\n}
+    my $predicates = join '\n', @pred1; # each predicate label on new line, centered
+    $predicates = " : $predicates" if $predicates;
+    print qq{$s1 $arrow $o1$predicates\n}
   };
-
-  # relations
-  for my $o ($model->objects ($s, undef, undef, type=>'blank')) {
-    # collect all relations between the two nodes.
-    # TODO: also collect inverse relations? Then be careful for reifications!
-    my @predicates = grep !m{rdf:type}, map puml_predicate($_), $model->predicates ($s, $o);
-    @predicates = grep !m{$NOREL}o, @predicates if !$noReify;
-    next unless @predicates;
-    my $arrow = find_predicate_arrow(@predicates);
-    @predicates = grep !m{puml:}, @predicates;
-    my $o1 = puml_node($o);
-    $arrow = puml_arrow ($arrow, $s1, $o1);
-    my $predicates = join '\n', @predicates; # each predicate label on new line, centered
-    next if $s1 eq $o1;
-    print qq{$s1 $arrow $o1 : $predicates\n}
-  };
-
 
   # literals (attributes, fields)
   my $it = $model->get_statements ($s, undef, undef);
@@ -165,17 +164,11 @@ sub U {
 
 sub replace_inlines {
   # ?inline a puml:Inline
-  for my $inline ($model->subjects (U("rdf:type"), U("puml:Inline"))) {
-    replace_inline($inline);
-  }
-  # ?prop a puml:InlineProperty
-  for my $inlineProp ($model->subjects (U("rdf:type"), U("puml:InlineProperty"))) {
-    # inline all Objects of inlineProp
-    for my $inline ($model->objects (undef, $inlineProp, undef)) {
-      replace_inline($inline);
-    }
-    $model->remove_statements (undef, U("rdf:type"), U("puml:InlineProperty"));
-  }
+  map replace_inline($_), $model->subjects (U("rdf:type"), U("puml:Inline"));
+  # ?prop a puml:InlineProperty: inline all Objects of ?prop
+  map {map replace_inline($_), grep $_->is_resource(), $model->objects (undef, $_, undef)}
+    $model->subjects (U("rdf:type"), U("puml:InlineProperty"));
+  $model->remove_statements (undef, U("rdf:type"), U("puml:InlineProperty"));
   # For puml:NoReify nodes, inline the property pointed by SHORTCUT_PROP
   for my $sp (map U(@$_[RE_SHORTCUT_PROP]), @RE) {
     for my $noReify ($model->subjects (U("rdf:type"), U("puml:NoReify"))) {
@@ -198,6 +191,7 @@ sub replace_inline {
   my $inline = shift;
   my $repl = $map->get_qname($inline->uri_value);
   my ($label) = $model->objects ($inline, U("rdfs:label"));
+  $label or ($label) = $model->objects ($inline, U("skos:prefLabel"));
   $repl .= " # " . $label->value if $label;
   $repl = RDF::Trine::Node::Literal->new ($repl, undef, U("puml:noquote")); # use as datatype
   my $it = $model->get_statements (undef, undef, $inline);
@@ -210,22 +204,23 @@ sub replace_inline {
 }
 
 sub reification {
+  # print STDERR $RE_SPARQL; die;
   my $query = RDF::Query->new($RE_SPARQL);
+  # print STDERR $query; die;
+  # print STDERR $model->as_string; die;
   my $it = $query->execute($model);
   while (my $row = $it->next) {
     $row->{o}->is_resource or die "can't reify literal: $row->{s} $row->{p} $row->{o}\n";
     # parallel relations are collected into one, so $p is ignored
-    my $re = puml_node($row->{re}); # no blank node reifications, sorry
+    my $re = puml_node     ($row->{re}); # no blank node reifications, sorry
     my $sp = puml_predicate($row->{sp});
-    my $pp = puml_predicate($row->{pp});
+    my $pp = puml_predicate($row->{pp}); $pp = undef if $pp eq 'rdf:nil';
     my $op = puml_predicate($row->{op});
-    my $s = puml_resource($row->{s}); # not sanitized
-    my $p = puml_predicate($row->{p});
-
-    my $o = puml_resource($row->{o}); # not sanitized
-    $o =~ tr{()}{[]}; # round parens to square parens else PUML makes a method
-    my $s1 = puml_node($row->{s}); # sanitized
-    my $o1 = puml_node($row->{o}); # sanitized
+    my $s  = puml_node2    ($row->{s}); # semi-sanitized
+    my $p  = puml_predicate($row->{p});
+    my $o  = puml_node2    ($row->{o}); # semi-sanitized
+    my $s1 = puml_node     ($row->{s}); # sanitized
+    my $o1 = puml_node     ($row->{o}); # sanitized
     my $dir2 = $dir{$s1}{$o1} or die "$s->$o is in reification $re but not as direct relation\n";
     my $dir1 = $OPPOSITE{$dir2};
     my $arr1 = $ARROW{$dir1};
@@ -244,32 +239,43 @@ sub reification {
   }
 }
 
-sub puml_resource {
+sub puml_qname {
   my $node = shift;
-  #print STDERR $node,"\n";
   return "" unless $node;
-  my $meth = ($node->can("uri_value") or $node->can("blank_identifier"));
-  $map->get_qname($node->$meth);
-}
-
-sub url_or_id {
-
+  $map->get_qname($node->uri_value);
 }
 
 sub puml_predicate {
-  my $pred = puml_resource(shift);
+  my $pred = puml_qname(shift);
   $pred eq "puml:label" ? "" : $pred
 }
 
-sub puml_node {
+sub puml_node1 {
+  # if blank node, return unchanged. Else qname (prefixed form)
   my $node = shift;
-  $node = puml_resource($node);
+  my $isBlank = $node->is_blank;
+  $node = $isBlank ? $node->as_string : puml_qname($node);
+  ($node,$isBlank)
+}
+
+sub puml_node2 {
+  # semi-sanitize: round parens to square parens else PUML makes a method
+  my $node = puml_qname(shift);
+  $node =~ tr{()}{[]};
+  $node
+}
+
+sub puml_node {
+  my ($node,$isBlank) = puml_node1(shift);
   my $sanitized = $sanitized{$node};
   return $sanitized if $sanitized;
   $sanitized = $node;
-  $sanitized =~ s{[<>(): /.#=,%&?-]}{_}g;
+  $sanitized =~ s{\W+}{_}g;
+  $node =~ s{_+}{_}g; # else platts___gasoil___asia___03 causes underlining
+  $sanitized{$node} = $sanitized;
+  $node = " " if $isBlank; # puml doesn't allow "" here
   print qq{class $sanitized as "$node"\n};
-  $sanitized{$node} = $sanitized
+  $sanitized
 }
 
 sub puml_literal {
@@ -293,14 +299,15 @@ sub puml_literal {
 
 sub puml_arrow {
   # puml:$dir-$head-$line
-  # puml:(left|right|up|down)-(none|tri|star|o)-dashed
+  # puml:(left|right|up|down)-(none|tri|star|o)-(dashed|hidden)
   local $_ = shift || '';
   my ($s,$o) = @_;
   my $dir = m{\b(left|right|up|down)} ? $1 : '';
   $dir{$s}{$o} = $dir || 'down';
   my $head = m{\b($HEAD_RE)\b}o ? $HEAD{$1} : '>';
   my $line = m{\b(dashed)\b} ? '.' : '-';
-  "$line$dir$line$head"
+  my $hidden = m{\b(hidden)\b} ? '[hidden]' : '';
+  "$line$dir$hidden$line$head"
 }
 
 sub collect_predicate_arrows {
@@ -322,18 +329,26 @@ sub find_predicate_arrow {
 }
 
 sub stereotypes {
-  # eg fn:AnnotationSet puml:stereotype "(F)Frame"
   my $it = $model->get_statements (undef, U("puml:stereotype"), undef);
   while (my $st = $it->next) {
     my $class = $st->subject;
     my $stereotype = $st->object->literal_value;
     my $circle = $stereotype =~ m{\(.*\)};
     my $it1 = $model->get_statements (undef, U("rdf:type"), $class);
-    while (my $st1 = $it1->next) {
-      my $cls = puml_node($st1->subject);
-      print "class $cls <<$stereotype>>\n";
-      print "show $cls circle\n" if $circle;
+    my @nodes;
+    if ($it1->finished) {
+      # individual node, eg <#char=22,24_annoSet> puml:stereotype "(F)Frame"
+      @nodes = ($class)
+    } else {
+      # whole class, eg fn:AnnotationSet puml:stereotype "(F)Frame"
+      my $st1;
+      push @nodes, $st1->subject while $st1 = $it1->next;
     }
+    map {
+      my $node = puml_node($_);
+      print "class $node <<$stereotype>>\n";
+      print "show $node circle\n" if $circle;
+    } @nodes;
   };
   $model->remove_statements (undef, U("puml:stereotype"), undef);
 }
