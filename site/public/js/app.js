@@ -20,25 +20,25 @@ webpackJsonp([0,2],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(/*! react-dom */ 35);
+	var _reactDom = __webpack_require__(/*! react-dom */ 33);
 	
-	var _sidebar = __webpack_require__(/*! ./sidebar.jsx */ 173);
+	var _sidebar = __webpack_require__(/*! ./sidebar.jsx */ 179);
 	
 	var _sidebar2 = _interopRequireDefault(_sidebar);
 	
-	var _header = __webpack_require__(/*! ./header.jsx */ 175);
+	var _header = __webpack_require__(/*! ./header.jsx */ 181);
 	
 	var _header2 = _interopRequireDefault(_header);
 	
-	var _footer = __webpack_require__(/*! ./footer.jsx */ 431);
+	var _footer = __webpack_require__(/*! ./footer.jsx */ 436);
 	
 	var _footer2 = _interopRequireDefault(_footer);
 	
-	var _item_display = __webpack_require__(/*! ./item/item_display.jsx */ 432);
+	var _item_display = __webpack_require__(/*! ./item/item_display.jsx */ 437);
 	
 	var _item_display2 = _interopRequireDefault(_item_display);
 	
-	var _content_modal = __webpack_require__(/*! ./widgets/content_modal.jsx */ 440);
+	var _content_modal = __webpack_require__(/*! ./widgets/content_modal.jsx */ 445);
 	
 	var _content_modal2 = _interopRequireDefault(_content_modal);
 	
@@ -53,7 +53,22 @@ webpackJsonp([0,2],{
 	//-----------------------------------------------------------------------------
 	// This is the known set of RDF endpoints that we can search against.   
 	
-	var SEARCH_DATA = [(_ref = {
+	var SEARCH_DATA = [{
+	  name: "AAC",
+	  endpoint: "http://lodstories.isi.edu:3030/american-art/query",
+	  predicate: "http://www.cidoc-crm.org/cidoc-crm/",
+	  prefix: { "npg": "http://americanartcollaborative.org/npg/" },
+	
+	  E39_Actor: {
+	    default: "http://collection.britishmuseum.org/id/person-institution/70240"
+	  },
+	  "E22_Man-Made_Object": {
+	    default: "http://americanartcollaborative.org/puam/object/102991"
+	  },
+	  E5_Event: {
+	    default: "http://collection.britishmuseum.org/id/object/PIC134418/production"
+	  }
+	}, (_ref = {
 	  name: "YCBA",
 	  endpoint: "http://collection.britishart.yale.edu/openrdf-sesame/repositories/ycba",
 	  predicate: "http://erlangen-crm.org/current/",
@@ -81,21 +96,6 @@ webpackJsonp([0,2],{
 	  },
 	  E5_Event: {
 	    default: "http://edan.si.edu/saam/id/object/1991.189/production"
-	  }
-	}, {
-	  name: "AAC",
-	  endpoint: "http://lodstories.isi.edu:3030/american-art/query",
-	  predicate: "http://www.cidoc-crm.org/cidoc-crm/",
-	  prefix: { "npg": "http://americanartcollaborative.org/npg/" },
-	
-	  E39_Actor: {
-	    default: "http://collection.britishmuseum.org/id/person-institution/70240"
-	  },
-	  "E22_Man-Made_Object": {
-	    default: "http://americanartcollaborative.org/puam/object/102991"
-	  },
-	  E5_Event: {
-	    default: "http://collection.britishmuseum.org/id/object/PIC134418/production"
 	  }
 	}, {
 	  name: "British Museum",
@@ -197,8 +197,8 @@ webpackJsonp([0,2],{
 	  // Handle showing the global modal.  
 	  // TODO:  This is probably the wrong layer to keep this in.
 	  showModal: function showModal(content) {
-	    var title = arguments.length <= 1 || arguments[1] === undefined ? "" : arguments[1];
-	    var html = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+	    var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+	    var html = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 	
 	    this.setState({ modal: { content: content, title: title, show: true, html: html } });
 	  },
@@ -265,7 +265,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 173:
+/***/ 179:
 /*!********************************!*\
   !*** ./site/react/sidebar.jsx ***!
   \********************************/
@@ -281,7 +281,7 @@ webpackJsonp([0,2],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _classnames = __webpack_require__(/*! classnames */ 174);
+	var _classnames = __webpack_require__(/*! classnames */ 180);
 	
 	var _classnames2 = _interopRequireDefault(_classnames);
 	
@@ -321,7 +321,7 @@ webpackJsonp([0,2],{
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'sidebar_legend' },
-	        '(🔹 indicates a mandatory field)'
+	        '(\uD83D\uDD39 indicates a mandatory field)'
 	      )
 	    );
 	  }
@@ -387,7 +387,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 175:
+/***/ 181:
 /*!*******************************!*\
   !*** ./site/react/header.jsx ***!
   \*******************************/
@@ -403,21 +403,21 @@ webpackJsonp([0,2],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
+	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 182);
 	
 	var _jquery = __webpack_require__(/*! jquery */ 1);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _header_wrapper = __webpack_require__(/*! ./header_wrapper.jsx */ 428);
+	var _header_wrapper = __webpack_require__(/*! ./header_wrapper.jsx */ 433);
 	
 	var _header_wrapper2 = _interopRequireDefault(_header_wrapper);
 	
-	var _search_input_field = __webpack_require__(/*! ./widgets/search_input_field.jsx */ 429);
+	var _search_input_field = __webpack_require__(/*! ./widgets/search_input_field.jsx */ 434);
 	
 	var _search_input_field2 = _interopRequireDefault(_search_input_field);
 	
-	var _constants = __webpack_require__(/*! ./lib/constants.jsx */ 430);
+	var _constants = __webpack_require__(/*! ./lib/constants.jsx */ 435);
 	
 	var _constants2 = _interopRequireDefault(_constants);
 	
@@ -473,7 +473,7 @@ webpackJsonp([0,2],{
 	  generateObjectData: function generateObjectData() {
 	    var _this3 = this;
 	
-	    var type = arguments.length <= 0 || arguments[0] === undefined ? "ttl" : arguments[0];
+	    var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "ttl";
 	
 	    var objIndex = this.props.data.findIndex(function (el) {
 	      return el.name == _this3.props.searchAgainst;
@@ -576,7 +576,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 428:
+/***/ 433:
 /*!***************************************!*\
   !*** ./site/react/header_wrapper.jsx ***!
   \***************************************/
@@ -674,7 +674,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 429:
+/***/ 434:
 /*!***************************************************!*\
   !*** ./site/react/widgets/search_input_field.jsx ***!
   \***************************************************/
@@ -799,7 +799,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 430:
+/***/ 435:
 /*!**************************************!*\
   !*** ./site/react/lib/constants.jsx ***!
   \**************************************/
@@ -816,7 +816,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 431:
+/***/ 436:
 /*!*******************************!*\
   !*** ./site/react/footer.jsx ***!
   \*******************************/
@@ -843,7 +843,7 @@ webpackJsonp([0,2],{
 	        { href: "http://www.designforcontext.com", target: "_blank" },
 	        "Design for Context"
 	      ),
-	      ".  Copyright © ",
+	      ".  Copyright \xA9 ",
 	      copyright_year,
 	      "."
 	    ),
@@ -875,7 +875,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 432:
+/***/ 437:
 /*!******************************************!*\
   !*** ./site/react/item/item_display.jsx ***!
   \******************************************/
@@ -909,15 +909,15 @@ webpackJsonp([0,2],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _title = __webpack_require__(/*! ./title.jsx */ 433);
+	var _title = __webpack_require__(/*! ./title.jsx */ 438);
 	
 	var _title2 = _interopRequireDefault(_title);
 	
-	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 434);
+	var _sparql_search = __webpack_require__(/*! ./sparql_search.jsx */ 439);
 	
 	var _sparql_search2 = _interopRequireDefault(_sparql_search);
 	
-	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 439);
+	var _mapping = __webpack_require__(/*! ./mapping.jsx */ 444);
 	
 	var _mapping2 = _interopRequireDefault(_mapping);
 
@@ -925,7 +925,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 433:
+/***/ 438:
 /*!***********************************!*\
   !*** ./site/react/item/title.jsx ***!
   \***********************************/
@@ -1046,7 +1046,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 434:
+/***/ 439:
 /*!*******************************************!*\
   !*** ./site/react/item/sparql_search.jsx ***!
   \*******************************************/
@@ -1062,21 +1062,21 @@ webpackJsonp([0,2],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
+	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 182);
 	
 	var _jquery = __webpack_require__(/*! jquery */ 1);
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 435);
+	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 440);
 	
 	var _modal_trigger2 = _interopRequireDefault(_modal_trigger);
 	
-	var _sparql_results = __webpack_require__(/*! ./sparql_results.jsx */ 436);
+	var _sparql_results = __webpack_require__(/*! ./sparql_results.jsx */ 441);
 	
 	var _sparql_results2 = _interopRequireDefault(_sparql_results);
 	
-	var _search_input_field = __webpack_require__(/*! ../widgets/search_input_field.jsx */ 429);
+	var _search_input_field = __webpack_require__(/*! ../widgets/search_input_field.jsx */ 434);
 	
 	var _search_input_field2 = _interopRequireDefault(_search_input_field);
 	
@@ -1104,7 +1104,7 @@ webpackJsonp([0,2],{
 	  },
 	
 	  autoSearch: function autoSearch() {
-	    var e = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+	    var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 	
 	    if (e) {
 	      e.preventDefault();
@@ -1221,7 +1221,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 435:
+/***/ 440:
 /*!**********************************************!*\
   !*** ./site/react/widgets/modal_trigger.jsx ***!
   \**********************************************/
@@ -1253,7 +1253,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 436:
+/***/ 441:
 /*!********************************************!*\
   !*** ./site/react/item/sparql_results.jsx ***!
   \********************************************/
@@ -1269,15 +1269,15 @@ webpackJsonp([0,2],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 435);
+	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 440);
 	
 	var _modal_trigger2 = _interopRequireDefault(_modal_trigger);
 	
-	var _github_issue = __webpack_require__(/*! ../widgets/github_issue.jsx */ 437);
+	var _github_issue = __webpack_require__(/*! ../widgets/github_issue.jsx */ 442);
 	
 	var _github_issue2 = _interopRequireDefault(_github_issue);
 	
-	var _helpers = __webpack_require__(/*! ../lib/helpers.jsx */ 438);
+	var _helpers = __webpack_require__(/*! ../lib/helpers.jsx */ 443);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1449,7 +1449,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 437:
+/***/ 442:
 /*!*********************************************!*\
   !*** ./site/react/widgets/github_issue.jsx ***!
   \*********************************************/
@@ -1471,7 +1471,7 @@ webpackJsonp([0,2],{
 	    { className: "github_issue_link" },
 	    _react2.default.createElement(
 	      "a",
-	      { href: issueLinkUrl },
+	      { href: issueLinkUrl, target: "_blank" },
 	      "Do you see a problem with this?  Submit an issue."
 	    )
 	  );
@@ -1485,7 +1485,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 438:
+/***/ 443:
 /*!************************************!*\
   !*** ./site/react/lib/helpers.jsx ***!
   \************************************/
@@ -1498,7 +1498,7 @@ webpackJsonp([0,2],{
 	});
 	exports.truncate = truncate;
 	function truncate(str, len) {
-	  var search = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+	  var search = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 	
 	  if (search) {
 	    (function () {
@@ -1521,7 +1521,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 439:
+/***/ 444:
 /*!*************************************!*\
   !*** ./site/react/item/mapping.jsx ***!
   \*************************************/
@@ -1541,7 +1541,7 @@ webpackJsonp([0,2],{
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 435);
+	var _modal_trigger = __webpack_require__(/*! ../widgets/modal_trigger.jsx */ 440);
 	
 	var _modal_trigger2 = _interopRequireDefault(_modal_trigger);
 	
@@ -1640,7 +1640,7 @@ webpackJsonp([0,2],{
 
 /***/ },
 
-/***/ 440:
+/***/ 445:
 /*!**********************************************!*\
   !*** ./site/react/widgets/content_modal.jsx ***!
   \**********************************************/
@@ -1662,9 +1662,9 @@ webpackJsonp([0,2],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 176);
+	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 182);
 	
-	var _helpers = __webpack_require__(/*! ../lib/helpers.jsx */ 438);
+	var _helpers = __webpack_require__(/*! ../lib/helpers.jsx */ 443);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
