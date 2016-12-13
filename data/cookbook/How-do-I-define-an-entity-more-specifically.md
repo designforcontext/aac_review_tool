@@ -73,7 +73,9 @@ I'll let the subclassing point go, even though I think it's terrible practice to
 
 ##### Top Level Entities
 
-In RS I found that we needed to mark the "top-level" searchable E22
+*(From Vladimir)*
+
+In ResearchSpace I found that we needed to mark the "top-level" searchable E22
 (artworks) somehow.  We had other E22, e.g.:
 
 - Collections
