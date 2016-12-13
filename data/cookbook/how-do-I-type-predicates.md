@@ -43,9 +43,11 @@ you would say
         crmpc:P02_has_range _:michelangelo; 
         crmpc:P14.1_in_the_role_of aat:1293823.  #sculptor
 
-**(3).** Another best practice is to use the CRM with predicates from broadly adopted ontologies like Qunt, SKOS, or FOAF.  
+**(3).** Another best practice is to use the CRM with predicates from broadly adopted ontologies like QUDT, SKOS, or FOAF.  
 
 For instance, when referencing the primary homepage of an institution, it is a best practice to use `foaf:homepage` rather reify a CRM identifier.  It is important, however, when doing this, to make sure that no semantic information is lost.
+
+Vladimir: sure. But there are no such props to distinguish between participation of Artwork vs Bench
 
 **(4).** If none of these techniques will work, our last recommendation is to extend the CRM and define a new predicate using `rdfs:subPropertyOf`.
 
@@ -57,7 +59,7 @@ For instance, when referencing the primary homepage of an institution, it is a b
 ### Discussion:
 
 
-(*From David Newbury*
+(*From David Newbury*)
 
 From my understanding of Vladimir's paper on this subject:
 
@@ -68,7 +70,9 @@ From my understanding of Vladimir's paper on this subject:
 
 but then we have do define a sub property for every possible relationship, which might need to be absurdly comprehensive.
 
-**Option 2: Sub-Entities with Roles**
+Vladimir: as it says above, this is the worst option. When I started on ResearchSpace, they had a CRM extension with 220 props like "pendant made at", "gilded at". By using some systematic mechanisms, we reduced to very few extension props.
+
+**Option 2: Sub-Events with Roles**
 
     aac:young_women_picking_fruit  crm:P9i_forms_part_of "1904 Carnegie International Artwork"
     "1904 Carnegie International Artwork" forms_part_of  "1904 Carnegie International"
@@ -79,6 +83,8 @@ but then we have do define a sub property for every possible relationship, which
     "1904 Carnegie International Furniture" has_type "Furniture Installation"
 
 This is simple, but probably not valid CRM.  It's basically saying that an event was made up of many sub events, each dictated by the type of object that participated. 
+
+Vladimir: It is totally valid (modulo the prop names). It's the more widely used mechanism in ResearchSpace, see [Type in Subevent](https://confluence.ontotext.com/display/ResearchSpace/BM+Association+Mapping+v2#BMAssociationMappingv2-TranslatedCodeinSubEvents)
 
 **Option 3: Subject Reification**
 
@@ -91,6 +97,8 @@ This is simple, but probably not valid CRM.  It's basically saying that an event
 
 Totally valid.  Totally confusing.  Probably my recommendation, with my nose held tightly.
 
+Vladimir: this is [Type in Reified Association](https://confluence.ontotext.com/display/ResearchSpace/BM+Association+Mapping+v2#BMAssociationMappingv2-TranslatedCodeInReifiedAssociation) and you have to use it when you can't use Events (eg "influenced by": unless you want to make up some fake "Influencing" event you know nothing about).
+
 **Option 4: Long-Cuts**
 
     _:role a aac:participation_role;
@@ -98,10 +106,13 @@ Totally valid.  Totally confusing.  Probably my recommendation, with my nose hel
        had_participating_exhibition  "1904 Carnegie International"
        had_type "Exhibit"
 
-
 Basically, the same as Option 3, but explicitly defined for each relationship.  The worst of option 3 and option 1.  
 
-Vladimir also suggests two other techniques, one involving named graphs (which is great until you want to use named graphs for anything else, like provenance) and one involving <http://smiy.sourceforge.net/prv/spec/propertyreification.html>, which is a fancy way to define Option 3 formally, allowing the short-cut to be automatically inferred.  
+Vladimir also suggests two other techniques
+- one involving named graphs (which is great until you want to use named graphs for anything else, like provenance) 
+- another involving [PRV](http://smiy.sourceforge.net/prv/spec/propertyreification.html), which is a fancy way to define Option 3 formally, allowing the short-cut to be automatically inferred. 
+
+Vladimir: nothing fancy about PRV: it describes formally the reification mechanism. Sort of like this table you see in [rdfpuml](https://github.com/american-art/aac_mappings/blob/master/rdfpuml/rdfpuml.pl#L37) [(revised)](https://github.com/american-art/aac_mappings/pull/6/commits/3de318d0becf6148b0a05394eb9eaef76a303e58#diff-1d9a50214fb3320152c97145293e5988L37) that controls drawing associations. In the future I'll make it eat PRV turtle as Reification config file, rather than hard-coded.
 
 ---
 
@@ -135,6 +146,8 @@ My proposal is to map this to:
     <object/123> crm:P16i_was_used_for <exhibition/456>.
     <exhibition/456> a crm:E7_Activity;
       crm:P2_has_type aat:300054766; # exhibition
+
+Vladimir: that's true of Exhibitions: no museum will publish data about their Display Cases and junk they used at an exhibition (just a red herring from Steve). But the general question of how to model roles stays.
 
 *(From Rob, via email, 9/19/2016)*
 
