@@ -38,10 +38,11 @@ Although this is much simpler than CRM, you see that it's not trivial at all.
 
 For the British Museum:
 
-- (here's the list of all RDF paths for Artworks that we wanted to display)[https://confluence.ontotext.com/display/ResearchSpace/BM+RForms+Mockup#BMRFormsMockup-BMRForm].
+- here's the list of all RDF paths for Artworks that we wanted to display: [BM Form Mockup](https://confluence.ontotext.com/display/ResearchSpace/BM+RForms+Mockup#BMRFormsMockup-BMRForm)
 - We didn't implement this as a definite query. We listed all properties we
-wanted to navigate, but that doesn't work that well:
-    - in some situations you want to navigate a property P, in other cases stop there
+   wanted to navigate, but that doesn't work that well:
+    - in some situations you want to navigate a property P (eg painting has part frame, painting is part of collection),
+      in other cases stop at P (eg collection has part painting)
     - such navigation involves making a whole bunch of queries
 
 I haven't yet done this task "circumscribe the business-object graph" for CONA or JPGM.
@@ -49,14 +50,29 @@ I haven't yet done this task "circumscribe the business-object graph" for CONA o
 
 > Some of those parts are external-AAT, Geonames, Schema.org, FOAF. 
 
-Don't need to bring them all in. For external nodes, you want at least the label.
+Don't need to bring them all in. For external nodes, you want the label.
 Which also means for every AAT concept we use, we should state a prefLabel
 *in our repo*. For efficiency, but also because GVP's pref label is different (e.g. we want
 the simpler "exhibition" not the fully unambiguous "exhibitions (events)")
 
 If you can implement the above with one query, it's definitely CONSTRUCT since it returns shaped data. Can't be SELECT which returns tabular data. (Actually it's better to package that CONSTRUCT into  a type-dependent DESCRIBE, if the repo can be convinced to do so)
 
-For returning lists of objects, you definitely want fewer fields, returned with SELECT as a table. E.g. see [this](https://confluence.ontotext.com/display/ResearchSpace/Search+Result+Fields#SearchResultFields-DisplayFields)
+For returning lists of objects, you definitely want fewer fields, returned with SELECT as a table. E.g. see [BM Search Result Fields](https://confluence.ontotext.com/display/ResearchSpace/Search+Result+Fields#SearchResultFields-DisplayFields)
+
+## Complexity
+
+*(Vladimir 12/14/2016)* 
+
+I think you underestimate the complexity of
+"made up by combining a series of queries and their results",
+if you mean these same piecemeal queries we see on this site.
+I suspect it'll have very bad performance, if you need to assemble say 24 objects for a "lightbox+tooltip with some tombstone data".
+Consider these alternatives:
+
+- use a complex CONSTRUCT query or two.
+  Advice: OPTIONAL will kill you due to Cartesian product, need to use UNION.
+- store each business entity in its own named graph, and fetch by graph. 
+  Then fetch thesaurus-item labels (or what the heck, duplicate them in each named graph)
 
 ### Reference:
 
