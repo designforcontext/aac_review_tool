@@ -59,9 +59,20 @@ If we're going to do this, I would strongly recommend typing these with
 
 It does seem odd to treat a URL as a string, though.    Additionally, just saying it's a identifier and typing it does not provide the context that it's the a URL that represents a human-readable description of the entity—it just says that it's something with a specific form.  This means that it would show up in the list of identifiers, but that the browse application would not have the ability to present those URLs to a viewer with any specific semantic value.
 
+### CRM Variant
 
+*Vladimir 12/14/2016*: I'm fine with the foaf:homepage variant. 
+For completeness, here's how to represent this in CRM:
 
-
+```turtle
+_:art_object
+  crm:P70i_is_documented_in <http://www.institution.org/objects/art_object>.
+<http://www.institution.org/objects/art_object> a crm:E31_Document;
+  crm:P2_has_type aat:300264578; # webpage
+  crm:P3_has_note "Homepage for Art Object".
+```
+Note that the object of `foaf:homepage` is a `foaf:Document`: it doesn't specify anywhere it's a webpage.
+The CRM variant says that with P2.
 
 ### Reference:
 
