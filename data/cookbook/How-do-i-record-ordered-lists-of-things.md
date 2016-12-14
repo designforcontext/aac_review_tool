@@ -57,7 +57,7 @@ If we do a list, the expanded triples are like this:
 
 How can one easily find all objects where <sitter/2> appears?
 
-Since the order is subsidiary info, we can tack it as `crmx:displayOrder` somewhere. In this particular case it'll have to be a reification (below), but in many other cases it's in an node we have anyway (e.g. in Title or Production activity i.e. object-actor association).
+Since the order is subsidiary info, we can tack it as `crmx:display_order` somewhere. In this particular case it'll have to be a reification (below), but in many other cases it's in an node we have anyway (e.g. in Title or Production activity i.e. object-actor association).
 
     <object> crm:P62_depicts <sitter1>, <sitter2>.
 
@@ -86,7 +86,7 @@ Sure — because I don’t know of a use case that says you need to refer to the
 <https://www.w3.org/TR/sparql11-query/#collections>
 
 
->Since the order is subsidiary info, we can tack it as crmx:displayOrder somewhere.
+>Since the order is subsidiary info, we can tack it as `crmx:display_order` somewhere.
 
 
 Right. You can always assign identity to the object-in-context-of-other-object that rdf:List uses a blank node for.
@@ -122,10 +122,26 @@ Agreed.  Let’s not derail the discussion by looking at archival practices and 
 
 Ordering will be useful, and hopefully it is provided explicitly in the data provided by institutions, rather than implicitly based on the row sequence in data exports. I will try to find some good use cases with partner museum data. I believe there will be some around subjects, and certainly where there are sets of works (like triptychs, series, etc.). Also, where institutions start getting into scholarly content, as you know the author order matters. I have some clients teeing up who want to combine museum and archive materials, or scholarly OSCI-like materials that are associated with collections and archives. They want to leverage patterns from AAC for their collection work, but then combine it with other types of things.
 
+*(Vladimir 12/14/2016)*
+
+CCO has fields for Order and isPreferred, and CONA has such, and BM data has such (for Images), so yes we got plenty of proof that they are important. I think we should use `crmx:display_order` (see next section) and `crmx:preferred` (
+
+### Complexity of Lists
+
+<https://www.w3.org/TR/sparql11-query/#collections> doesn't show how to **query** `rdf:List`
+but it's a well-known practice using prop paths: `rdf:rest*/rdf:first`.
+To find all objects depicting `<someone>`, we have to do:
+
+    ?object P62_depicts/(rdf:rest*/rdf:first)? <someone>
+    
+However Rob, optional prop paths (`*` and `?` above) are extremely slow.
+The reason is that `?x prop* ?y` must return EVERY node: every node is connected by a zero-length path of any `prop` to itself.
+So until [rdf4j/695](https://github.com/eclipse/rdf4j/issues/695), I would not use such constructs.
+
 ### Reference:
 
 * <https://github.com/american-art/npg/issues/34>
 * <https://github.com/american-art/autry/issues/37>
 * <https://www.w3.org/TR/sparql11-query/#collections>
-
+* https://github.com/eclipse/rdf4j/issues/695
 
