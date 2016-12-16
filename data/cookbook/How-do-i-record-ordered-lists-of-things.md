@@ -138,6 +138,12 @@ However Rob, optional prop paths (`*` and `?` above) are extremely slow.
 The reason is that `?x prop* ?y` must return EVERY node: every node is connected by a zero-length path of any `prop` to itself.
 So until [rdf4j/695](https://github.com/eclipse/rdf4j/issues/695), I would not use such constructs.
 
+Furthermore, a query like
+
+    ?object crm:P62_depicts/(rdf:rest*/rdf:first)? ?person
+
+does not guarantee in what order it will return `?person`. See eclipse/rdf4j#695 (comment) for some discussion how sophisticated path rewriting can return shortest paths first... but this is not yet implemented in rdf4j.
+
 ### Reference:
 
 * <https://github.com/american-art/npg/issues/34>
