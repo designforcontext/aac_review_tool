@@ -23,8 +23,8 @@ construct: |
         crm:P7_took_place_at _:death_location_class ;
         owl:sameAs ?death_event .
     _:death_timespan a crm:E52_Time-Span;
-        crm:p82a_begin_of_the_begin ?earliest_deathdate;
-        crm:p82b_end_of_the_end ?latest_deathdate;
+        crm:P82a_begin_of_the_begin ?earliest_deathdate;
+        crm:P82b_end_of_the_end ?latest_deathdate;
         rdfs:label ?display_deathdate;   
         owl:sameAs ?death_timespan.
     _:death_location_class a crm:E53_Place;
@@ -37,8 +37,8 @@ where: |
   ?death_event a crm:E64_End_of_Existence;
       crm:P4_has_time-span ?death_timespan.
   ?death_timespan a crm:E52_Time-Span;
-        crm:p82a_begin_of_the_begin ?earliest_deathdate;
-        crm:p82b_end_of_the_end ?latest_deathdate;
+        crm:P82a_begin_of_the_begin ?earliest_deathdate;
+        crm:P82b_end_of_the_end ?latest_deathdate;
   OPTIONAL { ?death_timespan rdfs:label ?display_deathdate.}
   OPTIONAL {
     ?death_event crm:P7_took_place_at ?death_location_class .

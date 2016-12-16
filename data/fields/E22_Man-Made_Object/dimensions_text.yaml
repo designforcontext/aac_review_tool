@@ -17,7 +17,7 @@ select:      "?dimension_reference ?dimension_class"
 values:      "?entity_uri"
 construct: |
   ?entity_uri a crm:E22_Man-Made_Object ;
-    crm:p67i_is_referred_to_by _:dimension_class .
+    crm:P67i_is_referred_to_by _:dimension_class .
   _:dimension_class a crm:E33_Linguistic_Object ;
     owl:sameAs ?dimension_class ;
     crm:P2_has_type <http://vocab.getty.edu/aat/300266036> ;  
@@ -26,7 +26,7 @@ construct: |
 where: |
   {
     ?entity_uri a crm:E22_Man-Made_Object ;
-      crm:p67i_is_referred_to_by ?dimension_class .
+      crm:P67i_is_referred_to_by ?dimension_class .
     ?dimension_class a crm:E33_Linguistic_Object;
       crm:P2_has_type <http://vocab.getty.edu/aat/300266036> ;
       rdf:value ?dimension_reference .

@@ -23,8 +23,8 @@ construct: |
         crm:P7_took_place_at _:birth_location_class ;
         owl:sameAs ?birth_event .
     _:birth_timespan a crm:E52_Time-Span;
-        crm:p82a_begin_of_the_begin ?earliest_birthdate;
-        crm:p82b_end_of_the_end ?latest_birthdate;
+        crm:P82a_begin_of_the_begin ?earliest_birthdate;
+        crm:P82b_end_of_the_end ?latest_birthdate;
         rdfs:label ?display_birthdate;   
         owl:sameAs ?birth_timespan.
     _:birth_location_class a crm:E53_Place;
@@ -37,8 +37,8 @@ where: |
   ?birth_event a crm:E63_Beginning_of_Existence;
       crm:P4_has_time-span ?birth_timespan.
   ?birth_timespan a crm:E52_Time-Span;
-        crm:p82a_begin_of_the_begin ?earliest_birthdate;
-        crm:p82b_end_of_the_end ?latest_birthdate;
+        crm:P82a_begin_of_the_begin ?earliest_birthdate;
+        crm:P82b_end_of_the_end ?latest_birthdate;
   OPTIONAL { ?birth_timespan rdfs:label ?display_birthdate.}
   OPTIONAL {
     ?birth_event crm:P7_took_place_at ?birth_location_class .

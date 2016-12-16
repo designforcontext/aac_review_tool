@@ -22,7 +22,7 @@ construct: |
   _:alternate_title_uri a crm:E35_Title ;
     rdf:value ?title_text ;
     owl:sameAs ?alternate_title_uri ;
-    crm:p1_is_identified_by _:alternate_title_id_class;
+    crm:P1_is_identified_by _:alternate_title_id_class;
 
     crm:P2_has_type _:title_class .
   _:title_class a crm:E55_Type ;
@@ -46,7 +46,7 @@ where: |
      skos:prefLabel ?title_type .
   }
   OPTIONAL {
-    ?alternate_title_uri crm:p1_is_identified_by ?alternate_title_id_class.
+    ?alternate_title_uri crm:P1_is_identified_by ?alternate_title_id_class.
     ?alternate_title_id_class a crm:E42_Identifier ;
       crm:P2_has_type <http://vocab.getty.edu/aat/300404012> ;
       rdf:value ?alternate_title_id .

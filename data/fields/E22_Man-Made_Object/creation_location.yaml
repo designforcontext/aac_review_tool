@@ -26,8 +26,8 @@ construct: |
   _:creation_location_class a crm:E53_Place;
     rdfs:label ?creation_location_name;
     owl:sameAs ?creation_location_class ;    
-    crm:p87_is_identified_by _:lat;
-    crm:p87_is_identified_by _:lng;
+    crm:P87_is_identified_by _:lat;
+    crm:P87_is_identified_by _:lng;
     schema:lat  ?creation_lat;
     schema:long ?creation_lng.
   _:lat a crm:E47_Spatial_Coordinates;
@@ -47,8 +47,8 @@ where: |
     ?creation_location_class a crm:E53_Place;
       rdfs:label ?creation_location_name.
     OPTIONAL {
-      ?creation_location_class crm:p87_is_identified_by ?lat;
-        crm:p87_is_identified_by ?lng.
+      ?creation_location_class crm:P87_is_identified_by ?lat;
+        crm:P87_is_identified_by ?lng.
       ?lat a crm:E47_Spatial_Coordinates;
         crm:P2_has_type <http://vocab.getty.edu/aat/300387565>; 
         rdf:value ?creation_lat.

@@ -26,7 +26,7 @@ construct: |
   _:primary_title_class a crm:E35_Title ;
     rdf:value ?primary_title_text ;
     crm:P2_has_type <http://vocab.getty.edu/aat/300404670> ;
-    crm:p1_is_identified_by _:primary_title_id_class;
+    crm:P1_is_identified_by _:primary_title_id_class;
     owl:sameAs ?primary_title_class .
   _:primary_title_id_class a crm:E42_Identifier ;
     crm:P2_has_type <http://vocab.getty.edu/aat/300404012> ;
@@ -40,7 +40,7 @@ where: |
       rdf:value ?primary_title_text ;
       crm:P2_has_type <http://vocab.getty.edu/aat/300404670> .
     OPTIONAL {
-      ?primary_title_class crm:p1_is_identified_by ?primary_title_id_class.
+      ?primary_title_class crm:P1_is_identified_by ?primary_title_id_class.
       ?primary_title_id_class a crm:E42_Identifier;
         crm:P2_has_type <http://vocab.getty.edu/aat/300404012> ;
         rdf:value ?primary_title_id .

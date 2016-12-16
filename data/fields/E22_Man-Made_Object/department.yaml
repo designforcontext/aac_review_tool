@@ -25,7 +25,7 @@ construct: |
     owl:sameAs ?collection_class ;
     crm:P49_has_former_or_current_keeper _:department_class .
   _:department_class a crm:E74_Group ;
-    crm:p2_has_type <http://vocab.getty.edu/aat/300263534> ;
+    crm:P2_has_type <http://vocab.getty.edu/aat/300263534> ;
     owl:sameAs ?department_class ;
     crm:P107i_is_current_or_former_member_of ?institution;
     rdfs:label ?department_name .
@@ -38,7 +38,7 @@ where: |
   ?collection_class a crm:E19_Physical_Object ;
     crm:P49_has_former_or_current_keeper ?department_class .
   ?department_class a crm:E74_Group;
-    crm:p2_has_type <http://vocab.getty.edu/aat/300263534> ;
+    crm:P2_has_type <http://vocab.getty.edu/aat/300263534> ;
     rdfs:label ?department_name .
   OPTIONAL {
     ?collection_class rdfs:label ?collection_name .

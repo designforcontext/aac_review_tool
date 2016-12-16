@@ -24,8 +24,8 @@ construct: |
     crm:P4_has_timespan _:production_timespan. 
   _:production_timespan a crm:E52_Time-Span;
     owl:sameAs ?production_timespan ;    
-    crm:p82a_begin_of_the_begin ?earliest_date;
-    crm:p82b_end_of_the_end ?latest_date;
+    crm:P82a_begin_of_the_begin ?earliest_date;
+    crm:P82b_end_of_the_end ?latest_date;
     rdfs:label ?display_date.    
 
 where: |
