@@ -14,45 +14,31 @@ category:    "Tombstone Info"
 sort_order:  2
 
 # Sparql
-select:      "?title_text ?title_type ?title_uri ?alternate_title_id"
+select:      "?title_text ?title_class ?alternate_title_type ?alternate_title_type_class"
 values:      "?entity_uri"
 construct: |
   ?entity_uri a crm:E22_Man-Made_Object .
-  ?entity_uri crm:P102_has_title _:alternate_title_uri .
-  _:alternate_title_uri a crm:E35_Title ;
+  ?entity_uri crm:P102_has_title _:title_class .
+  _:title_class a crm:E35_Title ;
     rdf:value ?title_text ;
-    owl:sameAs ?alternate_title_uri ;
-    crm:P1_is_identified_by _:alternate_title_id_class;
-
-    crm:P2_has_type _:title_class .
-  _:title_class a crm:E55_Type ;
     owl:sameAs ?title_class ;
-    skos:prefLabel ?title_type .
-
-  _:alternate_title_id_class a crm:E42_Identifier ;
-    crm:P2_has_type <http://vocab.getty.edu/aat/300404012> ;
-    owl:sameAs ?alternate_title_id_class ;
-    rdf:value ?alternate_title_id .
+    crm:P2_has_type _:alternate_title_type_class .
+  _:alternate_title_type_class a crm:E55_Type ;
+    owl:sameAs ?alternate_title_type_class ;
+    skos:prefLabel ?alternate_title_type .
 
 
 where: |
   ?entity_uri a crm:E22_Man-Made_Object .
-  ?entity_uri crm:P102_has_title ?alternate_title_uri .
-  ?alternate_title_uri a crm:E35_Title ;
+  ?entity_uri crm:P102_has_title ?title_class .
+  ?title_class a crm:E35_Title ;
     rdf:value  ?title_text .
   OPTIONAL {
-   ?alternate_title_uri crm:P2_has_type ?title_text_class . 
+   ?title_class crm:P2_has_type ?title_text_class . 
    ?title_text_class a crm:E55_Type ;
-     skos:prefLabel ?title_type .
+     skos:prefLabel ?alternate_title_type .
   }
-  OPTIONAL {
-    ?alternate_title_uri crm:P1_is_identified_by ?alternate_title_id_class.
-    ?alternate_title_id_class a crm:E42_Identifier ;
-      crm:P2_has_type <http://vocab.getty.edu/aat/300404012> ;
-      rdf:value ?alternate_title_id .
-  }
-
-  MINUS{?alternate_title_uri crm:P2_has_type <http://vocab.getty.edu/aat/300404012> .}
+  MINUS{?alternate_title_type_class crm:P2_has_type <http://vocab.getty.edu/aat/300404012> .}
 
 
 graph_extras: | 

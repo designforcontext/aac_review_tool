@@ -18,7 +18,7 @@ sort_order:  1
 
 
 # Sparql
-select:      "?actor_name ?type_label ?actor_class"
+select:      "?actor_name ?actor_class"
 values:      "?entity_uri"
 construct: |
   ?entity_uri a crm:E39_Actor ;
