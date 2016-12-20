@@ -39,7 +39,3 @@ where: |
      skos:prefLabel ?alternate_title_type .
   }
   MINUS{?alternate_title_type_class crm:P2_has_type <http://vocab.getty.edu/aat/300404012> .}
-
-
-graph_extras: | 
-  aat:300404012 puml:label "unique ids" .
