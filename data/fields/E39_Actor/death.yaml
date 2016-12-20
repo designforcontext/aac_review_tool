@@ -34,12 +34,14 @@ construct: |
 where: |
   ?entity_uri a crm:E39_Actor ;
       crm:P93i_was_taken_out_of_existence_by ?death_event.
-  ?death_event a crm:E64_End_of_Existence;
-      crm:P4_has_time-span ?death_timespan.
-  ?death_timespan a crm:E52_Time-Span;
-        crm:P82a_begin_of_the_begin ?earliest_deathdate;
-        crm:P82b_end_of_the_end ?latest_deathdate;
-  OPTIONAL { ?death_timespan rdfs:label ?display_deathdate.}
+  ?death_event a crm:E64_End_of_Existence.
+  OPTIONAL { 
+    ?death_event crm:P4_has_time-span ?death_timespan.
+    ?death_timespan a crm:E52_Time-Span;
+          crm:P82a_begin_of_the_begin ?earliest_deathdate;
+          crm:P82b_end_of_the_end ?latest_deathdate;
+    OPTIONAL { ?death_timespan rdfs:label ?display_deathdate.}
+  }
   OPTIONAL {
     ?death_event crm:P7_took_place_at ?death_location_class .
     OPTIONAL {

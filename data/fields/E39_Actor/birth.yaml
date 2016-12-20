@@ -34,17 +34,19 @@ construct: |
 where: |
   ?entity_uri a crm:E39_Actor ;
       crm:P92i_was_brought_into_existence_by ?birth_event.
-  ?birth_event a crm:E63_Beginning_of_Existence;
-      crm:P4_has_time-span ?birth_timespan.
-  ?birth_timespan a crm:E52_Time-Span;
+  ?birth_event a crm:E63_Beginning_of_Existence.
+  OPTIONAL {
+      ?birth_event crm:P4_has_time-span ?birth_timespan.
+      ?birth_timespan a crm:E52_Time-Span;
         crm:P82a_begin_of_the_begin ?earliest_birthdate;
-        crm:P82b_end_of_the_end ?latest_birthdate;
-  OPTIONAL { ?birth_timespan rdfs:label ?display_birthdate.}
+        crm:P82b_end_of_the_end ?latest_birthdate.
+      OPTIONAL { ?birth_timespan rdfs:label ?display_birthdate.}
+  }
   OPTIONAL {
     ?birth_event crm:P7_took_place_at ?birth_location_class .
     OPTIONAL {
       ?birth_location_class a crm:E53_Place;
-                rdfs:label ?birth_location.
+        rdfs:label ?birth_location.
     }
   }
 
