@@ -15,37 +15,24 @@ applies_to:  "E5_Event"
 category:    "Names"
 sort_order:  1
 
-#Default Test Values
-test_preferred_name_type_url: "http://vocab.getty.edu/aat/300404670"
-
 
 # Sparql
-select:      "?event_name ?event_class ?type_label"
-values:      "?entity_uri ?preferred_name_type_url"
+select:      "?event_name ?event_name_class"
+values:      "?entity_uri"
 construct: |
   ?entity_uri a crm:E5_Event ;
-    crm:P1_is_identified_by _:event_class .
-  _:event_class a crm:E41_Appellation ;
-    owl:sameAs ?event_class ;
-    crm:P2_has_type _:preferred_name_type_url;
+    crm:P1_is_identified_by _:event_name_class .
+  _:event_name_class a crm:E41_Appellation ;
+    owl:sameAs ?event_name_class ;
+    crm:P2_has_type <http://vocab.getty.edu/aat/300404012>;
     rdf:value ?event_name .
-  _:preferred_name_type_url a crm:E55_Type ;
-    owl:sameAs ?preferred_name_type_url ;
-    skos:broadMatch <http://vocab.getty.edu/aat/300404670> ;
-    skos:prefLabel ?type_label.
 
 where: |
   ?entity_uri a crm:E5_Event ;
-    crm:P1_is_identified_by ?event_class .
-  ?event_class a crm:E41_Appellation ;
+    crm:P1_is_identified_by ?event_name_class .
+  ?event_name_class a crm:E41_Appellation ;
     rdf:value ?event_name ;
-    crm:P2_has_type ?preferred_name_type_url .
-  ?preferred_name_type_url a crm:E55_Type .
-
-  OPTIONAL {
-    OPTIONAL {?preferred_name_type_url skos:broadMatch <http://vocab.getty.edu/aat/300404670> .}
-    OPTIONAL {?preferred_name_type_url skos:prefLabel ?type_label. }
-  }
+    crm:P2_has_type <http://vocab.getty.edu/aat/300404670> .
 
 graph_extras: | 
   aat:300404670 puml:label "preferred terms".
