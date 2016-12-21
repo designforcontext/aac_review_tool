@@ -24,7 +24,7 @@ construct: |
     crm:P1_is_identified_by _:event_name_class .
   _:event_name_class a crm:E41_Appellation ;
     owl:sameAs ?event_name_class ;
-    crm:P2_has_type <http://vocab.getty.edu/aat/300404012>;
+    crm:P2_has_type <http://vocab.getty.edu/aat/300404670>;
     rdf:value ?event_name .
 
 where: |
