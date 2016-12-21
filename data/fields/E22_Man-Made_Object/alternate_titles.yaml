@@ -34,8 +34,8 @@ where: |
   ?title_class a crm:E35_Title ;
     rdf:value  ?title_text .
   OPTIONAL {
-   ?title_class crm:P2_has_type ?title_text_class . 
-   ?title_text_class a crm:E55_Type ;
+   ?title_class crm:P2_has_type ?alternate_title_type_class . 
+   ?alternate_title_type_class a crm:E55_Type ;
      skos:prefLabel ?alternate_title_type .
   }
   MINUS{?alternate_title_type_class crm:P2_has_type <http://vocab.getty.edu/aat/300404012> .}
