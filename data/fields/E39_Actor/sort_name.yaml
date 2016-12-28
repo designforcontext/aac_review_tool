@@ -15,13 +15,9 @@ applies_to:  "E39_Actor"
 category:    "Names"
 sort_order:  2
 
-#Default Test Values
-test_sort_name_type_class: "http://vocab.americanartcollaborative.org/types#sort_name_type"
-
-
 # Sparql
-select:      "?sort_name ?sort_type ?name_class"
-values:      "?entity_uri ?sort_name_type_url"
+select:      "?sort_name ?sort_name_class ?name_class"
+values:      "?entity_uri"
 construct: |
   ?entity_uri a crm:E39_Actor ;
     crm:P131_is_identified_by _:sort_name_class .
