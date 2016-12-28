@@ -13,7 +13,7 @@ category:    "Qualities"
 sort_order:  103
 
 # Sparql
-select:      "?death_class ?display_deathdate ?earliest_deathdate ?latest_deathdate ?death_location ?death_location_class"
+select:      "?death_event ?display_deathdate ?earliest_deathdate ?latest_deathdate ?death_location ?death_location_class"
 values:      "?entity_uri"
 construct: |
     ?entity_uri a crm:E39_Actor ;

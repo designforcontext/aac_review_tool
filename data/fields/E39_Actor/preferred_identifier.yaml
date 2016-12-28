@@ -27,7 +27,7 @@ where: |
   ?entity_uri a crm:E39_Actor .
   ?entity_uri crm:P1_is_identified_by ?identifier_url .
   ?identifier_url a crm:E42_Identifier ;
-    rdfs:value ?identifier ;
+    rdf:value ?identifier ;
     crm:P2_has_type <http://vocab.getty.edu/aat/300404670> .
 
 graph_extras: | 
