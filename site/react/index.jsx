@@ -17,7 +17,7 @@ import ContentModal from "./widgets/content_modal.jsx";
 const SEARCH_DATA = [
   {
     name:           "AAC", 
-    endpoint:       "http://lodstories.isi.edu:3030/american-art/query",
+    endpoint:       "http://data.americanartcollaborative.org/sparql",
     predicate:      "http://www.cidoc-crm.org/cidoc-crm/",
     prefix:         {"npg": "http://americanartcollaborative.org/npg/"},
 
