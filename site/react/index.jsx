@@ -25,7 +25,7 @@ const SEARCH_DATA = [
       default: "http://collection.britishmuseum.org/id/person-institution/70240"
     },
     "E22_Man-Made_Object": {
-      default: "http://americanartcollaborative.org/puam/object/102991"
+      default: "http://data.americanartcollaborative.org/npg/object/49748"
     },
     E5_Event: {
       default: "http://collection.britishmuseum.org/id/object/PIC134418/production"
