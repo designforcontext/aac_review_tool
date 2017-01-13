@@ -35,9 +35,9 @@ where: |
   ?identifier_url a crm:E42_Identifier ;
     rdfs:label ?identifier ;
   
-  MINUS { ?entity_uri crm:P2_has_type <http://vocab.getty.edu/aat/300404621>}
-  MINUS { ?entity_uri crm:P2_has_type <http://vocab.getty.edu/aat/300312355>}
-  MINUS { ?entity_uri crm:P2_has_type <http://vocab.getty.edu/aat/300404670>}
+  MINUS { ?identifier_url crm:P2_has_type <http://vocab.getty.edu/aat/300404621>}
+  MINUS { ?identifier_url crm:P2_has_type <http://vocab.getty.edu/aat/300312355>}
+  MINUS { ?identifier_url crm:P2_has_type <http://vocab.getty.edu/aat/300404670>}
 
   OPTIONAL {
    ?identifier_url crm:P2_has_type ?identifier_type .
