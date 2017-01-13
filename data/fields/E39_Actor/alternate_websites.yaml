@@ -26,7 +26,7 @@ construct: |
 where: |
   ?entity_uri a crm:E39_Actor ;
     foaf:page ?alt_website_url .
-  ?alt_website_url rdfs:label ?alt_website_label ;
+  ?alt_website_url rdfs:label ?alt_website_label .
   OPTIONAL {
     ?alt_website_url foaf:maker ?source.
     ?source foaf:name ?alt_website_author.  

@@ -33,7 +33,7 @@ where: |
     crm:P14_carried_out_by ?actor_class .
 
   OPTIONAL {
-    ?actor_class a ?actor_type ;
+    ?actor_class a ?actor_type .
   }
   OPTIONAL {
     ?actor_class rdfs:label ?actor_name.

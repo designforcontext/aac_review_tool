@@ -15,21 +15,21 @@ category:    "IDs"
 sort_order:  101
 
 # Sparql
-select:      "?identifier ?identifier_url"
+select:      "?object_id ?object_id_class"
 values:      "?entity_uri"
 construct: |
   ?entity_uri a crm:E22_Man-Made_Object ;
-    crm:P1_is_identified_by _:identifier_url .
-  _:identifier_url a crm:E42_Identifier ;
-    rdfs:label ?identifier ;
-    rdf:value  ?identifier ;
+    crm:P1_is_identified_by _:object_id_class .
+  _:object_id_class a crm:E42_Identifier ;
+    rdfs:label ?object_id ;
+    rdf:value  ?object_id ;
     crm:P2_has_type <http://vocab.getty.edu/aat/300404621> .
 
 where: |
   ?entity_uri a crm:E22_Man-Made_Object .
-  ?entity_uri crm:P1_is_identified_by ?identifier_url .
-  ?identifier_url a crm:E42_Identifier ;
-    rdf:value ?identifier ;
+  ?entity_uri crm:P1_is_identified_by ?object_id_class .
+  ?object_id_class a crm:E42_Identifier ;
+    rdf:value ?object_id ;
     crm:P2_has_type <http://vocab.getty.edu/aat/300404621> .
 
 graph_extras: | 
