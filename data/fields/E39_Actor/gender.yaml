@@ -40,7 +40,7 @@ where: |
     rdfs:label ?gender .
   {
     ?gender_class crm:P2_has_type <http://vocab.getty.edu/aat/300055147> .
-    <http://vocab.getty.edu/aat/300055147> skos:prefLabel ?nationality_type.
+    <http://vocab.getty.edu/aat/300055147> skos:prefLabel ?gender_type.
   } UNION {
     ?gender_class crm:P2_has_type ?gender_type_class .
     ?gender_type_class a crm:E55_Type ;
