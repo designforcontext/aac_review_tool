@@ -3,7 +3,7 @@ title: Gender
 
 # Metadata
 mandatory:        false
-multiples:        false
+multiples:        true
 description:      "The gender of a party"
 long_description: Pattern of attitudes and behavior that in any society is deemed appropriate to one sex rather than another. For the concept of physiological traits that distinguish the males and females of a species, use "sex." For the sum of an individual's sexual emotions, ideas, and behavior, use "sexuality." (from AAT)
 example:          "Male"
