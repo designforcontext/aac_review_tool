@@ -37,9 +37,9 @@ where: |
 
   OPTIONAL {
     ?actor_class crm:P2_has_type ?alt_name_type_uri .
-    ?alt_name_type_uri a crm:E55_Type .
+    OPTIONAL {?alt_name_type_uri a crm:E55_Type .}
     OPTIONAL {?alt_name_type_uri skos:prefLabel ?type_label. }
   }
-  MINUS{?alt_name_type_uri crm:P2_has_type <http://vocab.getty.edu/aat/300404670> .}
+  MINUS{?actor_class crm:P2_has_type <http://vocab.getty.edu/aat/300404670> .}
 
 
