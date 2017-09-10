@@ -21,12 +21,9 @@ module AAC
       end      
 
 
-
-      #puts "frame: #{frame}"
-
-
+  
       unframed_json = JSON::LD::API::fromRdf(graph)
-      json_results = JSON::LD::API.frame(unframed_json, frame)
+      json_results = JSON::LD::API.frame(unframed_json, frame, base: "http://www.example.com")
       return json_results
     end
 

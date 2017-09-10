@@ -11,7 +11,8 @@ module AAC
     QueryRunner::SAAM_SPARQL = "http://edan.si.edu/saam/sparql"
     
     def initialize(server)
-      @server = SPARQL::Client.new(server)
+      @server_url = server
+      @server = SPARQL::Client.new(@server_url)
     end
     
   
@@ -33,6 +34,9 @@ module AAC
       [graph, values]
     end
 
+    def ask(query, engine = @server)
+      engine.query(query)
+    end
 
     def get_values(query, engine = @server) 
       results = engine.query(query)
@@ -50,11 +54,22 @@ module AAC
 
     def get_graph(query, engine = @server) 
       graph = RDF::Graph.new
-      results = engine.query(query)
-      # puts engine.response(query).body
-      # puts "\n\n------\n#{results}\n\n-----\n"
-      
+      timeouts = 5
+      results = nil
+      while timeouts && !results 
+        begin
+          response = engine.response(query, content_type: "text/turtle")
+          response.content_type = "text/turtle" 
+          results = engine.parse_response(response, content_type: "text/turtle")
+        rescue Net::ReadTimeout
+          timeouts -= 1
+          puts "resetting server.  #{timeouts} remain"
+          @server = SPARQL::Client.new(@server_url)
+        end
+      end
+
       results.each_statement {|s| graph.insert s unless s.incomplete?}
+      # puts graph.dump(:ttl)
       graph
     end
 

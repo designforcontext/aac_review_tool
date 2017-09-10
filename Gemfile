@@ -6,7 +6,6 @@ source 'https://rubygems.org'
 gem "linkeddata"
 gem "diffy"
 
-
 # Slugging Gems
 gem "babosa"
 gem "unicode"

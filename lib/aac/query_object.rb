@@ -18,11 +18,12 @@ module AAC
       DEFAULT_PREFIXES.merge(prefixes).collect {|key,value| "PREFIX #{key}: <#{value}>"}.join("\n")
     end
 
-    attr_accessor :select, :construct, :where, :prefixes
+    attr_accessor :select, :construct, :where, :prefixes, :ask
     attr_writer :values
 
     def initialize(obj = {})
       @obj = obj
+      self.ask       = obj.fetch("ask"       , nil)
       self.select    = obj.fetch("select"    , nil)
       self.construct = obj.fetch("construct" , nil)
       self.where     = obj.fetch("where"     , nil)
@@ -92,6 +93,16 @@ module AAC
         SELECT #{@select}
         #{where_clause}
 
+      eos
+      replace_values(query, args)
+    end
+
+    #--------------------------------------------------------------------------
+    def ask_query(args)
+      query = <<~eos
+        #{QueryObject.prefix_list(@prefixes)}
+    
+        ASK {#{@ask}}
       eos
       replace_values(query, args)
     end
