@@ -25,7 +25,6 @@ gem "haml"
 gem "sass"
 gem "redcarpet"
 gem 'rouge'
-# gem "glorify"
 
 group :test, :development do
   gem 'guard'
