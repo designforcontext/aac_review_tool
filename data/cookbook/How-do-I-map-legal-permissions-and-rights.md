@@ -27,7 +27,11 @@ The Getty is embarking on this route at the moment as well, and would welcome br
 I'm very interested in this one.  In particular, creditline is important to capture and I don't see anywhere in CRM to put it.
 Continued +1 to rightsstatements.org
 
+*Vladimir 12/14/2016*
+I got crmx:p3_credit_line for CONA/CCO mapping
+
 ### Reference:
 
 * <http://rightsstatements.org>
-
+* https://github.com/american-art/aac_mappings/issues/10
+* https://share.getty.edu/display/ITSLODV/CRM+Extensions#CRMExtensions-CRMX
